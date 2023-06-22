@@ -6,4 +6,4 @@ DDoS Resilience System
 - No caso do servidor interno do Administrador de Sistemas receber uma sobrecarga(Um ataque DDoS ou aumento de Demanda) que potêncialmente poderá fazer o servidor interno parar;
 - Uma instância da rede Kubernets deste Sistema será criada e o trafego do servidor do administrador de Sistemas passará a ser encaminhado para a rede Kubernets;
 - A rede Kubernes Fará o Balanceamneto de Carga entre os POTS para que possa suprir a demanda gerado no servidor do  administrador de sistemas.
-- Fazendo assim com que o aplicativo Web permaneça online mesmo em caso de ataque ou aumento de demanda. 
+- Fazendo assim com que o aplicativo Web permaneça online mesmo em caso de ataque ou aumento de demanda.  
