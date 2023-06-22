@@ -1,0 +1,12 @@
+{
+    "aplicativos":[
+        {
+            "nome":"DRS_GATEWAY_API",
+            "descricao":"Este é o gateway dos servidores Eureka Server, é esta API que ira interagir com as APPS clientes"
+        },
+        {
+            "nome":"DRS_WEB_APP",
+            "descricao":"Este é a página Web em Si"
+        }
+    ]
+}
