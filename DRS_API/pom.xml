@@ -17,12 +17,7 @@
     <!--INICIO Dependencias que são necessárias em todos os Microsservicos-->
     <modules>
         <module>DRS_EUREKA_SERVER</module>
-        <module>TESTESERVICE</module>
         <module>USERSERVICE</module>
-        <module>PODSERVICE</module>
-        <module>SERVERSERVICE</module>
-        <module>IMAGESERVICE</module>
-        <module>CONFIGURATIONSERVICE</module>
         <module>STATUSSERVICE</module>
     </modules>
     <dependencies>
