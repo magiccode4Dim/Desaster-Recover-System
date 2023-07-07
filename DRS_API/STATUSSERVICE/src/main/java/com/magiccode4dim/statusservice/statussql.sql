@@ -8,8 +8,20 @@
  * Created: Jul 5, 2023
  */
 
+ /*
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| id            | int          | NO   | PRI | NULL    | auto_increment |
+| server_adress | varchar(700) | YES  |     | NULL    |                |
+| data_criacao  | date         | YES  |     | NULL    |                |
+| value         | int          | YES  |     | NULL    |                |
+| id_service    | int          | YES  |     | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+
+ */
 
-create table status(id int primary key auto_increment, server_addrs varchar(700)
-, data_criacao varchar(700),valor varchar(30));
+
+create table status(id int primary key auto_increment, server_adress varchar(700)
+, data_criacao date,value int,id_service int);
 
 desc status;

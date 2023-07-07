@@ -20,93 +20,24 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-          <!--Mysql Dependencies begin -->
-            <dependency>
-
-                <groupId>junit</groupId>
-
-                <artifactId>junit</artifactId>
-
-                <version>3.8.1</version>
-
-                <scope>test</scope>
-
-            </dependency>
-
-            <dependency>
-
-                <groupId>org.eclipse.persistence</groupId>
-
-                <artifactId>javax.persistence</artifactId>
-
-                <version>2.1.0</version>
-
-            </dependency>
-
-            <dependency>
-
-                <groupId>org.hibernate</groupId>
-
-                <artifactId>hibernate-entitymanager</artifactId>
-
-                <version>4.2.8.Final</version>
-
-            </dependency>
-
-            <dependency>
-
-                <groupId>mysql</groupId>
-
-                <artifactId>mysql-connector-java</artifactId>
-
-                <version>8.0.11</version>
-
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.core</artifactId>
-                <version>2.5.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.asm</artifactId>
-                <version>2.5.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.antlr</artifactId>
-                <version>2.5.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.jpa</artifactId>
-                <version>2.5.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.jpa.jpql</artifactId>
-                <version>2.5.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>org.eclipse.persistence.moxy</artifactId>
-                <version>2.7.10</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.persistence</groupId>
-                <artifactId>jakarta.persistence</artifactId>
-                <version>2.2.3</version>
-            </dependency>
-            <!--Mysql Dependencies end -->
+        <!--Mysql Dependencies begin -->
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
-            <version>2.5.2</version>
-            <scope>provided</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!--Autoreload-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
     <!--ADD EUREKA CLIENT DEPENDENCIES-->
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -130,7 +61,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <pluginManagement>
             <plugins>
@@ -159,11 +89,10 @@
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
-                <filtering>true</filtering> 
+                <filtering>true</filtering>
             </testResource>
         </testResources>
     </build>
-              
     <properties>
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
