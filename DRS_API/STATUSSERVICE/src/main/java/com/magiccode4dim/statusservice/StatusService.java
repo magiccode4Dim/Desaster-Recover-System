@@ -47,7 +47,7 @@ public class StatusService {
     @Secured("USER")
     @PostMapping("/create")
     public String teste(@RequestBody StatusDocument st) {
-        st.setData_criacao(new Date(2023, 7, 9));
+        st.setData_criacao(new Date());
         this.ss.save(st);
         return "Salvo Com Sucesso";
     }
