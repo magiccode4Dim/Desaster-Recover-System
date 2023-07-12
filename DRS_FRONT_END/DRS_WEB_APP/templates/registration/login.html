@@ -1,0 +1,14 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>DRS LOGIN</title>
+</head>
+<body>
+            <form action="{% url 'login' %}" method="POST"> {% csrf_token %}
+                    <input type="text" id="id_username" name="username" placeholder="Utilizador">
+                    <input type="password" name="password" id="id_password" placeholder="Password">
+                    <button type="submit">ENTRAR</button>
+            </form>
+</body>
+</html>

@@ -76,9 +76,13 @@ WSGI_APPLICATION = 'DRS_FRONT_END.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+      'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'userwebdb',
+        'USER': 'nany',
+        'PASSWORD': 'monografia2023',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -125,3 +129,9 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
