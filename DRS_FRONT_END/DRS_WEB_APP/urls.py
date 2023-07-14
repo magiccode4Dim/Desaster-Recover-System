@@ -1,14 +1,11 @@
 from django.urls import path,include
-from DRS_WEB_APP.views import dashBoard,logOut
-from django.contrib.auth import views as auth_views
+from DRS_WEB_APP.views import *
+from .modulos.gestaodeusuarios import userManagerUrls
+
 
 urlpatterns = [
+#GESTÃO DE USUARIOS
     #dashboard
-    path('', dashBoard, name='dashboard'),
-    #Login
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/',logOut , name='logout'),
-    
-    #   User registration
-   
-]
+    path('', dashBoard, name='dashboard')
+  
+]+userManagerUrls.urlUserManager

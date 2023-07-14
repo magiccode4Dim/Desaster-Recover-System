@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.contrib.auth.views import LoginView
+from DRS_WEB_APP.views import redirect_login
+
 
 urlpatterns = [
-    path('', LoginView.as_view(), name='login'),
-    path('admin/', admin.site.urls),
+    path('', redirect_login, name='login'),
     path('web/', include('DRS_WEB_APP.urls')),
     path('gatewayapi/', include('DRS_GATEWAY_API.urls')),
+    path('admin/', admin.site.urls),
 ]
