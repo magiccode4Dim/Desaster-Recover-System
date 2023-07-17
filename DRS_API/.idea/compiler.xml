@@ -6,19 +6,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="STATUSSERVICE" />
+        <module name="IMAGESERVICE" />
         <module name="USERSERVICE" />
         <module name="DRS_EUREKA_SERVER" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="drs_shared" target="1.8" />
+      <module name="STATUSSERVICE (1)" target="1.8" />
+      <module name="STATUSSERVICE (2)" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="DRS_EUREKA_SERVER" options="-parameters" />
+      <module name="IMAGESERVICE" options="-parameters" />
       <module name="STATUSSERVICE" options="-parameters" />
+      <module name="STATUSSERVICE (2)" options="-parameters" />
       <module name="USERSERVICE" options="-parameters" />
       <module name="drs_shared" options="-parameters" />
     </option>

@@ -3,6 +3,7 @@
   <component name="JpbDataSourceConfig">
     <data-sources>
       <data-source id="18edd179-167a-4536-8eea-bdb125025b8a" name="DRS_API" url="jdbc:mysql://localhost:3306/drs" driverClass="com.mysql.cj.jdbc.Driver" />
+      <data-source id="5e94928b-c6b8-4075-b708-64c728a02a58" name="DRS_User" url="jdbc:mysql://localhost/userwebdb?useSSL=false&amp;allowMultiQueries=true&amp;serverTimezone=UTC" driverClass="com.mysql.cj.jdbc.Driver" />
     </data-sources>
     <data-source-infos>
       <data-source-info id="18edd179-167a-4536-8eea-bdb125025b8a" persistence-unit-name="status_PU" />

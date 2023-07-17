@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-07-14T20:52:44.170Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.5.1 Chrome/112.0.5615.204 Electron/24.6.0 Safari/537.36" etag="ocRZjbPULdqc5cMMXGr4" version="21.5.1" type="device">
+<mxfile host="Electron" modified="2023-07-14T21:47:32.750Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.5.1 Chrome/112.0.5615.204 Electron/24.6.0 Safari/537.36" etag="JPpRrDNbnDTIr1RGaqgn" version="21.5.1" type="device">
   <diagram name="Page-1" id="fuJAxxHbrcchqgsNJuoA">
     <mxGraphModel dx="830" dy="531" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -39,7 +39,7 @@
         <mxCell id="wR5INV84V6bvnioIKlw2-44" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="wR5INV84V6bvnioIKlw2-14" target="wR5INV84V6bvnioIKlw2-42" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="wR5INV84V6bvnioIKlw2-14" value="IMAGE SERVICE" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="wR5INV84V6bvnioIKlw2-14" value="IMAGE SERVICE" style="ellipse;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
           <mxGeometry x="390" y="470" width="120" height="80" as="geometry" />
         </mxCell>
         <mxCell id="wR5INV84V6bvnioIKlw2-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.75;entryY=0.95;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="wR5INV84V6bvnioIKlw2-15" target="wR5INV84V6bvnioIKlw2-6" edge="1">

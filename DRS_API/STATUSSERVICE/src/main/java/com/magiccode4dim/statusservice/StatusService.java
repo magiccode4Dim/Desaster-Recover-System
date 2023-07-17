@@ -46,7 +46,7 @@ public class StatusService {
     // criate status
     @Secured("USER")
     @PostMapping("/create")
-    public String teste(@RequestBody StatusDocument st) {
+    public String create(@RequestBody StatusDocument st) {
         st.setData_criacao(new Date());
         this.ss.save(st);
         return "Salvo Com Sucesso";

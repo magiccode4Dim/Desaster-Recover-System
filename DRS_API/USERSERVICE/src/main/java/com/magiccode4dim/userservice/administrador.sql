@@ -12,5 +12,5 @@ mysql> desc administrador;
 
 create table administrador(id int primary key auto_increment,instituicao  varchar(2000),
 foto varchar(2000), auth_user_id int, foreign key(auth_user_id)
-references auth_user(id)
+references auth_user(id)  ON DELETE CASCADE ON UPDATE CASCADE
 );

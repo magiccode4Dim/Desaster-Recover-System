@@ -19,6 +19,7 @@
         <module>DRS_EUREKA_SERVER</module>
         <module>USERSERVICE</module>
         <module>STATUSSERVICE</module>
+        <module>IMAGESERVICE</module>
     </modules>
     <dependencies>
         <!--comum-->
