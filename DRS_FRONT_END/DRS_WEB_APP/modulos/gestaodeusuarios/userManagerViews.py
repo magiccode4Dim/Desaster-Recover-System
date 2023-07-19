@@ -20,7 +20,8 @@ def logOut(request):
 #cadastrar utilizadores
 class register(View):
     def get(self, request, *args, **kwargs):
-        return render(request,TEMPLATES_FOLDER+'/register.html')
+        error_message = request.GET.get('error')
+        return render(request,TEMPLATES_FOLDER+'/register.html',{"error":error_message})
     def post(self, request, *args, **kwargs):
         username = request.POST['username']
         password = request.POST['password']
@@ -30,10 +31,12 @@ class register(View):
         email = request.POST['email']
         # Verificar se as senhas coincidem
         if request.POST['password'] != confirm_password:
-            self.get(self, request)
+            return redirect(WEB_PATH+"/register/?error=Passwords does not equals")
+            #self.get(self, request)
         # Verificar se o nome de usuário já existe
         if User.objects.filter(username=username).exists():
-            self.get(self, request)
+            return redirect(WEB_PATH+"/register/?error=Username Existes")
+            #self.get(self, request)
         # Criar o novo usuário automaticamente
         User.objects.create_user(
             username=username, 
