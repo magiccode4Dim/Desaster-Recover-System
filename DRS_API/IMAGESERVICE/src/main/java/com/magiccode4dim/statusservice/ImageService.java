@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.magiccode4dim.statusservice.resquests.*;
+import com.magiccode4dim.statusservice.resquests.Objects.Container;
+import com.magiccode4dim.statusservice.resquests.Objects.Image;
 
-//Jython
-import org.python.core.PyObject;
-import org.python.util.PythonInterpreter;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
 
 //docker
 
@@ -38,53 +45,89 @@ import org.python.util.PythonInterpreter;
 public class ImageService {
 
     private final ImageMongo imageCRUD;
+    private String apiDockerUri ;
+
+    @Autowired
+    public ImageService(ImageMongo ss) {
+        this.imageCRUD = ss;
+        this.apiDockerUri =  "http://localhost:5000";
+  
+    }
 
     // jython
     @Secured("USER")
     @GetMapping("/jython")
     public String jython() {
         // Criar uma instância do interpretador Python
-        PythonInterpreter interpreter = new PythonInterpreter();
+        //PyObject auth = getAuth.__call__();
+        //PyObject containers = getContainers.__call__(new PyString(auth.toString()));
 
-        // Executar uma linha de código Python
-        interpreter.exec("print('Hello from Python')");
+        //return containers.toString();
+        return "jj";
 
-        // Chamar uma função Python e obter o resultado
-        interpreter.exec("def add(a, b):\n    return a + b");
-        PyObject result = interpreter.eval("add(2, 3)");
-        System.out.println("Resultado: " + result);
-
-        // Fechar o interpretador Python
-        interpreter.close();
-        
-        return "jYTHON";
-    }
-
-    @Autowired
-    public ImageService(ImageMongo ss) {
-        this.imageCRUD = ss;
     }
 
     @Secured("USER")
     @PostMapping("/download")
     public String downloadImage(@RequestBody ImageDocument ido) {
-        // fazer o download da imagem no docker hub e guarda no registry
-        return "Salvo Com Sucesso";
+        // fazer o download da imagem no docker hub e guarda no runner
+        String url = this.apiDockerUri+"/images/pull"; // URL de destino
+        Image data = new Image(ido.getNome(),ido.getTag()); // Objeto a ser enviado
+        Map<String, String> params = null; // Parâmetros opcionais
+        HttpHeaders headers = null; // Cabeçalhos opcionais
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(data, params, headers, url);
+        // Exibir a resposta
+        if (responseEntity != null) {
+            String responseBody = responseEntity.getBody();
+            System.out.println("Response Body: " + responseBody);
+            return responseBody;
+        }
+        return "NUll";
     }
 
     // o adiministrador cria uma imagem
     @Secured("USER")
-    @PostMapping("/create")
-    public String create(@RequestBody ImageDocument ido) {
-        // Salva um container em execucao em um determinado servidor como uma imagem e
-        // guarda no registry
-        // deve existir um servidor de execucao de containeris
-        // Configurar as credenciais de autenticação básica
+    @PostMapping("/container/create")
+    public String create(@RequestBody Container cont) {
+        //cria um container
+        String url = this.apiDockerUri+"/container/create"; // URL de destino
+        Map<String, String> params = null; // Parâmetros opcionais
+        HttpHeaders headers = null; // Cabeçalhos opcionais
+        //criaar o comando de super user
+        cont.createsuperUser();
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, params, headers, url);
+        
+        // Exibir a resposta
+        if (responseEntity != null) {
+            String responseBody = responseEntity.getBody();
+            System.out.println("Response Body: " + responseBody);
+            return responseBody;
+        }
 
-        // ido.setData_criacao(new Date());
-        // this.imageCRUD.save(ido);
         return "Salvo Com Sucesso";
     }
+
+    @Secured("USER")
+    @PostMapping("/container/start/{id}")
+    public String startContainer(@PathVariable String id) {
+        //cria um container
+        String url = this.apiDockerUri+"/container/start/"+id; // URL de destino
+        Map<String, String> params = null; // Parâmetros opcionais
+        HttpHeaders headers = null; // Cabeçalhos opcionais
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(null, params, headers, url);
+        // Exibir a resposta
+        if (responseEntity != null) {
+            String responseBody = responseEntity.getBody();
+            System.out.println("Response Body: " + responseBody);
+            return responseBody;
+        }
+
+        return "Salvo Com Sucesso";
+    }
+
 
     // apagar imagem
     @Secured("USER")

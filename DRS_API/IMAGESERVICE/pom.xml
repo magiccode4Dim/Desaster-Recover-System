@@ -37,12 +37,8 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!--Jython para usar codigo Python-->
-        <dependency>
-            <groupId>org.python</groupId>
-            <artifactId>jython-standalone</artifactId>
-            <version>2.7.2</version>
-        </dependency>
+     
+     
     </dependencies>
     <!--ADD EUREKA CLIENT DEPENDENCIES-->
     <dependencyManagement>
@@ -74,37 +70,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>jython</id>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <!--Sair do intrepertador do Jython na hora de fazer o mvn install-->
-                        <configuration>
-                            <mainClass>org.python.util.jython</mainClass>
-                            <arguments>
-                                <argument>-c</argument>
-                                <argument>"exit()"</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.python</groupId>
-                        <artifactId>jython-standalone</artifactId>
-                        <version>2.7.2</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <!--Jython-->
-            <!--Jython-->
         </plugins>
         <pluginManagement>
             <plugins>
@@ -137,6 +102,7 @@
             </testResource>
         </testResources>
     </build>
+
     <properties>
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

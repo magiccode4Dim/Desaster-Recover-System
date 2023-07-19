@@ -12,6 +12,8 @@ public class ImageDocument {
 
     private String nome;
 
+    private String tag;
+
     private Date data_criacao;
 
     private String downloadComand;
@@ -23,6 +25,7 @@ public class ImageDocument {
     private String simple_exec_comand;
 
     private String hash;
+
 
     public String getHash() {
         return hash;
@@ -42,6 +45,14 @@ public class ImageDocument {
 
     public String getFoto() {
         return foto;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public void setFoto(String foto) {
