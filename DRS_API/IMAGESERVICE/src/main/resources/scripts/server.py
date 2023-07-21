@@ -21,7 +21,7 @@ def pullIm():
     image = json.loads(image)
     print(image)
     
-    return str(pullImage(getAuth(),image))
+    return jsonify(pullImage(getAuth(),image))
 @app.route('/container/create', methods=['POST','GET'])
 def creatCon():
     cont = (request.get_json()['json'])[0]
@@ -36,6 +36,11 @@ def creatCon():
         "Hostname":cont["hostname"],
         "Detach": True,
         "PublishAllPorts": False,
+        "Cmd": [
+                    "bash",
+                    "-c",
+                    f"useradd -m -s /bin/bash {cont['username']} && echo '{cont['username']}:{cont['password']}' | chpasswd && usermod -aG sudo {cont['username']} && /usr/sbin/sshd -D"
+                ],
         "ExposedPorts": { #deixar as portas mapeadas mesmo que o servico nao esteja a escuta
             "22/tcp": {},
             "80/tcp": {},
@@ -100,17 +105,17 @@ def creatCon():
                                     "HostPort": "0"#default
                                 }
                             ]
-                    },
-                "Cmd": [
-                    "bash",
-                    "-c",
-                    cont["createuser"]
-                     #"useradd -m -s /bin/bash narciso && echo 'narciso:2001' | chpasswd && usermod -aG sudo narciso && /usr/sbin/sshd -D"
-                ]
+                    }
+                
         }
     }
+    
+    print(container_details)
+    
+    
     #print(container_details)
-    data =createContainer(getAuth(),container_detais=container_details,container_params=container_params)
+    res = createContainer(getAuth(),container_detais=container_details,container_params=container_params)
+    data =res[0]
     try:
         ssh_p = data["NetworkSettings"]["Ports"]["22/tcp"][0]["HostPort"]
         http_p = data["NetworkSettings"]["Ports"]["80/tcp"][0]["HostPort"]
@@ -128,7 +133,8 @@ def creatCon():
                     "mysql_p":mysql_p,
                     "postgres_p":postgres_p,
                     "default1_p":default1_p,
-                    "default2_p":default2_p     
+                    "default2_p":default2_p,
+                    "ip":res[1]     
                     })
 @app.route('/container/start/<id>', methods=['POST'])
 def creatSta(id):

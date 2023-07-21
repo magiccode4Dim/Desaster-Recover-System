@@ -45,25 +45,12 @@ import java.util.Map;
 public class ImageService {
 
     private final ImageMongo imageCRUD;
-    private String apiDockerUri ;
+    private String apiDockerUri;
 
     @Autowired
     public ImageService(ImageMongo ss) {
         this.imageCRUD = ss;
-        this.apiDockerUri =  "http://localhost:5000";
-  
-    }
-
-    // jython
-    @Secured("USER")
-    @GetMapping("/jython")
-    public String jython() {
-        // Criar uma instância do interpretador Python
-        //PyObject auth = getAuth.__call__();
-        //PyObject containers = getContainers.__call__(new PyString(auth.toString()));
-
-        //return containers.toString();
-        return "jj";
+        this.apiDockerUri = "http://localhost:5000";
 
     }
 
@@ -71,8 +58,8 @@ public class ImageService {
     @PostMapping("/download")
     public String downloadImage(@RequestBody ImageDocument ido) {
         // fazer o download da imagem no docker hub e guarda no runner
-        String url = this.apiDockerUri+"/images/pull"; // URL de destino
-        Image data = new Image(ido.getNome(),ido.getTag()); // Objeto a ser enviado
+        String url = this.apiDockerUri + "/images/pull"; // URL de destino
+        Image data = new Image(ido.getNome(), ido.getTag()); // Objeto a ser enviado
         Map<String, String> params = null; // Parâmetros opcionais
         HttpHeaders headers = null; // Cabeçalhos opcionais
         // Enviar a requisição POST
@@ -89,16 +76,14 @@ public class ImageService {
     // o adiministrador cria uma imagem
     @Secured("USER")
     @PostMapping("/container/create")
-    public String create(@RequestBody Container cont) {
-        //cria um container
-        String url = this.apiDockerUri+"/container/create"; // URL de destino
+    public String createContainer(@RequestBody Container cont) {
+        // cria um container
+        String url = this.apiDockerUri + "/container/create"; // URL de destino
         Map<String, String> params = null; // Parâmetros opcionais
         HttpHeaders headers = null; // Cabeçalhos opcionais
-        //criaar o comando de super user
-        cont.createsuperUser();
         // Enviar a requisição POST
         ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, params, headers, url);
-        
+
         // Exibir a resposta
         if (responseEntity != null) {
             String responseBody = responseEntity.getBody();
@@ -112,8 +97,8 @@ public class ImageService {
     @Secured("USER")
     @PostMapping("/container/start/{id}")
     public String startContainer(@PathVariable String id) {
-        //cria um container
-        String url = this.apiDockerUri+"/container/start/"+id; // URL de destino
+        // cria um container
+        String url = this.apiDockerUri + "/container/start/" + id; // URL de destino
         Map<String, String> params = null; // Parâmetros opcionais
         HttpHeaders headers = null; // Cabeçalhos opcionais
         // Enviar a requisição POST
@@ -128,6 +113,12 @@ public class ImageService {
         return "Salvo Com Sucesso";
     }
 
+    @Secured("USER")
+    @PostMapping("/createnewimage")
+    public String createImage(@RequestBody ImageDocument cont) {
+        this.imageCRUD.save(cont);
+        return "Salvo Com Sucesso";
+    }
 
     // apagar imagem
     @Secured("USER")
@@ -143,7 +134,7 @@ public class ImageService {
     @ResponseBody
     public ImageDocument getImage(@PathVariable Integer id) {
         Object u = this.imageCRUD.findById(id).orElse(null);
-        ;
+        
         if (u == null) {
             return null;
         }

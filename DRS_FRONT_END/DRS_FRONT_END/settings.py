@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-a^k5l%rwk8cks198_4ie_brmjh@41ou_wquuwcrb8zyz#15%&7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -59,6 +59,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, 'DRS_WEB_APP/modulos/gestaodeusuarios/templates'),
+            os.path.join(BASE_DIR, 'DRS_WEB_APP/templates'),
             ],
         'APP_DIRS': True,
         'OPTIONS': {

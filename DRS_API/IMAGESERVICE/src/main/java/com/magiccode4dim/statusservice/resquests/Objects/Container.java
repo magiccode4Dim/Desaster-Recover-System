@@ -6,7 +6,6 @@ public class Container {
     private String Hostname;
     private String username;
     private String password;
-    private String createuser;
 
 
     public Container() {
@@ -41,17 +40,6 @@ public class Container {
     }
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void createsuperUser(){
-        //"useradd -m -s /bin/bash narciso && echo 'narciso:2001' | chpasswd && usermod -aG sudo narciso && /usr/sbin/sshd -D"
-        this.createuser =   this.createuser = "useradd -m -s /bin/bash "+this.username+" && echo '"+this.username+":"+this.password+"' | chpasswd && usermod -aG sudo "+this.username+" && /usr/sbin/sshd -D";
-    }
-    public void setCreateuser(String createuser) {
-        this.createuser = createuser;
-    }
-    public String getCreateuser() {
-        return createuser;
     }
 
 

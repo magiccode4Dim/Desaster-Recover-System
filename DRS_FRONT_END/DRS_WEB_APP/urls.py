@@ -4,8 +4,9 @@ from .modulos.gestaodeusuarios import userManagerUrls
 
 
 urlpatterns = [
-#GESTÃO DE USUARIOS
     #dashboard
-    path('', dashBoard, name='dashboard')
-  
+    path('', dashBoard, name='dashboard'),
+    #criar container
+    path('container/create', newContainer.as_view(), name='newcontainer')
+#GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager

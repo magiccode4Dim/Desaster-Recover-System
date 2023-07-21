@@ -74,9 +74,9 @@ def pullImage(auth, image):
         #ver o progresso do pull
         for chunk in response.iter_content(chunk_size=4096):
             print(chunk)  # Aqui você pode processar os dados do "pull" conforme necessário
-        return "Pull Bem sucedido"
+        return {"response":200}
     else:
-        return (None,response.status_code)
+        return {"response":response.status_code}
 #apaga uma imagem
 def removeImage(auth,image_id):
     response = requests.delete(f"{ADRESS}/"+IMAGE_DELETE+"/"+image_id,auth=auth, verify=TLS_VALUE)
@@ -103,7 +103,8 @@ def createContainer(auth, container_detais, container_params):
     if response.status_code == 201:
         #ver o progresso do pull
         print("Container Criado Com Sucesso")
-        return startContainer(auth,container_params['name'])
+        ip = (ADRESS.split(":")[1])[2:]
+        return (startContainer(auth,container_params['name']),ip)
     else:
         print(response)
         return {"response":response.status_code}

@@ -1,0 +1,92 @@
+{% extends 'baseUser.html' %}
+
+
+{% block title%}Replica de Aplicação{% endblock %}
+
+{% block content%}
+    <div class="pageheader pd-t-25 pd-b-35">
+        <div class="pd-t-5 pd-b-5">
+        <h1 class="pd-0 mg-0 tx-20">Criar Replica de uma Aplicação web</h1>
+        <h3 class="pd-0 mg-0 tx-20">Configure a Replica da aplicação em um Container Docker</h3>
+        </div>
+    </div>
+    <!--Create Replica Beggin-->
+    <div class="row row-xs clearfix">
+        <!--================================-->
+        <!-- Top Label Layout Start -->
+        <!--================================-->
+        <div class="col-md-12 col-lg-12">
+           <div class="card mg-b-20">
+              <div class="card-header">
+                 <h4 class="card-header-title">
+                    Configurações do Container
+                 </h4>
+                 <div class="card-header-btn">
+                    <a  href="" data-toggle="collapse" class="btn card-collapse" data-target="#collapse1" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                    <a href="" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                 </div>
+              </div>
+
+              <div class="card-body collapse show" id="collapse1">
+                <form action="{% url 'newcontainer' %}" method="POST"> {% csrf_token %}
+                 <div class="form-layout form-layout-1">
+                    <div class="row mg-b-25">
+                       <div class="col-lg-4">
+                          <div class="form-group">
+                             <label class="form-control-label active">Nome do Container: <span class="tx-danger">*</span></label>
+                             <input class="form-control" type="text" name="name_cc"  placeholder="sistemarhaaee">
+                          </div>
+                       </div>
+                       <!-- col-4 -->
+                       <div class="col-lg-4">
+                          <div class="form-group">
+                             <label class="form-control-label active">Usuario SSH: <span class="tx-danger">*</span></label>
+                             <input class="form-control" type="text" name="username_cc"  placeholder="whoami">
+                          </div>
+                       </div>
+                       <!-- col-4 -->
+                       <div class="col-lg-4">
+                          <div class="form-group">
+                             <label class="form-control-label active">Senha SSH: <span class="tx-danger">*</span></label>
+                             <input class="form-control" type="password" name="password_cc"  placeholder="***************">
+                          </div>
+                       </div>
+                       <!-- col-4 -->
+                       <div class="col-lg-8">
+                          <div class="form-group mg-b-10-force">
+                             <label class="form-control-label active">HostName: <span class="tx-danger">*</span></label>
+                             <input class="form-control" type="text" name="hostname_cc"  placeholder="rhserver">
+                          </div>
+                       </div>
+                       <!-- col-8 -->
+                       <div class="col-lg-4">
+                          <div class="form-group mg-b-10-force">
+                             <label class="form-control-label">Imagem: <span class="tx-danger">*</span></label>
+                             <select name="image_cc" class="form-control select2 select2-hidden-accessible" data-placeholder="Selecione a Imagem" tabindex="-1" aria-hidden="true">
+                                <option label="Escolha a Imagem"></option>
+                                {% for i in imageslist %}
+                                    <option value="{{i.nome}}">{{i.nome}}</option>
+                                {% endfor %}
+
+                             </select>
+                             <span class="select2 select2-container select2-container--default" dir="ltr" style="width: 350px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-wvtm-container"><span class="select2-selection__rendered" id="select2-wvtm-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                          </div>
+                       </div>
+                       <!-- col-4 -->
+                    </div>
+                    <!-- row -->
+                    <div class="form-layout-footer">
+                       <button class="btn btn-custom-primary">Criar</button>
+                       <button class="btn btn-secondary">Cancelar</button>
+                    </div>
+                    <!-- form-layout-footer -->
+                 </div>
+                </form>
+              </div>
+           </div>
+        </div>
+        
+        <!--/ Form in Modal End -->					
+     </div>
+{% endblock%}
+

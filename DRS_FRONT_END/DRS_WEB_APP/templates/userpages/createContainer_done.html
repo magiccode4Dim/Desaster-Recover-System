@@ -1,0 +1,47 @@
+{% extends 'baseUser.html' %}
+
+
+{% block title%}Replica de Aplicação{% endblock %}
+
+{% block content%}
+    <div class="pageheader pd-t-25 pd-b-35">
+        <div class="pd-t-5 pd-b-5">
+        <h1 class="pd-0 mg-0 tx-20">Criar Replica de uma Aplicação web</h1>
+        <h3 class="pd-0 mg-0 tx-20">Criação de Container</h3>
+        </div>
+    </div>
+    {% if jsondata %}
+        <div class="alert alert-success alert-bordered pd-y-15" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="ico icon-close"></i></span>
+            </button>
+            <div class="d-sm-flex align-items-center justify-content-start">
+            <i class="icon ion-ios-checkmark alert-icon tx-52 mg-r-20 tx-success"></i>
+            <div class="mg-t-20 mg-sm-t-0">
+                <h5 class="mg-b-2 tx-success">Container Criado com Sucesso!!</h5>
+                <p class="mg-b-0 tx-gray">Pode Acessar o seu container via SSH com credências {{usernamessh}}:{{passwordssh}} </p>
+                <p class="mg-b-0 tx-gray">IP SSH :{{jsondata.ip}}  PORT SSH: {{jsondata.ssh_p}} </p>
+                <p class="mg-b-0 tx-gray">==Porta de Acesso a Serviços Padrão== </p>
+                <p class="mg-b-0 tx-gray">{{jsondata}}</p>
+            </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if jsondataerror %}
+        <div class="alert alert-danger alert-bordered pd-y-15" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="ico icon-close"></i></span>
+            </button>
+            <div class="d-sm-flex align-items-center justify-content-start">
+            <i class="icon ion-ios-close alert-icon tx-52 tx-danger mg-r-20"></i>
+            <div class="mg-t-20 mg-sm-t-0">
+                <h5 class="mg-b-2 tx-danger">Ocorreu algum erro ao criar o container.</h5>
+                <p class="mg-b-0 tx-gray">Erro Causado Por:{{jsondataerror}}</p>
+            </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock%}
+
