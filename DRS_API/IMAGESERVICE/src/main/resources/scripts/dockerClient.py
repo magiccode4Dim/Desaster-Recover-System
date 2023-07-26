@@ -56,7 +56,9 @@ def getContainerByID(auth,id):
     response = requests.get(f"{ADRESS}/"+GET_CONTAINER+"/"+str(id)+"/json", auth=auth, verify=TLS_VALUE)
     # Verificar o status da resposta
     if response.status_code == 200:
-        return response.json()
+        res = response.json()
+        res["access"] = (ADRESS.split(":")[1])[2:]
+        return res
     else:
         return (None,response.status_code)
 #retorna a lista de images

@@ -145,8 +145,31 @@ public class ImageService {
     @Secured("USER")
     @GetMapping("/getall")
     @ResponseBody
-    public List<ImageDocument> geAllStatus() {
+    public List<ImageDocument> geAllIMages() {
         return this.imageCRUD.findAll();
+    }
+
+    //retorna todos os containers em execucao
+    @Secured("USER")
+    @GetMapping("/container/getall")
+    @ResponseBody
+    public ResponseEntity<String> geAllContainers() {
+        String url = this.apiDockerUri + "/containers/list"; // URL de destino
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+        return responseEntity;
+        
+    }
+    //retorna um container com id
+    @Secured("USER")
+    @GetMapping("/container/get/{id}")
+    @ResponseBody
+    public ResponseEntity<String> geContainer(@PathVariable String id) {
+        String url = this.apiDockerUri + "/container/"+id; // URL de destino
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+        return responseEntity;
+        
     }
 
     // como usar recursos avancados do mongodb

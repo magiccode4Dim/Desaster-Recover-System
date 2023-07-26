@@ -9,7 +9,7 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from .modulos.requests.eurekaservermethods import get_microservice_address_port,get_microservice_data
 from .modulos.requests.sendRequests import *
-
+import json
 
 WEB_PATH = '/web'
 
@@ -29,6 +29,56 @@ def redirect_login(request):
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
 
+
+#Container Details
+@method_decorator(login_required, name='dispatch')
+class  containerDetails(View):
+    def getContainerByID(self,id):
+        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+        if(serverImage['port']!=0):
+            containers = get_microservice_data(IMAGE_SERVICE["username"],IMAGE_SERVICE["password"],
+                                  serverImage['address'],serverImage['port'],IMAGE_SERVICE["protocol"],
+                                  path='drs/api/image/container/get/'+id)
+        else:
+             containers = None
+        return  containers
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        container =  self.getContainerByID(request.GET.get('id'))
+        containerText = str(container)
+        containerText = containerText.replace(",",",\n")
+        return render(request,'userpages/containerDetails.html',{"error":error_message, 
+                                                                 "container": container,
+                                                                 "containertxt":containerText})
+    def post(self, request, *args, **kwargs):
+        return ""
+    def put(self, request, *args, **kwargs):
+        return ""
+    def delete(self, request, *args, **kwargs):
+        return ""
+
+#manage replicas
+@method_decorator(login_required, name='dispatch')
+class  manageContainers(View):
+    def getAvailableContainers(self):
+        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+        if(serverImage['port']!=0):
+            containers = get_microservice_data(IMAGE_SERVICE["username"],IMAGE_SERVICE["password"],
+                                  serverImage['address'],serverImage['port'],IMAGE_SERVICE["protocol"],
+                                  path='drs/api/image/container/getall')
+        else:
+             containers = []
+        return  containers
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        containers =  self.getAvailableContainers()
+        return render(request,'userpages/manageContainers.html',{"error":error_message, "containers": containers})
+    def post(self, request, *args, **kwargs):
+        return ""
+    def put(self, request, *args, **kwargs):
+        return ""
+    def delete(self, request, *args, **kwargs):
+        return ""
 
 
 #create Container

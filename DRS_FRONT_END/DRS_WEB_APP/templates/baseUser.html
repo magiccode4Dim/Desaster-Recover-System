@@ -21,6 +21,11 @@
       <link type="text/css" rel="stylesheet" href="{% static 'assets2\plugins\apex-chart\apexcharts.css'%}">
       <link type="text/css" rel="stylesheet" href="{% static 'assets2\css\app.min.css'%}"/>
       <link type="text/css" rel="stylesheet" href="{% static 'assets2\css\style.min.css'%}"/>
+    
+
+
+      <!--Tcc-->
+
 
       <!-- Favicon -->	
       <link rel="icon" href="{% static 'assets/images/aaee.png'%}" type="image/x-icon">
@@ -56,10 +61,11 @@
                      <li class="mg-20-force menu-elements">Sistema de Replicação</li>
                      <li>
                         <a href=""><i data-feather="copy"></i>
-                        <span>Criar Réplica</span><i class="accordion-icon fa fa-angle-left"></i></a>
+                        <span>Réplicas</span><i class="accordion-icon fa fa-angle-left"></i></a>
                         <ul class="sub-menu">
-                           <li><a href="{% url 'newcontainer' %}">De Aplicação web</a></li>
-                           <li><a href="table-static.html">De Base de dados</a></li>
+                           <li><a href="{% url 'newcontainer' %}">Criar Aplicação web</a></li>
+                           <li><a href="#">Criar Base de dados</a></li>
+                           <li><a href="{% url 'managecontainers' %}">Gerir Replicas</a></li>
                         </ul>
                      </li>
                      <li>
@@ -307,5 +313,9 @@
       <script src="{% static 'assets2/js/highlight.min.js'%}"></script>
       <script src="{% static 'assets2/js/app.js'%}"></script>
       <script src="{% static 'assets2/js/custom.js'%}"></script>
+
+      
+     
+      
    </body>
 </html>

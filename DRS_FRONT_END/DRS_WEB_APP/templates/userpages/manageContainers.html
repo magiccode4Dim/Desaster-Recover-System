@@ -1,0 +1,69 @@
+{% extends 'baseUser.html' %}
+
+
+{% block title%}Manage Containers{% endblock %}
+
+{% block content%}
+    <div class="pageheader pd-t-25 pd-b-35">
+        <div class="pd-t-5 pd-b-5">
+        <h1 class="pd-0 mg-0 tx-20">Gerir Replicas</h1>
+        <h3 class="pd-0 mg-0 tx-20">Aqui tem uma visão geral dos Containers.</h3>
+        </div>
+    </div>
+    <!--Mannage Replica-->
+     <!--================================-->
+                     <!-- Action Table Start -->
+                     <!--================================-->
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                           <div class="card-header">
+                              <h4 class="card-header-title">
+                                 Containers
+                              </h4>
+                              <div class="card-header-btn">
+                                 <a  href="#" data-toggle="collapse" class="btn card-collapse" data-target="#collapse7" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                                 <a href="{% url 'managecontainers' %}" data-toggle="refresh" class="btn card-refresh"><i class="ion-android-refresh"></i></a>
+                                 <a href="#" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                              </div>
+                           </div>
+                           <div class="card-body pd-0 collapse show" id="collapse7">
+                              <table class="table table-separated table-responsive-sm">
+                                 <thead>
+                                    <tr>
+                                       <th>ID</th>
+                                       <th>NOME</th>
+                                       <th>IMAGEM</th>
+                                       <th>LOCAL_IP</th>
+                                       <th>ESTADO</th>
+                                       <th class="text-center w-100px">Actions</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for c in containers %}
+                                        <tr>
+                                            <th scope="row">{{ c.Id|slice:":12" }}</th>
+                                            <td>{{c.Names}}</td>
+                                            <td>{{c.Image}}</td>
+                                            <td>{{c.NetworkSettings.Networks.bridge.IPAddress}}</td>
+                                            <td>{{c.State}}</td>
+                                            <td class="text-right table-actions">
+                                                <a class="table-action  mg-r-10" href="#"><i class="fa fa-stop"></i></a>
+                                                <a class="table-action  mg-r-10" href="#"><i class="fa fa-trash"></i></a>
+                                                <span class="dropdown-toggle " data-toggle="dropdown"></span>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" target="blank" href="{% url 'containerdetails' %}?id={{ c.Id|slice:":12" }}"><i class="fa fa-book"></i> Details</a>
+                                                    
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                   
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                     <!--/ Action Table End -->
+    
+{% endblock%}
+

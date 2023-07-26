@@ -7,6 +7,10 @@ urlpatterns = [
     #dashboard
     path('', dashBoard, name='dashboard'),
     #criar container
-    path('container/create', newContainer.as_view(), name='newcontainer')
+    path('container/create', newContainer.as_view(), name='newcontainer'),
+    #manage containers
+    path('container/manager', manageContainers.as_view(), name='managecontainers'),
+    #containerDetails
+    path('container/details', containerDetails.as_view(), name='containerdetails'),
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager
