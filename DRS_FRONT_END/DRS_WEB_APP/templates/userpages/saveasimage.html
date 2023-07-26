@@ -1,0 +1,71 @@
+{% extends 'baseUser.html' %}
+{% load static %}
+
+{% block title%}Save {{ containerID}}{% endblock %}
+
+{% block content%}
+<div class="pageheader pd-t-25 pd-b-35">
+    <div class="pd-t-5 pd-b-5">
+    <h1 class="pd-0 mg-0 tx-20">Guardar o Container {{ containerID}} Como Imagem</h1>
+    <h3 class="pd-0 mg-0 tx-20">Ao guardar o container como imagem, ele estará Acessivel para o Cluster Swarm</h3>
+    </div>
+</div>
+
+<!-- Placeholder As Label Start -->
+                     <!--================================-->
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                           <div class="card-header">
+                              <h4 class="card-header-title">
+                                 Salvar Container Como Imagem
+                              </h4>
+                              <div class="card-header-btn">
+                                 <a  href="" data-toggle="collapse" class="btn card-collapse" data-target="#collapse3" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                                 <a href="" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                              </div>
+                           </div>
+                           <div class="card-body collapse show" id="collapse3">
+                            <form action="{% url 'containerasimage' %}" method="POST" >{% csrf_token %}
+                                <div class="form-layout form-layout-3">
+                                    <input type="hidden" value="{{ containerID}}" name="containerid" >
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input class="form-control" type="text" name="imagename" placeholder="Nome da Imagem">
+                                        </div>
+                                        </div>
+                                        <!-- col-4 -->
+                                        <div class="col-md-4 mg-t--1 mg-md-t-0">
+                                        <div class="form-group mg-md-l--1">
+                                            <input class="form-control" type="text" name="tag" placeholder="A tag da imagem">
+                                        </div>
+                                        </div>
+                                       
+                                        <!-- col-8 -->
+                                        <div class="col-md-4">
+                                        <div class="form-group mg-md-l--1 bd-t-0-force">
+                                            <select id="select2-b" name="ipregistry" class="form-control select2-hidden-accessible" data-placeholder="Escolha o Registrador" tabindex="-1" aria-hidden="true">
+                                                <option label="Registrador"></option>
+                                                {% for ipreg in registrys %}
+                                                    <option value="{{ipreg}}">{{ipreg}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <span class="select2 select2-container select2-container--default select2-container--above" dir="ltr" style="width: 350px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-select2-b-container"><span class="select2-selection__rendered" id="select2-select2-b-container"><span class="select2-selection__placeholder">Registrador</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                                        </div>
+                                        </div>
+                                        <!-- col-4 -->
+                                    </div>
+                                    <!-- row -->
+                                    <div class="form-layout-footer bd pd-20 bd-t-0">
+                                        <input  type="submit" class="btn btn-custom-primary" value="Guardar"/>
+                                        <a href="#" class="btn btn-secondary">Cancel</a>
+                                    </div>
+                                    <!-- form-group -->
+                                </div>
+                            </form>
+                           </div>
+                        </div>
+                     </div>
+                     <!--/ Placeholder As Label End -->	
+    
+{% endblock %}

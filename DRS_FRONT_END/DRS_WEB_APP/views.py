@@ -29,6 +29,52 @@ def redirect_login(request):
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
 
+#Save container as image
+@method_decorator(login_required, name='dispatch')
+class  saveContainerasImage(View):
+    def getRegistrys(self):
+        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+        if(serverImage['port']!=0):
+            registryList = get_microservice_data(IMAGE_SERVICE["username"],IMAGE_SERVICE["password"],
+                                  serverImage['address'],serverImage['port'],IMAGE_SERVICE["protocol"],
+                                  path='drs/api/image/registry/getall')
+        else:
+             registryList = []
+        return registryList
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        registryList = self.getRegistrys()
+        return render(request,'userpages/saveasimage.html',{
+            "error":error_message,
+            "containerID" : request.GET.get('id'),
+            "registrys":registryList
+        })
+    def post(self, request, *args, **kwargs):
+        imagename =  request.POST.get("imagename")
+        tag =  request.POST.get("tag")
+        registryip =  request.POST.get("ipregistry")
+        containerid = request.POST.get("containerid")
+        if(len(imagename)==0 or len(tag)==0  or registryip not in self.getRegistrys()):
+            return redirect(WEB_PATH+"/container/saveasimage?error=Algum Campo não foi preenchido&id="+str(containerid))
+        #minusculas
+        imagename = imagename.lower()
+        tag = tag.lower()
+        #mudando o nome do container
+        newImage = {
+            "nome":registryip+"/"+imagename,
+            "tag":tag,
+            "containerID":containerid
+            }
+        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+        url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/container/saveasimage"
+        respo = sendPostRequest(json = newImage,adress=url
+                                ,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+        return JsonResponse(respo)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
 
 #Container Details
 @method_decorator(login_required, name='dispatch')
@@ -51,11 +97,11 @@ class  containerDetails(View):
                                                                  "container": container,
                                                                  "containertxt":containerText})
     def post(self, request, *args, **kwargs):
-        return ""
+        return self.get(request)
     def put(self, request, *args, **kwargs):
-        return ""
+        return self.get(request)
     def delete(self, request, *args, **kwargs):
-        return ""
+        return self.get(request)
 
 #manage replicas
 @method_decorator(login_required, name='dispatch')

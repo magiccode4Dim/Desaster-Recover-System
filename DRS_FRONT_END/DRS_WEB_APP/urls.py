@@ -12,5 +12,7 @@ urlpatterns = [
     path('container/manager', manageContainers.as_view(), name='managecontainers'),
     #containerDetails
     path('container/details', containerDetails.as_view(), name='containerdetails'),
+    #save container as image
+    path('container/saveasimage', saveContainerasImage.as_view(), name='containerasimage')
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager

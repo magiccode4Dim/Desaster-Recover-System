@@ -25,6 +25,8 @@ public class ImageDocument {
     private String simple_exec_comand;
 
     private String hash;
+/** Este ultimo atributo so 'e usado na hora de criar uma imagem apartir do cantainer */
+    private String containerID;
 
 
     public String getHash() {
@@ -41,6 +43,15 @@ public class ImageDocument {
 
     public void setSimple_exec_comand(String simple_exec_comand) {
         this.simple_exec_comand = simple_exec_comand;
+    }
+    
+
+    public String getContainerID() {
+        return containerID;
+    }
+
+    public void setContainerID(String containerID) {
+        this.containerID = containerID;
     }
 
     public String getFoto() {

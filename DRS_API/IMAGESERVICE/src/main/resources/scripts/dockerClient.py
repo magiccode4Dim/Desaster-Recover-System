@@ -2,6 +2,8 @@ import requests
 import json
 import base64
 
+#REGISTRADORES 
+REGISTRYS = ["192.168.122.10"]
 
 auth_data = {
     "username": "narciso",
@@ -178,7 +180,7 @@ def commitContainer(auth, image_name, container_id):
         container_id = response_json['Id']
         print(container_id)
         id = (container_id[7:])[:12]
-        renameImage(auth,id,newName=image_name)
+        return renameImage(auth,id,newName=image_name)
     else:
         print(response)
         return (None,response.status_code)
@@ -186,12 +188,13 @@ def commitContainer(auth, image_name, container_id):
 def renameImage(auth, id, newName):
     url = f'{ADRESS}/images/{id}/tag?repo={newName["repo"]}&tag={newName["tag"]}'
     response = requests.post(url,auth=auth,verify=TLS_VALUE)
-    if response.status_code == 204:
+    if response.status_code == 201:
         #ver o progresso do pull
         print("Novo Nome Atribuido")
+        return {"response":201}
     else:
         print(response)
-        return (None,response.status_code)
+        return {"response":response.status_code}
 def pushImage(auth,name,header):
     response = requests.post(f"{ADRESS}/"+PUSH_IMAGE+"/"+name+"/push",auth=auth,
                              headers=header,
@@ -202,8 +205,9 @@ def pushImage(auth,name,header):
     else:
         print(response)
         return (None,response.status_code)
-        
-      
+#get registrys
+def getRegistrys():
+    return REGISTRYS
     
     
 

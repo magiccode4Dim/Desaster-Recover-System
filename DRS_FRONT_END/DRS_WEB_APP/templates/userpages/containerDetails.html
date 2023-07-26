@@ -32,7 +32,7 @@
                              <h5 class="tx-gray-100 tx-15 mg-b-0">{{container.Name}}</h5>
                              <p class="mg-b-10 tx-gray-300">{{container.Config.Image}}</p>
                              <a href="" class="btn btn-sm btn-danger flex-fill mg-r-10">DELETE</a>
-                             <a href="" class="btn btn-sm btn-success flex-fill">SAVE AS IMAGE</a>
+                             <a href="{% url 'containerasimage' %}?id={{ container.Id|slice:":12" }}" class="btn btn-sm btn-success flex-fill">SAVE AS IMAGE</a>
                           </div>
                        </div>
                     </div>

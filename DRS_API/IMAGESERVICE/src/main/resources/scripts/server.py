@@ -4,6 +4,10 @@ import json
 
 app = Flask(__name__)
 
+@app.route('/registry/list', methods=['GET'])
+def getRess():
+    return jsonify(getRegistrys())
+
 @app.route('/containers/list', methods=['GET'])
 def getCo():
     return jsonify(getContainers(getAuth()))
@@ -140,6 +144,18 @@ def creatCon():
 def creatSta(id):
     return str(startContainer(getAuth(),id))
 
+@app.route('/container/commit', methods=['POST'])
+def commitContainerAsIMa():
+    containerdata = (request.get_json()['json'])[0]
+    containerdata = json.loads(containerdata)
+    print(containerdata)
+    image_name = {
+        'repo':containerdata['nome'],
+        'tag':containerdata['tag']
+        }
+    container_config = {"container":containerdata['containerID']}
+    return jsonify(commitContainer(getAuth(),image_name=image_name, container_id=container_config))
+    
 
     
 
