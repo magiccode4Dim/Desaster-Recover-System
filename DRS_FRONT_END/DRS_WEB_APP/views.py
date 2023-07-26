@@ -28,7 +28,28 @@ def redirect_login(request):
 @login_required
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
-
+#push container
+@method_decorator(login_required, name='dispatch')
+class  pushImage(View):
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        repo = request.GET.get('repo')
+        return render(request,"userpages/pushtoregistry.html",{"error":error_message, 
+                                                                 "repo": repo})
+    def post(self, request, *args, **kwargs):
+        repo = request.POST.get("repo")
+        image = {
+            "nome":repo
+        }
+        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+        url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/pushtoregistry"
+        respo = sendPostRequest(json = image,adress=url
+                                ,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
 #Save container as image
 @method_decorator(login_required, name='dispatch')
 class  saveContainerasImage(View):
@@ -69,7 +90,10 @@ class  saveContainerasImage(View):
         url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/container/saveasimage"
         respo = sendPostRequest(json = newImage,adress=url
                                 ,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
-        return JsonResponse(respo)
+        if(respo["response"]==201):
+            #container/push
+              return render(request,"userpages/pushtoregistry.html",{"repo": registryip+"/"+imagename})
+        return redirect(WEB_PATH+f"/container/saveasimage?error=Algum Erro Aconteceu {str(respo)}&id="+str(containerid))
     def put(self, request, *args, **kwargs):
         return self.get(request)
     def delete(self, request, *args, **kwargs):

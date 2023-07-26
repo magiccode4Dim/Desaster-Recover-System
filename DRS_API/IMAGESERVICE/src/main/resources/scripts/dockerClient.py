@@ -202,9 +202,10 @@ def pushImage(auth,name,header):
     if response.status_code == 200:
         #ver o progresso do pull
         print("Push Bem Sucedido")
+        return {"response":201}
     else:
         print(response)
-        return (None,response.status_code)
+        return {"response":response.status_code}
 #get registrys
 def getRegistrys():
     return REGISTRYS

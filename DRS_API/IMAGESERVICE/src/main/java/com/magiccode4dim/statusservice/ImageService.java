@@ -73,7 +73,7 @@ public class ImageService {
         return "NUll";
     }
 
-    //criar container
+    // criar container
     @Secured("USER")
     @PostMapping("/container/create")
     public String createContainer(@RequestBody Container cont) {
@@ -93,8 +93,9 @@ public class ImageService {
 
         return "Salvo Com Sucesso";
     }
-    //salvar um container como uma imagem
-    //criar container
+
+    // salvar um container como uma imagem
+    // criar container
     @Secured("USER")
     @PostMapping("/container/saveasimage")
     @ResponseBody
@@ -105,7 +106,20 @@ public class ImageService {
         // Enviar a requisição POST
         ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, params, null, url);
         return responseEntity;
-    } 
+    }
+
+    // faz o push da imagem no registrador privado
+    @Secured("USER")
+    @PostMapping("/pushtoregistry")
+    @ResponseBody
+    public ResponseEntity<String> pushImageOnprivatyRegistry(@RequestBody ImageDocument cont) {
+        // cria um container
+        String url = this.apiDockerUri + "/image/push"; // URL de destino
+        Map<String, String> params = null; // Parâmetros opcionais
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, params, null, url);
+        return responseEntity;
+    }
 
     @Secured("USER")
     @PostMapping("/container/start/{id}")
@@ -147,7 +161,7 @@ public class ImageService {
     @ResponseBody
     public ImageDocument getImage(@PathVariable Integer id) {
         Object u = this.imageCRUD.findById(id).orElse(null);
-        
+
         if (u == null) {
             return null;
         }
@@ -162,7 +176,7 @@ public class ImageService {
         return this.imageCRUD.findAll();
     }
 
-    //retorna todos os containers em execucao
+    // retorna todos os containers em execucao
     @Secured("USER")
     @GetMapping("/container/getall")
     @ResponseBody
@@ -171,20 +185,22 @@ public class ImageService {
         // Enviar a requisição POST
         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
         return responseEntity;
-        
+
     }
-    //retorna um container com id
+
+    // retorna um container com id
     @Secured("USER")
     @GetMapping("/container/get/{id}")
     @ResponseBody
     public ResponseEntity<String> geContainer(@PathVariable String id) {
-        String url = this.apiDockerUri + "/container/"+id; // URL de destino
+        String url = this.apiDockerUri + "/container/" + id; // URL de destino
         // Enviar a requisição POST
         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
         return responseEntity;
-        
+
     }
-    //retorna todos os registradores disponiveis
+
+    // retorna todos os registradores disponiveis
     @Secured("USER")
     @GetMapping("/registry/getall")
     @ResponseBody
@@ -193,7 +209,7 @@ public class ImageService {
         // Enviar a requisição POST
         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
         return responseEntity;
-        
+
     }
 
     // como usar recursos avancados do mongodb

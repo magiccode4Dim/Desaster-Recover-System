@@ -1,0 +1,42 @@
+{% extends 'baseUser.html' %}
+{% load static %}
+
+{% block title%}Save {{ repo}}{% endblock %}
+
+{% block content%}
+<link type="text/css" rel="stylesheet" href="{% static 'assets2/plugins/spinkit/spinkit.min.css'%}">
+    <div class="pageheader pd-t-25 pd-b-35">
+        <div class="pd-t-5 pd-b-5">
+        <h1 class="pd-0 mg-0 tx-20">Confirmar Envio de {{repo}} </h1>
+        <h3 class="pd-0 mg-0 tx-20">Confirme o envio da imagem para o Registry</h3>
+        </div>
+    </div>
+    <!-- Rotating Plane Start -->
+                     <!--================================-->
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                           <div class="card-header">
+                              <h4 class="card-header-title">
+                                 Confirmar Push
+                              </h4>
+                           </div>
+                           <div class="card-body collapse show" id="collapse1">
+                              <div class="pd-y-50">
+                                 <div class="sk-rotating-plane"></div>
+                              </div>
+                           </div>
+                           <form action="{% url 'pushimage' %}"  method="POST">{% csrf_token %}
+                                <input type="hidden" name="repo" value="{{repo}}" type="text" />
+                                <div class="btn-demo">
+                                <input class="btn btn-primary btn-block mg-b-10" value="Confirm" type="submit" />
+                            </div>
+                           </form>
+                          
+                        </div>
+                        
+                     </div>
+                        
+    <!--/ Rotating Plane End -->
+    <!--================================-->
+    
+{% endblock %}

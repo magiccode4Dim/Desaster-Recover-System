@@ -156,7 +156,16 @@ def commitContainerAsIMa():
     container_config = {"container":containerdata['containerID']}
     return jsonify(commitContainer(getAuth(),image_name=image_name, container_id=container_config))
     
-
+#push image to registry
+@app.route('/image/push', methods=['POST'])
+def pushImagetoRegistry():
+    data = (request.get_json()['json'])[0]
+    data = json.loads(data)
+    headers = {
+        "X-Registry-Auth": auth_data_encoded
+    }
+    return jsonify(pushImage(getAuth(),data["nome"],headers))
+    
     
 
 
