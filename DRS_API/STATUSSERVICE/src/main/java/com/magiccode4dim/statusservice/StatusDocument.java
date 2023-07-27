@@ -4,30 +4,31 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-
 import org.springframework.data.annotation.Id;
 
 
 @Document(collection = "status")
 public class StatusDocument {
     @Id
-    private Integer id;
+    private String id;
 
-    private String serverAdress;
-
+    private String serverID;
     private Date data_criacao;
 
     private Boolean value = false;
 
-    private Integer id_service;
+    private String token;
+    //DATA received
+    private Double cpu;
+    private Double memory;
+    private Double disc;
 
-    public Integer getId_service() {
-        return id_service;
-    }
-
-    public void setId_service(Integer id_service) {
-        this.id_service = id_service;
-    }
+    /* {
+        "cpu":cpu_usage,
+        "memory":memory_usage,
+        "disc":disk_usage
+    } 
+     */
 
     public Boolean getValue() {
         return value;
@@ -44,21 +45,53 @@ public class StatusDocument {
     public void setData_criacao(Date data_criacao) {
         this.data_criacao = data_criacao;
     }
-
-    public String getServerAdress() {
-        return serverAdress;
+   
+    public Double getCpu() {
+        return cpu;
     }
 
-    public void setServerAdress(String serverAdress) {
-        this.serverAdress = serverAdress;
+    public void setCpu(Double cpu) {
+        this.cpu = cpu;
     }
 
-    public Integer getId() {
+    public Double getMemory() {
+        return memory;
+    }
+
+    public void setMemory(Double memory) {
+        this.memory = memory;
+    }
+
+    public Double getDisc() {
+        return disc;
+    }
+
+    public void setDisc(Double disc) {
+        this.disc = disc;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getServerID() {
+        return serverID;
+    }
+
+    public void setServerID(String serverID) {
+        this.serverID = serverID;
     }
 
 }

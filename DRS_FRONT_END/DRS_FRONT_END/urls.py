@@ -22,6 +22,6 @@ from DRS_WEB_APP.views import redirect_login
 urlpatterns = [
     path('', redirect_login, name='login'),
     path('web/', include('DRS_WEB_APP.urls')),
-    path('gatewayapi/', include('DRS_GATEWAY_API.urls')),
+    path('api/', include('DRS_GATEWAY_API.urls')),
     path('admin/', admin.site.urls),
 ]

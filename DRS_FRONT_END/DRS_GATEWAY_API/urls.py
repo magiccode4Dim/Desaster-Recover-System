@@ -1,7 +1,8 @@
 from django.urls import path,include
-from DRS_GATEWAY_API.views import Example
+from DRS_GATEWAY_API.views import StatusService
 
 
 urlpatterns = [
-    path('example/', Example.as_view(), name='Example'), 
+    #Status Service
+    path('statusservice/sendstatus', StatusService.as_view(), name='statusservice'), 
 ]
