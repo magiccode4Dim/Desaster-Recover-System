@@ -19,6 +19,12 @@ IMAGE_SERVICE = {
     "password" :"2001",
     "protocol" : "http"
 }
+STATUS_SERVICE = {
+    "name" : 'STATUS_SERVICE',
+    "username" : "nany",
+    "password" :"2001",
+    "protocol" : "http"
+}
 
 #Login
 #redirect to login
@@ -28,6 +34,88 @@ def redirect_login(request):
 @login_required
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
+
+#server detains
+#serverDetails
+@method_decorator(login_required, name='dispatch')
+class  serverDetails(View):
+    def getServerByID(self,id):
+        serverStatus = get_microservice_address_port(STATUS_SERVICE["name"])
+        if(serverStatus['port']!=0):
+            server = get_microservice_data(STATUS_SERVICE["username"],STATUS_SERVICE["password"],
+                                  serverStatus['address'],serverStatus['port'],STATUS_SERVICE["protocol"],
+                                  path='drs/api/status/server/get/'+id)
+        else:
+             server = None
+        return  server
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        serverID = request.GET.get('id')
+        server  = self.getServerByID(serverID)
+        return render(request,'userpages/serverDetails.html',{"error":error_message, 
+                                                                 "server": server})
+    def post(self, request, *args, **kwargs):
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
+
+#manage servers
+#manageServers
+@method_decorator(login_required, name='dispatch')
+class  manageServers(View):
+    def getServers(self):
+        serverStatus = get_microservice_address_port(STATUS_SERVICE["name"])
+        if(serverStatus['port']!=0):
+            servers = get_microservice_data(STATUS_SERVICE["username"],STATUS_SERVICE["password"],
+                                  serverStatus['address'],serverStatus['port'],STATUS_SERVICE["protocol"],
+                                  path='drs/api/status/server/getall')
+        else:
+             servers = []
+        return  servers
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        done = request.GET.get('done')
+        servers = self.getServers()
+        return render(request,"userpages/manageServers.html",{"error":error_message, 
+                                                              "done":done,
+                                                              "servers":servers
+                                                              })
+    def post(self, request, *args, **kwargs):
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
+#createServer
+@method_decorator(login_required, name='dispatch')
+class  createServer(View):
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        return render(request,"userpages/criateServer.html",{"error":error_message})
+    def post(self, request, *args, **kwargs):
+        serverAdress =  request.POST.get("serverAdress")
+        nome = request.POST.get("nome")
+        if(len(serverAdress)==0 or len(nome)==0):
+            return redirect(WEB_PATH+"/server/create?error=Algum Campo não foi preenchido")
+        newServer = {
+               'serverAdress': serverAdress,
+               'nome': nome
+        }
+        serverImage = get_microservice_address_port(STATUS_SERVICE["name"])
+        url = STATUS_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/status/server/create"
+        respo = sendPostRequest(json = newServer,adress=url
+                                ,username=STATUS_SERVICE["username"], password=STATUS_SERVICE["password"])
+        if(respo["response"]==200):
+            return redirect(WEB_PATH+"/server/manager?done=Servidor Adicionado com Sucesso")
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
 #push container
 @method_decorator(login_required, name='dispatch')
 class  pushImage(View):
@@ -45,6 +133,7 @@ class  pushImage(View):
         url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/pushtoregistry"
         respo = sendPostRequest(json = image,adress=url
                                 ,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+        #deve retornar para o registry
         return self.get(request)
     def put(self, request, *args, **kwargs):
         return self.get(request)

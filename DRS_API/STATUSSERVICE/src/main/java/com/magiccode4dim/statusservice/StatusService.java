@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,17 +62,17 @@ public class StatusService {
             st.setId(RandomToken.generateRandomString() + RandomToken.generateRandomToken(15));
             st.setData_criacao(new Date());
             this.ss.save(st);
-        }else{
+        } else {
             new Object() {
-            //SERVIDOR NAO ENCONTRADO
+                // SERVIDOR NAO ENCONTRADO
                 public int response = 404;
             };
         }
-        return  new Object() {
-            //TUDO BEM
-                public int response = 200;
-            };
-        }
+        return new Object() {
+            // TUDO BEM
+            public int response = 200;
+        };
+    }
 
     // delete status by id
     @Secured("USER")
@@ -105,12 +106,36 @@ public class StatusService {
     // criar um servidor
     @Secured("USER")
     @PostMapping("/server/create")
-    public String createServer(@RequestBody ServerDocument st) {
+    public Object createServer(@RequestBody ServerDocument st) {
         String token = RandomToken.generateRandomToken(32) + RandomToken.generateRandomString();
         st.setToken(token);
         st.setId(RandomToken.generateRandomToken(32));
         this.sermongo.save(st);
-        return token;
+        return new Object() {
+            // TUDO BEM
+            public int response = 200;
+        };
+
+    }
+
+    // getallservers
+    // get all status
+    @Secured("USER")
+    @GetMapping("/server/getall")
+    @ResponseBody
+    public List<ServerDocument> geAllServes() {
+        return this.sermongo.findAll();
+    }
+
+    @Secured("USER")
+    @GetMapping("/server/get/{id}")
+    @ResponseBody
+    public ServerDocument getServer(@PathVariable String id) {
+        Object u = this.sermongo.findById(id).orElse(null);
+        if (u == null) {
+            return null;
+        }
+        return (ServerDocument) u;
     }
 
     // como usar recursos avancados do mongodb

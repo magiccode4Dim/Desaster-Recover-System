@@ -15,6 +15,12 @@ urlpatterns = [
     #save container as image
     path('container/saveasimage', saveContainerasImage.as_view(), name='containerasimage'),
     #push image
-    path('container/push', pushImage.as_view(), name='pushimage')
+    path('container/push', pushImage.as_view(), name='pushimage'),
+    #create server
+    path('server/create', createServer.as_view(), name='createserver'),
+    #manage servers
+    path('server/manager', manageServers.as_view(), name='manageservers'),
+    #server details
+    path('server/details', serverDetails.as_view(), name='serverdetails'),
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager
