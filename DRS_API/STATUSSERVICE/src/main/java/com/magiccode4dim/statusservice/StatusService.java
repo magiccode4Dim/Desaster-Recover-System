@@ -94,14 +94,15 @@ public class StatusService {
         }
         return (StatusDocument) u;
     }
-    //get last status server
+
+    // get last status server
     @Secured("USER")
     @GetMapping("/getlaststatus/{serverid}")
     @ResponseBody
     public StatusDocument getLastStatus(@PathVariable String serverid) {
-        List<StatusDocument> sds  =  this.ss.findByServerID(serverid);
-        Object u = sds.get(sds.size()-1);
-        ;
+        List<StatusDocument> sds = this.ss.findByServerID(serverid);
+        Object u = sds.get(sds.size() - 1);
+
         if (u == null) {
             return null;
         }
@@ -149,6 +150,36 @@ public class StatusService {
             return null;
         }
         return (ServerDocument) u;
+    }
+
+    // saber se um server esta down
+    @Secured("USER")
+    @GetMapping("/server/isdown/{id}")
+    @ResponseBody
+    public Object getIsDown(@PathVariable String id) {
+        List<StatusDocument> sds = this.ss.findByServerID(id);
+        Object u = sds.get(sds.size() - 1);
+        // deve procurar saber se o time stamp da recuperacao enquadra-se com o ultimo
+        // time stamp
+        if (u == null) {
+            return null;
+        }
+        // se ter mais de 2 milissegundos de diferenca entao o servidor esta down
+        Long now = new Date().getTime();
+        StatusDocument sta = (StatusDocument) u;
+        Long initial = sta.getData_criacao().getTime();
+        if (((now - initial) / 1000) > 3) {
+            return new Object() {
+                // TUDO BEM
+                public Boolean response = true;
+            };
+        } else {
+            return new Object() {
+                // TUDO BEM
+                public Boolean response = false;
+            };
+        }
+
     }
 
     // como usar recursos avancados do mongodb
