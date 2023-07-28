@@ -101,6 +101,9 @@ public class StatusService {
     @ResponseBody
     public StatusDocument getLastStatus(@PathVariable String serverid) {
         List<StatusDocument> sds = this.ss.findByServerID(serverid);
+        if(sds.isEmpty()){
+            return new StatusDocument();
+        }
         Object u = sds.get(sds.size() - 1);
 
         if (u == null) {
@@ -158,6 +161,9 @@ public class StatusService {
     @ResponseBody
     public Object getIsDown(@PathVariable String id) {
         List<StatusDocument> sds = this.ss.findByServerID(id);
+         if(sds.isEmpty()){
+            return new StatusDocument();
+        }
         Object u = sds.get(sds.size() - 1);
         // deve procurar saber se o time stamp da recuperacao enquadra-se com o ultimo
         // time stamp
