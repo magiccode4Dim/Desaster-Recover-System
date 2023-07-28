@@ -52,8 +52,13 @@ class  serverDetails(View):
         error_message = request.GET.get('error')
         serverID = request.GET.get('id')
         server  = self.getServerByID(serverID)
-        return render(request,'userpages/serverDetails.html',{"error":error_message, 
+        response =render(request,'userpages/serverDetails.html',{"error":error_message, 
                                                                  "server": server})
+        response.set_cookie('serverID', serverID)
+        response.set_cookie('apiurl', request.META.get('HTTP_HOST', None))
+        response.set_cookie('protocol', request.scheme)
+        
+        return response        
     def post(self, request, *args, **kwargs):
         return self.get(request)
     def put(self, request, *args, **kwargs):

@@ -358,6 +358,9 @@ var optionsCircle = {
 var chartCircle = new ApexCharts(document.querySelector('#circlechart'), optionsCircle);
 chartCircle.render();
 
+
+
+
 var optionsProgress1 = {
   chart: {
     height: 70,

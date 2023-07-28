@@ -5,6 +5,7 @@ import json
 from django.middleware.csrf import get_token
 from DRS_WEB_APP.modulos.requests.eurekaservermethods import *
 from DRS_WEB_APP.modulos.requests.sendRequests import *
+from django.contrib.auth.decorators import login_required
 
 WEB_PATH = '/web'
 
@@ -15,6 +16,27 @@ STATUS_SERVICE = {
     "protocol" : "http"
 }
 
+#get last status
+def getStatusByID(id):
+        serverStatus = get_microservice_address_port(STATUS_SERVICE["name"])
+        if(serverStatus['port']!=0):
+            status = get_microservice_data(STATUS_SERVICE["username"],STATUS_SERVICE["password"],
+                                  serverStatus['address'],serverStatus['port'],STATUS_SERVICE["protocol"],
+                                  path='drs/api/status/getlaststatus/'+id)
+        else:
+             status = None
+        return  status
+
+
+#getlaststatus of server
+@login_required
+def getlaststatusServer(request):
+    serverID =  request.GET.get("id")
+    return JsonResponse(getStatusByID(serverID))
+    
+    
+
+#send status to server
 class StatusService(View):
     def get(self, request):
         csrf_token = get_token(request)

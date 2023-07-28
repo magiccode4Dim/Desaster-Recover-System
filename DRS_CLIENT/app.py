@@ -9,7 +9,7 @@ if __name__=="__main__":
         #get csrf_token
         response =  requests.get("http://127.0.0.1:8000/api/statusservice/sendstatus")
         sta['csrfmiddlewaretoken'] = response.json()["csrf_token"]
-        sta['token'] = 'BJSt6XOH34F3c8mtoPcgdtdrrPoMrLNEreA1aKQ3GoQ75df5d367248467db3009ea9816772fc'
+        sta['token'] = 'KC8us4mWDtAMcKWHd8L7b2Comx-pzLwN6b2TCfE4xeU8275012e3d644533b233eb90ed957ad1'
         response =  requests.post("http://127.0.0.1:8000/api/statusservice/sendstatus",data=sta,cookies=response.cookies)
         print(response.json())
-        time.sleep(3)
+        time.sleep(1)

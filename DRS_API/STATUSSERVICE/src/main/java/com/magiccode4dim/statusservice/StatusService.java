@@ -94,6 +94,19 @@ public class StatusService {
         }
         return (StatusDocument) u;
     }
+    //get last status server
+    @Secured("USER")
+    @GetMapping("/getlaststatus/{serverid}")
+    @ResponseBody
+    public StatusDocument getLastStatus(@PathVariable String serverid) {
+        List<StatusDocument> sds  =  this.ss.findByServerID(serverid);
+        Object u = sds.get(sds.size()-1);
+        ;
+        if (u == null) {
+            return null;
+        }
+        return (StatusDocument) u;
+    }
 
     // get all status
     @Secured("USER")
