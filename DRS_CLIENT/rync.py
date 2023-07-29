@@ -3,20 +3,22 @@ import time
 import pexpect
 
 def rsync_to_docker_volume(node_ip, ssh_port, ssh_username, ssh_password):
-    server_A_path = '/media/narciso/Ficheiros1/TCC/Prototipo/DRS/DRS_CLIENT/'
+    server_A_path = '/home/narciso/mymysql/'
     docker_volume_path = f'/home/narciso/data/'
 
-    rsync_command = f'rsync -avz -e "ssh -p {ssh_port}" {server_A_path} {ssh_username}@{node_ip}:{docker_volume_path}'
-
+    rsync_command = f'rsync -avz --delete -e "ssh -p {ssh_port}" {server_A_path} {ssh_username}@{node_ip}:{docker_volume_path}'
+    
     #subprocess.run(rsync_command, shell=True)
     child = pexpect.spawn(rsync_command)
     child.expect('password:')
     child.sendline(ssh_password)
     child.interact()
+  
+    
 
 def main():
     node_ip = '192.168.122.190'
-    ssh_port = 3223  # Substitua pelo número da porta SSH do nó do Docker Swarm
+    ssh_port = 3225  # Substitua pelo número da porta SSH do nó do Docker Swarm
     ssh_username = 'narciso'
     ssh_password = '2001'
 
