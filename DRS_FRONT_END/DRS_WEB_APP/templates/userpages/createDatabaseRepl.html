@@ -6,9 +6,10 @@
 {% block content%}
     <div class="pageheader pd-t-25 pd-b-35">
         <div class="pd-t-5 pd-b-5">
-        <h1 class="pd-0 mg-0 tx-20">Criar Replica de Base de Dados</h1>
+        <h1 class="pd-0 mg-0 tx-20">Criar Sincronizador</h1>
         <h3 class="pd-0 mg-0 tx-20">Para replicar a Base de Dados, é necessário criar um Container de Sincronização. </h3>
         <h3 class="pd-0 mg-0 tx-20">O container de Sincronização irá sintonizar os dados de um Servidor com  um Volume Docker. </h3>
+        <h3 class="pd-0 mg-0 tx-20">Certifique-se de ter criado o Volume onde esse Sincronizador ira persistir os dados. </h3>
         </div>
     </div>
     <!--Create Replica Beggin-->
@@ -74,7 +75,7 @@
                           </div>
                        </div>
                        <!--database config-->
-                       <div class="col-lg-8">
+                      <!-- <div class="col-lg-8">
                         <div class="form-group mg-b-10-force">
                            <label class="form-control-label active">Nome da Replica: <span class="tx-danger">*</span></label>
                            <input class="form-control" type="text" name="name_cndb"  placeholder="mysqlsigca">
@@ -91,7 +92,7 @@
                            </select>
                            <span class="select2 select2-container select2-container--default" dir="ltr" style="width: 350px;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-wvtm-container"><span class="select2-selection__rendered" id="select2-wvtm-container"><span class="select2-selection__placeholder"></span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
                         </div>
-                     </div>
+                     </div>-->
                         <!-- row -->
                         
                     </div>

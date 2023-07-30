@@ -74,6 +74,13 @@ def dashBoard(request):
 #create container db
 @method_decorator(login_required, name='dispatch')
 class  newContainerDB(View):
+    def createRsyncContainer(self,container):
+        server = get_microservice_address_port(BACKUP_SERVICE["name"])
+        url = BACKUP_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/backup/containerrsync/create"
+        respo = sendPostRequest(json = container,adress=url
+                                ,username=BACKUP_SERVICE["username"], password=BACKUP_SERVICE["password"])
+        return respo
+        
     def get(self, request, *args, **kwargs):
         error_message = request.GET.get('error')
         volumes =  getVolumes()
@@ -88,21 +95,32 @@ class  newContainerDB(View):
         password = request.POST['password_cc']
         hostname = request.POST['hostname_cc']
         volume = request.POST["volume"]
-        name_containerdb = request.POST["name_cndb"]
-        db_image = request.POST["dbimage"]
+        #name_containerdb = request.POST["name_cndb"]
+        #db_image = request.POST["dbimage"]
+        #or len(name_containerdb)==0 or len(db_image)==0
         if(len(name)==0 or len(username)==0 or len(password)==0 
-           or len(hostname)==0 or len(volume)==0 or len(name_containerdb)==0 or len(db_image)==0):
+           or len(hostname)==0 or len(volume)==0 ):
             return redirect(WEB_PATH+"/containerdb/create?error=Algum Campo não foi preenchido")
-        im = self.getImage(db_image)
-        if im == None:
+        #im = self.getImage(db_image)
+        #if im == None:
                 #imagem nao disponivel
-                return redirect(WEB_PATH+"/containerdb/create?error=A imagem não Existe")
+        #        return redirect(WEB_PATH+"/containerdb/create?error=A imagem não Existe")
         #cria o container de sincronizacao
-        
+        container = {
+            "name":name,
+            "volume":volume ,
+            "hostname":hostname,
+            "username":username,
+            "password":password
+            }
+
+        res  = self.createRsyncContainer(container)
         
         #cria a base de dados do container
-        
-        
+        if(res["response"]==204):
+            return redirect(WEB_PATH+f"/container/manager?done= Container {name} criado com Sucesso")
+        else:
+            return redirect(WEB_PATH+f"/containerdb/create?error= Erro {str(res)}")
         self.get(request)
     def put(self, request, *args, **kwargs):
         return self.get(request)
@@ -365,8 +383,9 @@ class  manageContainers(View):
         return  containers
     def get(self, request, *args, **kwargs):
         error_message = request.GET.get('error')
+        done = request.GET.get('done')
         containers =  self.getAvailableContainers()
-        return render(request,'userpages/manageContainers.html',{"error":error_message, "containers": containers})
+        return render(request,'userpages/manageContainers.html',{"error":error_message, "containers": containers,"done":done})
     def post(self, request, *args, **kwargs):
         return ""
     def put(self, request, *args, **kwargs):

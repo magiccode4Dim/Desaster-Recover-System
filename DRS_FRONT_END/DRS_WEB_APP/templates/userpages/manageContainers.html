@@ -10,6 +10,19 @@
         <h3 class="pd-0 mg-0 tx-20">Aqui tem uma visão geral dos Containers.</h3>
         </div>
     </div>
+    {% if done %}
+    <div class="alert alert-success alert-bordered pd-y-15" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true"><i class="ico icon-close"></i></span>
+          </button>
+          <div class="d-sm-flex align-items-center justify-content-start">
+          <i class="icon ion-ios-checkmark alert-icon tx-52 mg-r-20 tx-success"></i>
+          <div class="mg-t-20 mg-sm-t-0">
+                <h5 class="mg-b-2 tx-success">{{done}}</h5>
+          </div>
+          </div>
+       </div>
+    {% endif %}
     <!--Mannage Replica-->
      <!--================================-->
                      <!-- Action Table Start -->
