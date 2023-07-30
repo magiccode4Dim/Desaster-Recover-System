@@ -37,15 +37,9 @@ BACKUP_SERVICE = {
 def redirect_login(request):
     return redirect('/web/login')
 
-@login_required
-def dashBoard(request):
-    return render(request,'userpages/dashboard.html',{'user':request.user})
-
-#manage volumes
-#manageVolumes
-@method_decorator(login_required, name='dispatch')
-class  manageVolumes(View):
-    def getVolumes(self):
+#GLOBAL METODOS START
+#get volumes
+def getVolumes():
         serverBackup = get_microservice_address_port(BACKUP_SERVICE["name"])
         if(serverBackup['port']!=0):
             volumes = get_microservice_data(BACKUP_SERVICE["username"],BACKUP_SERVICE["password"],
@@ -54,15 +48,83 @@ class  manageVolumes(View):
         else:
              volumes = []
         return  volumes
+#get available images
+def getAvailableImages():
+        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+        if(serverImage['port']!=0):
+            imagesAvailable = get_microservice_data(IMAGE_SERVICE["username"],IMAGE_SERVICE["password"],
+                                  serverImage['address'],serverImage['port'],IMAGE_SERVICE["protocol"],
+                                  path='drs/api/image/getall')
+        else:
+             imagesAvailable = []
+        return  imagesAvailable
+#get image by name
+def getImage(imageName):
+        images  = getAvailableImages()
+        for i in images:
+            if (i["nome"] == imageName):
+                return i
+        return None
+#GLOBAL METODOS END
+
+@login_required
+def dashBoard(request):
+    return render(request,'userpages/dashboard.html',{'user':request.user})
+
+#create container db
+@method_decorator(login_required, name='dispatch')
+class  newContainerDB(View):
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        volumes =  getVolumes()
+        images = getAvailableImages()
+        return render(request,'userpages/createDatabaseRepl.html',{"error":error_message,
+                                                                   "volumes":volumes["Volumes"],
+                                                                   "images":images})
+    def post(self, request, *args, **kwargs):
+        #pegar todos os dados da dashboard
+        name = request.POST['name_cc']
+        username = request.POST['username_cc']
+        password = request.POST['password_cc']
+        hostname = request.POST['hostname_cc']
+        volume = request.POST["volume"]
+        name_containerdb = request.POST["name_cndb"]
+        db_image = request.POST["dbimage"]
+        if(len(name)==0 or len(username)==0 or len(password)==0 
+           or len(hostname)==0 or len(volume)==0 or len(name_containerdb)==0 or len(db_image)==0):
+            return redirect(WEB_PATH+"/containerdb/create?error=Algum Campo não foi preenchido")
+        im = self.getImage(db_image)
+        if im == None:
+                #imagem nao disponivel
+                return redirect(WEB_PATH+"/containerdb/create?error=A imagem não Existe")
+        #cria o container de sincronizacao
+        
+        
+        #cria a base de dados do container
+        
+        
+        self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)  
+    
+
+#manage volumes
+#manageVolumes
+@method_decorator(login_required, name='dispatch')
+class  manageVolumes(View):
+    
     def get(self, request, *args, **kwargs):
         error_message = request.GET.get('error')
         done = request.GET.get('done')
-        volumes = self.getVolumes()
+        volumes = getVolumes()
         #print(volumes)
         return render(request,"userpages/manageVolumes.html",{"error":error_message, 
                                                               "done":done,
                                                               "volumes":volumes["Volumes"]
-                                                              })
+                                                    })
     def post(self, request, *args, **kwargs):
         return self.get(request)
     def put(self, request, *args, **kwargs):
@@ -316,27 +378,12 @@ class  manageContainers(View):
 #create Container
 @method_decorator(login_required, name='dispatch')
 class  newContainer(View):
-    def getImage(self,imageName):
-        images  = self.getAvailableImages()
-        for i in images:
-            if (i["nome"] == imageName):
-                return i
-        return None
     
-    def getAvailableImages(self):
-        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
-        if(serverImage['port']!=0):
-            imagesAvailable = get_microservice_data(IMAGE_SERVICE["username"],IMAGE_SERVICE["password"],
-                                  serverImage['address'],serverImage['port'],IMAGE_SERVICE["protocol"],
-                                  path='drs/api/image/getall')
-        else:
-             imagesAvailable = []
-        return  imagesAvailable
     
     def get(self, request, *args, **kwargs):
         error_message = request.GET.get('error')
         #pegar as imagens disponiveis
-        self.imagesAvailable = self.getAvailableImages()
+        self.imagesAvailable = getAvailableImages()
         return render(request,'userpages/createContainer.html',{"error":error_message, "imageslist": self.imagesAvailable})
     def post(self, request, *args, **kwargs):
         name = request.POST['name_cc']
@@ -346,8 +393,8 @@ class  newContainer(View):
         image = request.POST['image_cc']
         print(password)
         try:
-            im = self.getImage(image)
-            if image == None:
+            im = getImage(image)
+            if im == None:
                 #imagem nao disponivel
                 return redirect(WEB_PATH+"/container/create?error=Imagem não Disponivel")
             if(len(name)>0 and len(username)>0 and len(password)>0 and len(hostname)>0):

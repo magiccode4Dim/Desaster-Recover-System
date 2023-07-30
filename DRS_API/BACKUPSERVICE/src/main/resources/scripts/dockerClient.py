@@ -19,6 +19,8 @@ TLS_VALUE =  False
 CREATE_VOLUME = "volumes/create"
 GET_VOLUMES = "volumes"
 GET_VOLUME = "volumes/"#<name>
+CREATE_CONTAINER = "containers/create"
+START_CONTAINER = "containers" #<ID>/start
 
 
 #Retorna as Credencias de Autenticacao
@@ -66,4 +68,32 @@ def deleteVolume(auth,name):
     if response.status_code == 204:
         return response.json()
     else:
+        return {"response":response.status_code}
+    
+#criar container se sincronizaçao
+def createContainer(auth, container_detais, container_params):
+    response = requests.post(f"{ADRESS}/"+CREATE_CONTAINER,auth=auth,
+                             params=container_params,json = container_detais,
+                             headers = {'Content-Type': 'application/json'},
+                             stream=True,
+                             verify=TLS_VALUE)
+    if response.status_code == 201:
+        #ver o progresso do pull
+        print("Container Criado Com Sucesso")
+        ip = (ADRESS.split(":")[1])[2:]
+        return (startContainer(auth,container_params['name']),ip)
+    else:
+        print(response)
+        return {"response":response.status_code}
+
+#start container    
+def startContainer(auth,container_name):
+    response = requests.post(f"{ADRESS}/"+START_CONTAINER+"/"+container_name+"/start",auth=auth,
+                             verify=TLS_VALUE)
+    if response.status_code == 204:
+        #ver o progresso do pull
+        print("Iniciado Com Sucesso")
+        return {"response":response.status_code}
+    else:
+        print(response)
         return {"response":response.status_code}

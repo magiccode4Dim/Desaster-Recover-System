@@ -26,5 +26,7 @@ urlpatterns = [
     path('volumes/create', newVolume.as_view(), name='newvolume'),
     #manage volumes
     path('volumes/manager', manageVolumes.as_view(), name='managevolumes'),
+    #create database repllica
+    path('containerdb/create', newContainerDB.as_view(), name='newcontainerdb'),
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager
