@@ -7,7 +7,11 @@ package com.magiccode4dim.statusservice;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import javax.websocket.server.PathParam;
+
+import org.apache.catalina.Container;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -35,6 +39,7 @@ public class StatusService {
     // private final StatusCRUD ss;
     private final StatusMongo ss;
     private final ServerMongo sermongo;
+    private final String apiDockerUri; 
 
     /*
      * @Autowired
@@ -46,6 +51,7 @@ public class StatusService {
     public StatusService(StatusMongo ss, ServerMongo sm) {
         this.ss = ss;
         this.sermongo = sm;
+        this.apiDockerUri = "http://localhost:5001";
     }
 
     // http://localhost:8086/drs/api/status/create
@@ -187,6 +193,7 @@ public class StatusService {
         }
 
     }
+ 
 
     // como usar recursos avancados do mongodb
 

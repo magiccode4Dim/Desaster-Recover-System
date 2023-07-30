@@ -22,5 +22,9 @@ urlpatterns = [
     path('server/manager', manageServers.as_view(), name='manageservers'),
     #server details
     path('server/details', serverDetails.as_view(), name='serverdetails'),
+    #create volume
+    path('volumes/create', newVolume.as_view(), name='newvolume'),
+    #manage volumes
+    path('volumes/manager', manageVolumes.as_view(), name='managevolumes'),
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager

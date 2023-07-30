@@ -20,6 +20,7 @@
         <module>USERSERVICE</module>
         <module>STATUSSERVICE</module>
         <module>IMAGESERVICE</module>
+        <module>BACKUPSERVICE</module>
     </modules>
     <dependencies>
         <!--comum-->

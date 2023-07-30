@@ -25,6 +25,12 @@ STATUS_SERVICE = {
     "password" :"2001",
     "protocol" : "http"
 }
+BACKUP_SERVICE = {
+    "name" : 'BACKUP_SERVICE',
+    "username" : "nany",
+    "password" :"2001",
+    "protocol" : "http"
+}
 
 #Login
 #redirect to login
@@ -34,6 +40,68 @@ def redirect_login(request):
 @login_required
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
+
+#manage volumes
+#manageVolumes
+@method_decorator(login_required, name='dispatch')
+class  manageVolumes(View):
+    def getVolumes(self):
+        serverBackup = get_microservice_address_port(BACKUP_SERVICE["name"])
+        if(serverBackup['port']!=0):
+            volumes = get_microservice_data(BACKUP_SERVICE["username"],BACKUP_SERVICE["password"],
+                                  serverBackup['address'],serverBackup['port'],BACKUP_SERVICE["protocol"],
+                                  path='drs/api/backup/volumes/getall')
+        else:
+             volumes = []
+        return  volumes
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        done = request.GET.get('done')
+        volumes = self.getVolumes()
+        #print(volumes)
+        return render(request,"userpages/manageVolumes.html",{"error":error_message, 
+                                                              "done":done,
+                                                              "volumes":volumes["Volumes"]
+                                                              })
+    def post(self, request, *args, **kwargs):
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
+
+#new volume
+#newVolume
+@method_decorator(login_required, name='dispatch')
+class  newVolume(View):
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        return render(request,'userpages/criateVolume.html',{"error":error_message})
+    def post(self, request, *args, **kwargs):
+        nome = request.POST.get("nome")
+        label = request.POST.get("label")
+        if(len(nome)==0 or len("label")==0):
+            return redirect(WEB_PATH+"/volumes/create?error=Algum Campo não foi preenchido")
+        newvolume = {
+            "nome":nome,
+            "label":label
+        }
+        serverbackup = get_microservice_address_port(BACKUP_SERVICE["name"])
+        url = BACKUP_SERVICE["protocol"]+"://"+serverbackup['address']+":"+str(serverbackup['port'])+"/drs/api/backup/volumes/create"
+        respo = sendPostRequest(json = newvolume,adress=url
+                                ,username=BACKUP_SERVICE["username"], password=BACKUP_SERVICE["password"])
+        try:
+            created  = respo["CreatedAt"]
+            return redirect(WEB_PATH+f"/volumes/manager?done=Volume {nome} Adicionado com Sucesso")
+        except Exception as e:
+            return redirect(WEB_PATH+"/volumes/create?error=Erro "+str(respo))
+
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
 
 #server detains
 #serverDetails
