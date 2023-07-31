@@ -14,11 +14,11 @@ def rsync_to_docker_volume(node_ip, ssh_port, ssh_username, ssh_password):
     child.sendline(ssh_password)
     child.interact()
   
-    
+    #sudo  chown -R 1000:1000 data/
 
 def main():
-    node_ip = '192.168.122.190'
-    ssh_port = 38283  # Substitua pelo número da porta SSH do nó do Docker Swarm
+    node_ip = '192.168.122.71'
+    ssh_port = 32784  # Substitua pelo número da porta SSH do nó do Docker Swarm
     ssh_username = 'narciso'
     ssh_password = '2001'
 

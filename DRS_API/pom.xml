@@ -21,6 +21,7 @@
         <module>STATUSSERVICE</module>
         <module>IMAGESERVICE</module>
         <module>BACKUPSERVICE</module>
+        <module>MANAGERSERVICE</module>
     </modules>
     <dependencies>
         <!--comum-->

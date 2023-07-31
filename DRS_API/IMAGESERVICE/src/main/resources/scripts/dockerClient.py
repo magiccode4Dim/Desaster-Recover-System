@@ -11,7 +11,7 @@ auth_data = {
 }
 auth_data_encoded = base64.b64encode(json.dumps(auth_data).encode()).decode()
 
-ADRESS = 'https://192.168.122.190:7766'
+ADRESS = 'https://192.168.122.71:7766'
 USERNAME = 'narciso'
 PASSWORD = '2001'
 TLS_VALUE =  False

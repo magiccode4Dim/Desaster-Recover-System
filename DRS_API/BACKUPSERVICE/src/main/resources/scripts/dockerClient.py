@@ -11,7 +11,7 @@ auth_data = {
 }
 auth_data_encoded = base64.b64encode(json.dumps(auth_data).encode()).decode()
 
-ADRESS = 'https://192.168.122.190:7766'
+ADRESS = 'https://192.168.122.71:7766'
 USERNAME = 'narciso'
 PASSWORD = '2001'
 TLS_VALUE =  False
@@ -21,6 +21,7 @@ GET_VOLUMES = "volumes"
 GET_VOLUME = "volumes/"#<name>
 CREATE_CONTAINER = "containers/create"
 START_CONTAINER = "containers" #<ID>/start
+EXEC_CONTAINER = "containers" #{id}/exec
 
 
 #Retorna as Credencias de Autenticacao
@@ -93,6 +94,20 @@ def startContainer(auth,container_name):
     if response.status_code == 204:
         #ver o progresso do pull
         print("Iniciado Com Sucesso")
+        return {"response":response.status_code}
+    else:
+        print(response)
+        return {"response":response.status_code}
+    
+#container exec para rodar o change  onnor
+
+def execContainer(auth,container_name,data):
+    response = requests.post(f"{ADRESS}/"+EXEC_CONTAINER+"/"+container_name+"/exec",auth=auth,
+                             json=data,
+                             verify=TLS_VALUE)
+    if response.status_code == 201:
+        #ver o progresso do pull
+        print("Comando executado")
         return {"response":response.status_code}
     else:
         print(response)

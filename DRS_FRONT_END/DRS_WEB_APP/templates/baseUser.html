@@ -63,9 +63,10 @@
                      <li>
                         <a href=""><i data-feather="copy"></i>
                         <span>Réplicas</span><i class="accordion-icon fa fa-angle-left"></i></a>
-                        <ul class="sub-menu">                         
-                           <li><a href="{% url 'newcontainerdb' %}">Criar Sincronizador DB</a></li>
-                           <li><a href="#">Criar Base de Dados</a></li>
+                        <ul class="sub-menu">
+                                                    
+                           <li><a href="{% url 'newsincronizerdb' %}">Criar Sincronizador DB</a></li>
+                           <li><a href="{% url 'newcontainerdb' %}">Criar Base de Dados</a></li>
                            <li><a href="{% url 'newcontainer' %}">Criar Aplicação web</a></li> 
                            <li><a href="{% url 'managecontainers' %}">Gerir Replicas</a></li>
                         </ul>
@@ -89,10 +90,18 @@
                      </li>
                      <li>
                         <a href=""><i data-feather="server"></i>
-                        <span>Servicos</span><i class="accordion-icon fa fa-angle-left"></i></a>
+                        <span>Serviços</span><i class="accordion-icon fa fa-angle-left"></i></a>
                         <ul class="sub-menu">
                            <li><a href="#">Criar Serviço</a></li>
-                           <li><a href="#">Lista de Serviços</a></li>
+                           <li><a href="#">Gerir Serviços</a></li>
+                        </ul>
+                     </li>
+                     <li>
+                        <a href=""><i data-feather="wifi"></i>
+                        <span>Network</span><i class="accordion-icon fa fa-angle-left"></i></a>
+                        <ul class="sub-menu">
+                           <li><a href="{% url 'newnetwork' %}">Criar Rede</a></li>
+                           <li><a href="{% url 'networkman' %}">Gerir Redes</a></li>
                         </ul>
                      </li>
                      <li class="menu-divider mg-y-20-force"></li>
@@ -108,7 +117,7 @@
                      </li>
                      <li>
                         <a href=""><i data-feather="refresh-cw"></i>
-                        <span>Recuperação</span><i class="accordion-icon fa fa-angle-left"></i></a>
+                        <span>Failover</span><i class="accordion-icon fa fa-angle-left"></i></a>
                         <ul class="sub-menu">
                            <li><a href="#">Instâncias Recuperadas</a></li>
                            <li><a href="#">Falhas</a></li>

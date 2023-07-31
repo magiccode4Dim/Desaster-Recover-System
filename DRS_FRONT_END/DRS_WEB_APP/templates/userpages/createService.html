@@ -1,0 +1,111 @@
+{% extends 'baseUser.html' %}
+
+
+{% block title%}Criar Serviço{% endblock %}
+
+{% block content%}
+    <div class="pageheader pd-t-25 pd-b-35">
+        <div class="pd-t-5 pd-b-5">
+        <h1 class="pd-0 mg-0 tx-20">Criar Serviço</h1>
+        <h3 class="pd-0 mg-0 tx-20">Os Serviços Possibilitam Executar a Aplicação no Cluster </h3>
+        <h3 class="pd-0 mg-0 tx-20">Antes de Criar um Serviço, Certifique-que de ter a Imagem da Aplicação em um Registry </h3>
+      
+        </div>
+    </div>
+    <!--Create Replica Beggin-->
+    <div class="row row-xs clearfix">
+        <!--================================-->
+        <!-- Top Label Layout Start -->
+        <!--================================-->
+        <div class="col-md-12 col-lg-12">
+           <div class="card mg-b-20">
+            <form action="{% url 'newservice' %}" method="POST"> {% csrf_token %}
+              <div class="card-header">
+                 <h4 class="card-header-title">
+                    Configurações do Serviço
+                 </h4>
+                 <div class="card-header-btn">
+                    <a  href="" data-toggle="collapse" class="btn card-collapse" data-target="#collapse1" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                    <a href="" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                 </div>
+              </div>
+
+              <div class="card-body collapse show" id="collapse1">
+                
+     <!-- Code Editor - Theme Dracula Start -->
+                     <!--================================-->
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                                <div class="card-header">
+                                    <h4 class="card-header-title">
+                                                     Service Detalhes
+                                    </h4>
+                                    <div class="card-header-btn">
+                                                     <a  href="#" data-toggle="collapse" class="btn card-collapse" data-target="#collapse4" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                                                     <a href="#" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                                    </div>
+                                </div>
+                                <div class="card-body collapse show" id="collapse4">
+                                    <input id="code4">
+{
+    "Name": "nome_do_servico",
+    "TaskTemplate": {
+        "ContainerSpec": {
+            "Image": "imagem_do_servico:tag",
+            "Command": ["comando_do_servico"]
+        },
+        "Networks": [
+            {
+                "Target": "nome_da_network"  # Nome da network em que o serviço será conectado
+            }
+        ],
+        "RestartPolicy": {
+            "Condition": "any",
+            "MaxAttempts": 3
+        }
+    },
+    "Mode": {
+        "Replicated": {
+            "Replicas": 3  # Número de réplicas do serviço
+        }
+    }
+}
+                                </input>
+                                </div>
+                        </div>
+                    </div>
+
+
+                 <div class="form-layout-footer">
+                  <button class="btn btn-custom-primary">Criar</button>
+                  <button class="btn btn-secondary">Cancelar</button>
+               </div>
+                
+              </div>
+           </div>
+
+         </form>
+        </div>
+        
+        <!--/ Form in Modal End -->					
+     </div>
+
+     <script src="{% static 'assets2/plugins/moment/moment.min.js'%}"></script>
+    <script src="{% static 'assets2/plugins/codemirror/codemirror.js'%}"></script>
+    <script src="{% static 'assets2/plugins/codemirror/javascript.js'%}"></script>
+    <script>            
+            var editor_four = CodeMirror.fromTextArea(document.getElementById("code4"), {
+                                               lineNumbers: true,
+                                               matchBrackets: true,
+                                               styleActiveLine: true,
+                                               theme:"dracula"
+                                          });             
+                                       
+                                       
+                                       
+                        
+    </script>
+    
+    
+{% endblock%}
+

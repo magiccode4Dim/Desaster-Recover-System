@@ -1,7 +1,7 @@
 {% extends 'baseUser.html' %}
 
 
-{% block title%}Replica de Base de Dados{% endblock %}
+{% block title%}Sincronizador{% endblock %}
 
 {% block content%}
     <div class="pageheader pd-t-25 pd-b-35">
@@ -19,7 +19,7 @@
         <!--================================-->
         <div class="col-md-12 col-lg-12">
            <div class="card mg-b-20">
-            <form action="{% url 'newcontainerdb' %}" method="POST"> {% csrf_token %}
+            <form action="{% url 'newsincronizerdb' %}" method="POST"> {% csrf_token %}
               <div class="card-header">
                  <h4 class="card-header-title">
                     Container de Sincronização

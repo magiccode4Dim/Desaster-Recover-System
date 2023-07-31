@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.magiccode4dim.backupservice.requests.Objects.Container;
+import com.magiccode4dim.backupservice.requests.Objects.ContainerDB;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -87,12 +89,26 @@ public class BackupService {
     public ResponseEntity<String> createContainer(@RequestBody Container cont) {
         // cria um container
         
-        String url = this.apiDockerUri + "/container/create"; // URL de destino
+        String url = this.apiDockerUri + "/containersinc/create"; // URL de destino
         // Enviar a requisição POST
         ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, null,null, url);
 
          return responseEntity;
     }
+    // create database container
+    @Secured("USER")
+    @PostMapping("/containedb/create")
+    @ResponseBody
+    public ResponseEntity<String> createContainerBD(@RequestBody ContainerDB cont) {
+        // cria um container
+        
+        String url = this.apiDockerUri + "/containerdb/create"; // URL de destino
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, null,null, url);
+
+         return responseEntity;
+    }
+
 
     // como usar recursos avancados do mongodb
 

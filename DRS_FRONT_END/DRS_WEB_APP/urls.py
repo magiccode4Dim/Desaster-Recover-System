@@ -26,7 +26,14 @@ urlpatterns = [
     path('volumes/create', newVolume.as_view(), name='newvolume'),
     #manage volumes
     path('volumes/manager', manageVolumes.as_view(), name='managevolumes'),
-    #create database repllica
+    #create sincronizer
+    path('sincronizer/create', newDBSincronizer.as_view(), name='newsincronizerdb'),
+    #database container
     path('containerdb/create', newContainerDB.as_view(), name='newcontainerdb'),
+    #create network
+    path('network/create', newNetwork.as_view(), name='newnetwork'),
+    #manage networks
+    path('networks/manager', manageNetworks.as_view(), name='networkman'),
+    #
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager

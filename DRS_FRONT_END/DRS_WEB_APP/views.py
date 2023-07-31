@@ -31,6 +31,12 @@ BACKUP_SERVICE = {
     "password" :"2001",
     "protocol" : "http"
 }
+MANAGER_SERVICE = {
+    "name" : 'MANAGER_SERVICE',
+    "username" : "nany",
+    "password" :"2001",
+    "protocol" : "http"
+}
 
 #Login
 #redirect to login
@@ -65,15 +71,160 @@ def getImage(imageName):
             if (i["nome"] == imageName):
                 return i
         return None
+
+#networks
+def getNets():
+        server = get_microservice_address_port(MANAGER_SERVICE["name"])
+        if(server['port']!=0):
+            nets = get_microservice_data(MANAGER_SERVICE["username"],MANAGER_SERVICE["password"],
+                                  server['address'],server['port'],MANAGER_SERVICE["protocol"],
+                                  path='drs/api/manager/networks/getall')
+        else:
+             nets = []
+        return nets
 #GLOBAL METODOS END
 
 @login_required
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
 
-#create container db
+#manage nw
+
+@method_decorator(login_required, name='dispatch')
+class  manageNetworks(View):
+    
+    
+    
+    
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        done = request.GET.get('done')
+        networks =  getNets()
+  
+        return render(request,"userpages/manageNetworks.html",{"error":error_message, 
+                                                              "done":done,
+                                                              "networks":networks
+                                                    })
+    def post(self, request, *args, **kwargs):
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
+
+
+#newNetwork
+@method_decorator(login_required, name='dispatch')
+class  newNetwork(View):
+    
+    def createNet(self,data):
+        server = get_microservice_address_port(MANAGER_SERVICE["name"])
+        url = MANAGER_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/manager/networks/create"
+        respo = sendPostRequest(json = data,adress=url
+                                ,username=MANAGER_SERVICE["username"], password=MANAGER_SERVICE["password"])
+        return respo
+    
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        return render(request,"userpages/criateNetwork.html",{"error":error_message, 
+                                                    })
+    def post(self, request, *args, **kwargs):
+        nome =  request.POST.get("nome")
+        net =  request.POST.get("net")
+        gateway =  request.POST.get("gateway")
+        if(len(nome)==0 or len(net)==0 or len(gateway)==0):
+            return redirect(WEB_PATH+"/network/create?error=Algum Campo não foi preenchido")
+        
+        net =  {
+            "nome":nome,
+            "rede":net,
+            "gateway":gateway 
+            }
+        
+        res= self.createNet(net)
+        
+        if(res["response"]==201):
+            return redirect(WEB_PATH+f"/networks/manager?done= Rede {nome} criada com Sucesso")
+        else:
+            return redirect(WEB_PATH+f"/network/create?error= Erro {str(res)}")
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
+
+
+#create databse
 @method_decorator(login_required, name='dispatch')
 class  newContainerDB(View):
+    def createDB(self,container):
+        server = get_microservice_address_port(BACKUP_SERVICE["name"])
+        url = BACKUP_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/backup/containedb/create"
+        respo = sendPostRequest(json = container,adress=url
+                                ,username=BACKUP_SERVICE["username"], password=BACKUP_SERVICE["password"])
+        return respo
+        
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        volumes =  getVolumes()
+        images = getAvailableImages()
+        try:
+            volumes = volumes["Volumes"]
+        except Exception as e:
+            pass
+        return render(request,'userpages/createContainerDB.html',{"error":error_message,
+                                                                   "volumes":volumes,
+                                                                   "images":images})
+    def post(self, request, *args, **kwargs):
+        #pegar todos os dados da dashboard
+        name = request.POST['containername']
+        dir = request.POST["dir"]
+        db_image = request.POST["dbimage"]
+        volume = request.POST["volume"]
+        
+        if(len(name)==0 or len(dir)==0 or len(db_image)==0 
+           or len(volume)==0 ):
+            return redirect(WEB_PATH+"/containerdb/create?error=Algum Campo não foi preenchido")
+        im = getImage(db_image)
+        if im == None:
+                #imagem nao disponivel
+                return redirect(WEB_PATH+"/containerdb/create?error=A imagem não Existe")
+            
+        #cria o container de database
+        username = request.POST['username_cc']
+        password = request.POST['password_cc']
+        hostname = request.POST['hostname_cc']
+        container = {
+            "name":name,
+            "volume":volume,
+            "dir":dir,
+            "dbimage":db_image,
+            "hostname":hostname,
+            "username":username,
+            "password":password   
+        }
+        res  = self.createDB(container)
+        
+        #cria a base de dados do container
+        if(res["response"]==204):
+            return redirect(WEB_PATH+f"/container/manager?done= Base de Dados {name} criada com Sucesso")
+        else:
+            return redirect(WEB_PATH+f"/containerdb/create?error= Erro {str(res)}")
+        self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)  
+    
+
+
+
+#create sincronizer
+@method_decorator(login_required, name='dispatch')
+class  newDBSincronizer(View):
     def createRsyncContainer(self,container):
         server = get_microservice_address_port(BACKUP_SERVICE["name"])
         url = BACKUP_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/backup/containerrsync/create"
@@ -85,8 +236,12 @@ class  newContainerDB(View):
         error_message = request.GET.get('error')
         volumes =  getVolumes()
         images = getAvailableImages()
+        try:
+            volumes = volumes["Volumes"]
+        except Exception as e:
+            pass
         return render(request,'userpages/createDatabaseRepl.html',{"error":error_message,
-                                                                   "volumes":volumes["Volumes"],
+                                                                   "volumes":volumes,
                                                                    "images":images})
     def post(self, request, *args, **kwargs):
         #pegar todos os dados da dashboard
@@ -116,8 +271,9 @@ class  newContainerDB(View):
 
         res  = self.createRsyncContainer(container)
         
+        print(res)
         #cria a base de dados do container
-        if(res["response"]==204):
+        if(res["response"]==201):
             return redirect(WEB_PATH+f"/container/manager?done= Container {name} criado com Sucesso")
         else:
             return redirect(WEB_PATH+f"/containerdb/create?error= Erro {str(res)}")
@@ -139,9 +295,13 @@ class  manageVolumes(View):
         done = request.GET.get('done')
         volumes = getVolumes()
         #print(volumes)
+        try:
+            volumes = volumes["Volumes"]
+        except Exception as e:
+            pass
         return render(request,"userpages/manageVolumes.html",{"error":error_message, 
                                                               "done":done,
-                                                              "volumes":volumes["Volumes"]
+                                                              "volumes":volumes
                                                     })
     def post(self, request, *args, **kwargs):
         return self.get(request)
