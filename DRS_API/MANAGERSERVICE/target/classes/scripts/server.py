@@ -9,6 +9,11 @@ app = Flask(__name__)
 def getVols():
     return jsonify(getNetworks(getAuth()))
 
+#get services
+@app.route('/services/list', methods=['GET'])
+def getVsER():
+    return jsonify(getServices(getAuth()))
+
 #create volume
 @app.route('/network/create', methods=['POST'])
 def createNewVolume():
@@ -29,138 +34,15 @@ def createNewVolume():
     print(vol_details)
     return jsonify(createNetwork(getAuth(),vol_details))
 
-
-#create container de sincronizacao
-@app.route('/containersinc/create', methods=['POST','GET'])
-def creatCon():
-    cont = (request.get_json()['json'])[0]
-    #image =  dict(image)
-    cont = json.loads(cont)
-    #print(cont)
-    container_params = {
-        "name" : cont["name"]
+#create service
+@app.route('/service/create', methods=['POST'])
+def createServ():
+    data = (request.get_json()['json'])[0]
+    data = json.loads(data)
+    headers = {
+        "X-Registry-Auth": auth_data_encoded
     }
-    container_details = {
-        "Image": "ubuntursync", #se é um container de sincronizaçao entao a imagem é essa
-        "Hostname":cont["hostname"],
-        "Detach": True,
-        "PublishAllPorts": False,
-        "Cmd": [
-                    "bash",
-                    "-c",
-                    f"useradd -m -s /bin/bash {cont['username']} && echo '{cont['username']}:{cont['password']}' | chpasswd && usermod -aG sudo {cont['username']} && /usr/sbin/sshd -D"
-                ],
-        "ExposedPorts": { #deixar as portas mapeadas mesmo que o servico nao esteja a escuta
-            "22/tcp": {},
-        },
-        "HostConfig": {
-                    "Binds": [
-                        f"{cont['volume']}:/home/{cont['username']}/data"
-                    ],
-                    "RestartPolicy": {
-                        "Name": "always"
-                    },
-                    "PortBindings": { #mapear as portas quando o servico estiver a escuta},
-                            "22/tcp": [
-                            {
-                                "HostIp": "",
-                                "HostPort": "0" #permitir que o docker escolha a porta
-                            }
-                            ]
-                    }
-                
-        }
-    }
-    
-    print(container_details)
-    
-    
-    #print(container_details)
-    res = createContainer(getAuth(),container_detais=container_details,container_params=container_params)
-    data =res[0]
-    return jsonify(data)
-
-#crate container database
-@app.route('/containerdb/create', methods=['POST','GET'])
-def creatConDB():
-    cont = (request.get_json()['json'])[0]
-    #image =  dict(image)
-    cont = json.loads(cont)
-    #print(cont)
-    container_params = {
-        "name" : cont["name"]
-    }
-    container_details = {
-        "Image": cont["dbimage"], #se é um container de sincronizaçao entao a imagem é essa
-        "Detach": True,
-        "Hostname":cont["hostname"],
-        "PublishAllPorts": False,
-        "Cmd": [
-                    "bash",
-                    "-c",
-                    f"useradd -m -s /bin/bash {cont['username']} && echo '{cont['username']}:{cont['password']}' | chpasswd && usermod -aG sudo {cont['username']} && /usr/sbin/sshd -D"
-                ],
-        "ExposedPorts": { #deixar as portas mapeadas mesmo que o servico nao esteja a escuta
-            "22/tcp": {},
-            "3306/tcp": {},
-            "5432/tcp": {},
-            "27017/tcp": {},
-        },
-        "HostConfig": {
-                    "Binds": [
-                        f"{cont['volume']}:{cont['dir']}"
-                    ],
-                    "RestartPolicy": {
-                        "Name": "always"
-                    },
-                    "PortBindings": { #mapear as portas quando o servico estiver a escuta},
-                            "22/tcp": [
-                            {
-                                "HostIp": "",
-                                "HostPort": "0" #permitir que o docker escolha a porta
-                            }
-                            ],
-                            "3306/tcp": [
-                                {
-                                    "HostIp": "",
-                                    "HostPort": "0"#mysql
-                                }
-                            ],
-                            "5432/tcp": [
-                                {
-                                    "HostIp": "",
-                                    "HostPort": "0"#postgres
-                                }
-                            ],
-                            "27017/tcp": [
-                                {
-                                    "HostIp": "",
-                                    "HostPort": "0"#postgres
-                                }
-                            ],
-                    }
-                
-        }
-    }
-    
-    print(container_details)
-    
-    #print(container_details)
-    res = createContainer(getAuth(),container_detais=container_details,container_params=container_params)
-    data =res[0]
-    
-    comannd = {
-        "AttachStdin": True,
-        "AttachStdout": True,
-        "AttachStderr": True,
-        "Tty": True,
-        "Cmd": ["chown", "-R", "1000:1000", f"{cont['dir']}"],
-    }
-    #if (data["response"]==204):
-    #    data = execContainer(getAuth(),cont["name"],comannd)
-    
-    return jsonify(data)
-
+    return jsonify(createService(getAuth(),data,headers))
 
 # Executa o servidor Flask
 if __name__ == '__main__':

@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  * @author narci
  */
-
 @RestController
 @RequestMapping("/drs/api/manager")
 public class ManagerService {
@@ -54,12 +53,35 @@ public class ManagerService {
         return responseEntity;
     }
 
-     // get all volumes
      @Secured("USER")
      @GetMapping("/networks/getall")
      @ResponseBody
      public ResponseEntity<String> geNets() {
          String url = this.apiDockerUri + "/networks/list"; // URL de destino
+         // Enviar a requisição POST
+         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+         return responseEntity;
+ 
+     }
+
+    @Secured("USER")
+    @PostMapping("/service/create")
+    @ResponseBody
+    public ResponseEntity<String> createService(@RequestBody Object cont) {
+
+        String url = this.apiDockerUri + "/service/create"; // URL de destino
+  
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, null, null, url);
+        return responseEntity;
+    }
+
+    //get services
+
+     @Secured("USER")
+     @GetMapping("/services/getall")
+     @ResponseBody
+     public ResponseEntity<String> geServices() {
+         String url = this.apiDockerUri + "/services/list"; // URL de destino
          // Enviar a requisição POST
          ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
          return responseEntity;

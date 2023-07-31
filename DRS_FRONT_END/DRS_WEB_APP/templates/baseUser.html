@@ -92,8 +92,10 @@
                         <a href=""><i data-feather="server"></i>
                         <span>Serviços</span><i class="accordion-icon fa fa-angle-left"></i></a>
                         <ul class="sub-menu">
-                           <li><a href="#">Criar Serviço</a></li>
-                           <li><a href="#">Gerir Serviços</a></li>
+                           
+                           <li><a href="{% url 'newservice' %}">Criar Serviço</a></li>
+                           
+                           <li><a href="{% url 'manageservices' %}">Gerir Serviços</a></li>
                         </ul>
                      </li>
                      <li>

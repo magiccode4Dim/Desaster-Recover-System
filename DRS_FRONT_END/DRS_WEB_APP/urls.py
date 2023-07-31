@@ -34,6 +34,10 @@ urlpatterns = [
     path('network/create', newNetwork.as_view(), name='newnetwork'),
     #manage networks
     path('networks/manager', manageNetworks.as_view(), name='networkman'),
+    #create service
+    path('service/create', createService.as_view(), name='newservice'),
+    #manage service
+    path('service/manager', manageServices.as_view(), name='manageservices'),
     #
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager

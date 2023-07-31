@@ -82,20 +82,86 @@ def getNets():
         else:
              nets = []
         return nets
+#get services
+def getServices():
+        server = get_microservice_address_port(MANAGER_SERVICE["name"])
+        if(server['port']!=0):
+            services = get_microservice_data(MANAGER_SERVICE["username"],MANAGER_SERVICE["password"],
+                                  server['address'],server['port'],MANAGER_SERVICE["protocol"],
+                                  path='drs/api/manager/services/getall')
+        else:
+             services = []
+        return services
 #GLOBAL METODOS END
 
 @login_required
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
 
+#manage services
+@method_decorator(login_required, name='dispatch')
+class  manageServices(View):
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        done = request.GET.get('done')
+        ss =  getServices()
+        return render(request,"userpages/manageServices.html",{"error":error_message, 
+                                                              "done":done,
+                                                              "services":ss
+                                                    })
+    def post(self, request, *args, **kwargs):
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
+
+#create service
+#createService
+@method_decorator(login_required, name='dispatch')
+class  createService(View):
+    
+    def createNewService(self,s):
+        server = get_microservice_address_port(MANAGER_SERVICE["name"])
+        url = MANAGER_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/manager/service/create"
+        respo = sendPostRequest(json = s,adress=url
+                                ,username=MANAGER_SERVICE["username"], password=MANAGER_SERVICE["password"])
+        return respo
+    
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        done = request.GET.get('done')
+        return render(request,"userpages/createService.html",{"error":error_message, 
+                                                              "done":done,
+                                                    })
+    def post(self, request, *args, **kwargs):
+        service = request.POST.get("servicejson")
+        if(len(service)==0):
+            return redirect(WEB_PATH+"/service/create?error=Algum Campo não foi preenchido")
+        try:
+            s = json.loads(service)
+        except Exception as e:
+            return redirect(WEB_PATH+"/service/create?error=Existe Algum erro no objecto Json")
+        
+        respo = self.createNewService(s)
+        if(respo["response"]==201):
+            return redirect(WEB_PATH+f"/service/manager?done= Serviço  criado com Sucesso")
+        else:
+            return redirect(WEB_PATH+f"/service/create?error= Erro {str(respo)}")
+
+        return JsonResponse(respo)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
+
 #manage nw
 
 @method_decorator(login_required, name='dispatch')
 class  manageNetworks(View):
-    
-    
-    
-    
+
     def get(self, request, *args, **kwargs):
         error_message = request.GET.get('error')
         done = request.GET.get('done')
