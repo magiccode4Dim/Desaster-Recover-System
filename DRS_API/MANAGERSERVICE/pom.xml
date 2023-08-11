@@ -36,6 +36,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+        <!--Json-->
+         <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version> 
+        </dependency>
     </dependencies>
     <!--ADD EUREKA CLIENT DEPENDENCIES-->
     <dependencyManagement>
