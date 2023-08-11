@@ -143,6 +143,10 @@ def creatCon():
 @app.route('/container/start/<id>', methods=['POST'])
 def creatSta(id):
     return str(startContainer(getAuth(),id))
+#delete container
+@app.route('/container/delete/<id>', methods=['POST'])
+def delConainer(id):
+    return jsonify(deleteContainer(getAuth(),id))
 
 @app.route('/container/commit', methods=['POST'])
 def commitContainerAsIMa():

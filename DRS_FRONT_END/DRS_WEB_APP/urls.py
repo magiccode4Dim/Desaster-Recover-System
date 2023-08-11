@@ -38,6 +38,8 @@ urlpatterns = [
     path('service/create', createService.as_view(), name='newservice'),
     #manage service
     path('service/manager', manageServices.as_view(), name='manageservices'),
+    #delete container
+    path('container/delete', deleteContainer, name='deletecontainer'),
     #
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager

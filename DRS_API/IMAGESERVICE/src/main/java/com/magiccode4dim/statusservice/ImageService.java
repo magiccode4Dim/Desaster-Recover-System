@@ -139,6 +139,17 @@ public class ImageService {
 
         return "Salvo Com Sucesso";
     }
+    //delete conteriner
+    @Secured("USER")
+    @DeleteMapping("/container/delete/{id}")
+    @ResponseBody
+    public  ResponseEntity<String> deleteContainer(@PathVariable String id) {
+        // cria um container
+        String url = this.apiDockerUri + "/container/delete/" + id; // URL de destino
+        //System.out.println(url);
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null, url);
+        return responseEntity;
+    }
 
     @Secured("USER")
     @PostMapping("/createnewimage")

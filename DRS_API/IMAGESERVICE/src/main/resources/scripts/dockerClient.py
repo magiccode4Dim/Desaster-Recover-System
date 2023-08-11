@@ -129,14 +129,8 @@ def deleteContainer(auth,container_name):
     stopContainer(auth,container_name)
     response = requests.delete(f"{ADRESS}/"+DELETE_CONTAINER+"/"+container_name,auth=auth,
                              verify=TLS_VALUE)
-    pruneContainers(auth)
-    if response.status_code == 204:
-        #ver o progresso do pull
-        print("Apagado Com Sucesso")
-        
-    else:
-        print(response)
-        return (None,response.status_code)
+    return pruneContainers(auth)
+    
 #pausar um container
 def pauseContainer(auth,container_name):
     response = requests.post(f"{ADRESS}/"+PAUSE_CONTAINER+"/"+container_name+"/pause",auth=auth,
@@ -161,12 +155,7 @@ def stopContainer(auth,container_name):
 def pruneContainers(auth):
     response = requests.post(f"{ADRESS}/"+PRUNE_CONTAINER,auth=auth,
                              verify=TLS_VALUE)
-    if response.status_code == 202:
-        #ver o progresso do pull
-        print("lIMPO")
-    else:
-        print(response)
-        return (None,response.status_code)
+    return {"response":response.status_code}
 
 #salvar o container como imagem
 def commitContainer(auth, image_name, container_id):

@@ -595,6 +595,19 @@ class  containerDetails(View):
     def delete(self, request, *args, **kwargs):
         return self.get(request)
 
+#delete container
+@login_required
+def deleteContainer(request):
+    id = request.GET.get("id")
+    serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+    url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/container/delete/"+str(id)
+    respo = sendDeleteRequest(None,adress=url,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+    if(respo["response"]==200):
+         return redirect(WEB_PATH+"/container/manager?done= Container Apagado com Sucesso")
+    else:
+        return redirect(WEB_PATH+f"/container/manager?error={respo['response']}")
+
+
 #manage replicas
 @method_decorator(login_required, name='dispatch')
 class  manageContainers(View):
