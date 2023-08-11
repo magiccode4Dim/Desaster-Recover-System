@@ -98,6 +98,38 @@ def getServices():
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
 
+#Service details
+@method_decorator(login_required, name='dispatch')
+class  serviceDetails(View):
+    def getServiceByID(self,id):
+        server = get_microservice_address_port(MANAGER_SERVICE["name"])
+        if(server['port']!=0):
+            service = get_microservice_data(MANAGER_SERVICE["username"],MANAGER_SERVICE["password"],
+                                  server['address'],server['port'],MANAGER_SERVICE["protocol"],
+                                  path='drs/api/manager/services/get/'+id)
+        else:
+             service = None
+        return  service
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        serviceID = request.GET.get('id')
+        service  = self.getServiceByID(serviceID)
+        print(service)
+        stext = str(service)
+        stext = stext.replace(",",",\n")
+        response =render(request,'userpages/serviceDetails.html',{"error":error_message, 
+                                                                 "s": service,
+                                                                 "sertxt":stext
+                                                                 })
+        
+        return response        
+    def post(self, request, *args, **kwargs):
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
 
 #delete container
 @login_required

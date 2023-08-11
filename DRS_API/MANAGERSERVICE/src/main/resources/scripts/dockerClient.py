@@ -2,6 +2,9 @@ import requests
 import json
 import base64
 
+#CLUSTER ADDRESS
+ADDRS = ["192.168.122.71","192.168.122.248","192.168.122.127"] 
+
 #REGISTRADORES 
 REGISTRYS = ["192.168.122.10"]
 
@@ -75,6 +78,16 @@ def getServices(auth):
     else:
         return {"response":response.status_code}
 
+#get service by id
+def getService(auth,id):
+    response = requests.get(f"{ADRESS}/"+GET_SERVICE+"/"+str(id), auth=auth, verify=TLS_VALUE)
+    # Verificar o status da resposta
+    if response.status_code == 200:
+        data = response.json()
+        data["clusterips"] = ADDRS
+        return data
+    else:
+        return {"response":response.status_code}
 
 #service update
 def serviceUpdate(auth,id,data,version):

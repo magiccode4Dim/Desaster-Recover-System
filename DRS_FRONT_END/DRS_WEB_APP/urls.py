@@ -42,6 +42,8 @@ urlpatterns = [
     path('container/delete', deleteContainer, name='deletecontainer'),
     #delete service
     path('service/delete', deleteService, name='deleteservice'),
+    #serviceDetails
+    path('service/details', serviceDetails.as_view(), name='servicedetails'),
     #
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager

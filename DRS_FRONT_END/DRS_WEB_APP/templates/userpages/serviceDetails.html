@@ -1,0 +1,117 @@
+{% extends 'baseUser.html' %}
+{% load static %}
+
+{% block title%}{{ s.ID  }}{% endblock %}
+
+{% block content%}
+  <!--Code editor-->
+    <link type="text/css" rel="stylesheet" href="{% static 'assets2\plugins\codemirror\codemirror.css'%}">
+    <link type="text/css" rel="stylesheet" href="{% static 'assets2\plugins\codemirror\themes\dracula.css'%}">
+
+    <div class="pageheader pd-t-25 pd-b-35">
+        <div class="pd-t-5 pd-b-5">
+        <h1 class="pd-0 mg-0 tx-20">Detalhes do Servico {{ s.ID }}</h1>
+        <h3 class="pd-0 mg-0 tx-20">Veja aqui os detalhes do Seu Serviço</h3>
+        </div>
+    </div>
+    <!--Container detais-->
+
+    <div class="row no-gutters">
+        <div class="col-12">
+           <div class="card bd-l-0-force bd-t-0-force bd-r-0-force">
+              <div class="card-body bg-primary pd-y-50">
+                 <div class="row no-gutters">
+                    <div class="col-md-6 mg-t-20">
+                       <div class="d-flex align-items-center">
+                          <div class="mr-3">										
+                             <span class="avatar avatar-lg avatar-online pd-b-20">
+                             <img src="{% static 'assets/images/service.png'%}" class="img-fluid wd-100" alt="">
+                             </span>
+                          </div>
+                          <div class="mg-b-0">
+                             <h5 class="tx-gray-100 tx-15 mg-b-0">{{s.Spec.Name}}</h5>
+                             <p class="mg-b-10 tx-gray-300">{{s.CreatedAt}}</p>
+                             <a  href="{% url 'deleteservice' %}?id={{s.ID}}" class="btn btn-sm btn-danger flex-fill mg-r-10">DELETE</a>
+      
+                          </div>
+                       </div>
+                    </div>
+                    <div class="col-md-4 mg-t-10 mg-l-auto">
+                       <ul class="list-unstyled tx-gray-100 mb-0">
+                          <li><i class="ti-target mr-2 font-18"></i> <b>ID </b>: {{ s.ID }}</li>
+                          <li class="mt-2"><i class="ti-mobile mr-2 font-18"></i> <b> VERSÃO </b>{{ s.Version.Index }}</li>
+                          <li class="mt-2"><i class="ti-headphone-alt mr-2 font-18"></i> <b>LAST UPDATE </b>: {{s.UpdatedAt}}</li>
+                       
+                       </ul>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <!--
+           <div class="card bd-l-0-force bd-t-0-force bd-r-0-force bd-b-0-force">
+              <div class="card-body bg-light">
+                 <div class="row no-gutters">
+                    <div class="col-12">
+                       <ul class="nav ft-sm-none ft-right" id="pills-tab" role="tablist">
+                          <li class="nav-item mg-r-10">
+                             <a class="btn btn-sm btn-label-primary active show" id="nav-activity-tab" data-toggle="pill" href="#my-activity" role="tab" aria-controls="my-activity" aria-selected="false">Activity</a>
+                          </li>
+                          <li class="nav-item mg-r-10">
+                             <a class="btn btn-sm btn-label-success" id="nav-profile-tab" data-toggle="pill" href="#my-profile" role="tab" aria-controls="my-profile" aria-selected="false">Profile</a>
+                          </li>
+                          <li class="nav-item mg-r-10">
+                             <a class="btn btn-sm btn-label-danger" id="nav-setting-tab" data-toggle="pill" href="#my-setting" role="tab" aria-controls="my-setting" aria-selected="true">Setting</a>
+                          </li>
+                          <li class="nav-item">
+                             <a class="btn btn-sm btn-label-warning" id="nav-contact-tab" data-toggle="pill" href="#my-contact" role="tab" aria-controls="my-contact" aria-selected="true">Contact</a>
+                          </li>
+                       </ul>
+                    </div>
+                 </div>
+              </div>
+           </div>-->
+        </div>
+     </div>
+     <!--Code editor-->
+     <!-- Code Editor - Theme Dracula Start -->
+                     <!--================================-->
+<div class="col-md-12 col-lg-12">
+    <div class="card mg-b-20">
+            <div class="card-header">
+                <h4 class="card-header-title">
+                                 Detalhes do Serviço
+                </h4>
+                <div class="card-header-btn">
+                                 <a  href="#" data-toggle="collapse" class="btn card-collapse" data-target="#collapse4" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                                 <a href="#" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                </div>
+            </div>
+            <div class="card-body collapse show" id="collapse4">
+                <textarea id="code4">
+var servico = {{sertxt}}
+                </textarea>
+            </div>
+    </div>
+</div>
+<!--code editor-->
+       <!--/ Code Editor - Theme Dracula End -->
+                     <!--================================-->
+    <script src="{% static 'assets2/plugins/moment/moment.min.js'%}"></script>
+    <script src="{% static 'assets2/plugins/codemirror/codemirror.js'%}"></script>
+    <script src="{% static 'assets2/plugins/codemirror/javascript.js'%}"></script>
+    <script>            
+            var editor_four = CodeMirror.fromTextArea(document.getElementById("code4"), {
+                                               lineNumbers: true,
+                                               matchBrackets: true,
+                                               styleActiveLine: true,
+                                               theme:"dracula"
+                                          });             
+                                       
+                                       
+                                       
+                        
+    </script>
+    
+    
+{% endblock %}
+

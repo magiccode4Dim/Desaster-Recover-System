@@ -59,9 +59,10 @@
                                              <a class="table-action  mg-r-10" href="#"><i class="fa fa-stop"></i></a>
                                              
                                              <a class="table-action  mg-r-10" href="{% url 'deleteservice' %}?id={{s.ID}}"><i class="fa fa-trash"></i></a>
+                                             <span class="dropdown-toggle " data-toggle="dropdown"></span>
                                              <div class="dropdown-menu dropdown-menu-right">
-                                                    <a class="dropdown-item" target="blank" href="#"><i class="fa fa-book"></i> Details</a>
-                                                    
+                                                    <a class="dropdown-item" target="blank" href="{% url 'servicedetails' %}?id={{s.ID}}"><i class="fa fa-book"></i> Details</a>
+                  
                                                 </div>
                                              
                                             </td>

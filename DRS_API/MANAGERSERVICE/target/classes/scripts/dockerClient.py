@@ -75,6 +75,14 @@ def getServices(auth):
     else:
         return {"response":response.status_code}
 
+#get service by id
+def getService(auth,id):
+    response = requests.get(f"{ADRESS}/"+GET_SERVICE+"/"+str(id), auth=auth, verify=TLS_VALUE)
+    # Verificar o status da resposta
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return {"response":response.status_code}
 
 #service update
 def serviceUpdate(auth,id,data,version):

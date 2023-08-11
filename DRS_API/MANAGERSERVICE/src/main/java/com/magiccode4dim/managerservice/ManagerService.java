@@ -87,6 +87,20 @@ public class ManagerService {
          return responseEntity;
  
      }
+
+     //get service by id
+     @Secured("USER")
+     @GetMapping("/services/get/{id}")
+     @ResponseBody
+     public ResponseEntity<String> geService(@PathVariable String id) {
+         String url = this.apiDockerUri + "/services/get/"+id; // URL de destino
+         // Enviar a requisição POST
+         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+         return responseEntity;
+ 
+     }
+
+
      //delete service
      @Secured("USER")
      @DeleteMapping("/services/delete/{id}")

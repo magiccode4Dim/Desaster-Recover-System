@@ -14,6 +14,11 @@ def getVols():
 def getVsER():
     return jsonify(getServices(getAuth()))
 
+#get service by id
+@app.route('/services/get/<id>', methods=['GET'])
+def getS(id):
+    return jsonify(getService(getAuth(),id))
+
 #create volume
 @app.route('/network/create', methods=['POST'])
 def createNewVolume():
