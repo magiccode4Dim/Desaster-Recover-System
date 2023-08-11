@@ -21,6 +21,7 @@ GET_NETSWO = "networks"
 GET_VOLUME = "volumes/"#<name>
 CREATE_SERVICE = "services/create"
 GET_SERVICE = "services"
+SERVICE_UPDATE = "services" #{id}/update
 
 
 #Retorna as Credencias de Autenticacao
@@ -73,3 +74,20 @@ def getServices(auth):
         return response.json()
     else:
         return {"response":response.status_code}
+
+
+#service update
+def serviceUpdate(auth,id,data,version):
+    #print(f"{ADRESS}/{SERVICE_UPDATE}/{id}/update?version={version}")
+    response = requests.post(f"{ADRESS}/{SERVICE_UPDATE}/{id}/update?version={version}",
+        auth=auth,json=data, verify=TLS_VALUE)
+    #print(response)
+    return {"response":response.status_code}
+
+#delete service
+def serviceDelete(auth,id):
+    #print(f"{ADRESS}/{SERVICE_UPDATE}/{id}/update?version={version}")
+    response = requests.delete(f"{ADRESS}/{SERVICE_UPDATE}/{id}",
+        auth=auth, verify=TLS_VALUE)
+    #print(response)
+    return {"response":response.status_code}

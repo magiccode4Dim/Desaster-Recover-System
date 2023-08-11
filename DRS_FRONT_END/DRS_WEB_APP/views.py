@@ -98,6 +98,20 @@ def getServices():
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
 
+
+#delete container
+@login_required
+def deleteService(request):
+    id = request.GET.get("id")
+    server = get_microservice_address_port(MANAGER_SERVICE["name"])
+    url = MANAGER_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/manager/services/delete/"+str(id)
+    respo = sendDeleteRequest(json = None,adress=url,username=MANAGER_SERVICE["username"], password=MANAGER_SERVICE["password"])
+    if(respo["response"]==200):
+        return redirect(WEB_PATH+f"/service/manager?done= Serviço  Apagado Com sucesso")
+    else:
+         return redirect(WEB_PATH+f"/service/create?error= Erro {str(respo)}")
+
+
 #manage services
 @method_decorator(login_required, name='dispatch')
 class  manageServices(View):

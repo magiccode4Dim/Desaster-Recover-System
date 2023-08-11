@@ -87,6 +87,31 @@ public class ManagerService {
          return responseEntity;
  
      }
+     //delete service
+     @Secured("USER")
+     @DeleteMapping("/services/delete/{id}")
+     @ResponseBody
+     public ResponseEntity<String> deleteService(@PathVariable String id) {
+         String url = this.apiDockerUri + "/services/delete/"+id; // URL de destino
+         // Enviar a requisição POST
+         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+         return responseEntity;
+ 
+     }
+
+
+     //scale service
+     /*
+     @Secured("USER")
+     @PostMapping("/services/scale/{id}/{rep}/{v}")
+     @ResponseBody
+     public ResponseEntity<String> serviceScale(@PathVariable String id, @PathVariable Integer rep,@PathVariable Integer v) {
+         String url = this.apiDockerUri + "/service/scale/"+id+"/"+String.valueOf(rep)+"/"+String.valueOf(v); // URL de destino
+         // Enviar a requisição POST
+         ResponseEntity<String> responseEntity = Request.sendPostRequest(null,null, null, url);
+         return responseEntity;
+ 
+     }*/
 
    
     // como usar recursos avancados do mongodb

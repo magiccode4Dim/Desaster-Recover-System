@@ -56,7 +56,13 @@
                                             <td>{{s.Spec.TaskTemplate.ContainerSpec.Image}}</td>
                                             <td>{{s.CreatedAt}}</td>
                                             <td class="text-right table-actions">
-                                                <a class="table-action  mg-r-10" href="#"><i class="fa fa-trash"></i></a>
+                                             <a class="table-action  mg-r-10" href="#"><i class="fa fa-stop"></i></a>
+                                             
+                                             <a class="table-action  mg-r-10" href="{% url 'deleteservice' %}?id={{s.ID}}"><i class="fa fa-trash"></i></a>
+                                             <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" target="blank" href="#"><i class="fa fa-book"></i> Details</a>
+                                                    
+                                                </div>
                                              
                                             </td>
                                         </tr>

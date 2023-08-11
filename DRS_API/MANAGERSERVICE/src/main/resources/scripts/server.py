@@ -44,6 +44,35 @@ def createServ():
     }
     return jsonify(createService(getAuth(),data,headers))
 
+#service scaele
+"""
+@app.route('/service/scale/<id>/<rep>/<v>', methods=['POST'])
+def serviceScale(id,rep,v):
+    #data = (request.get_json()['json'])[0]
+    #data = json.loads(data)
+    scaleData = {
+        "TaskTemplate": {
+            "ContainerSpec": {
+              "Image": "nginx"
+            }
+          },
+        "Mode": {
+            "Replicated": {
+                "Replicas": int(rep)
+            }
+        }
+
+    }
+
+    #print(scaleData)
+    return jsonify(serviceUpdate(getAuth(),id,scaleData,int(v)))"""
+
+#delete service
+@app.route('/services/delete/<id>', methods=['GET'])
+def delService(id):
+    return jsonify(serviceDelete(getAuth(),id))
+
+
 # Executa o servidor Flask
 if __name__ == '__main__':
     app.run(debug=True,port=5002)
