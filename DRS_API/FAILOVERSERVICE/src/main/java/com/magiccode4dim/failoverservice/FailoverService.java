@@ -68,13 +68,27 @@ public class FailoverService {
     @Secured("USER")
     @GetMapping("/get/{id}")
     @ResponseBody
-    public FailoverDocument geStatus(@PathVariable String id) {
+    public FailoverDocument geFailover(@PathVariable String id) {
         Object u = this.foCRUD.findById(id).orElse(null);
         if (u == null) {
             return null;
         }
         return (FailoverDocument) u;
     }
+
+    //get failover by server id
+    @Secured("USER")
+    @GetMapping("/getbyserid/{id}")
+    @ResponseBody
+    public FailoverDocument getFailoverByserverId(@PathVariable String id) {
+        List<FailoverDocument> sds = this.foCRUD.findByServerID(id);
+        if(sds.isEmpty()){
+             return null;
+        }
+        
+        return sds.get(0);
+    }
+
 
     // get all status
     @Secured("USER")

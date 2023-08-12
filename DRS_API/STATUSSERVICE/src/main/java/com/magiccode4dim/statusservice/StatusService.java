@@ -39,7 +39,7 @@ public class StatusService {
     // private final StatusCRUD ss;
     private final StatusMongo ss;
     private final ServerMongo sermongo;
-    private final String apiDockerUri; 
+    private final String apiDockerUri;
 
     /*
      * @Autowired
@@ -83,9 +83,23 @@ public class StatusService {
     // delete status by id
     @Secured("USER")
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable String id) {
+    public Object delete(@PathVariable String id) {
         this.ss.deleteById(id);
-        return "Salvo Com Sucesso";
+        return new Object() {
+                // TUDO BEM
+                public Integer response = 200;
+            };
+    }
+
+    //delete all status
+    @Secured("USER")
+    @DeleteMapping("/deleteall")
+    public Object deleteall() {
+        this.ss.deleteAll();
+        return new Object() {
+                // TUDO BEM
+                public Integer response = 200;
+            };
     }
 
     // get status by id
@@ -107,7 +121,7 @@ public class StatusService {
     @ResponseBody
     public StatusDocument getLastStatus(@PathVariable String serverid) {
         List<StatusDocument> sds = this.ss.findByServerID(serverid);
-        if(sds.isEmpty()){
+        if (sds.isEmpty()) {
             return new StatusDocument();
         }
         Object u = sds.get(sds.size() - 1);
@@ -167,7 +181,7 @@ public class StatusService {
     @ResponseBody
     public Object getIsDown(@PathVariable String id) {
         List<StatusDocument> sds = this.ss.findByServerID(id);
-         if(sds.isEmpty()){
+        if (sds.isEmpty()) {
             return new StatusDocument();
         }
         Object u = sds.get(sds.size() - 1);
@@ -193,7 +207,39 @@ public class StatusService {
         }
 
     }
- 
+
+    // retorna uma lista de todos os servidores que estao em baixo
+    @Secured("USER")
+    @GetMapping("/server/whoisdown")
+    @ResponseBody
+    public List<ServerDocument> whoisdown() {
+        List<ServerDocument> servs = this.sermongo.findAll();
+        List<ServerDocument> downservrs = this.sermongo.findAll();
+        for (ServerDocument s : servs) {
+            List<StatusDocument> sds = this.ss.findByServerID(s.getId());
+            if (sds.isEmpty()) {
+                continue;
+            }
+            Object u = sds.get(sds.size() - 1);
+            // deve procurar saber se o time stamp da recuperacao enquadra-se com o ultimo
+            // time stamp
+            if (u == null) {
+                return null;
+            }
+            // se ter mais de 2 milissegundos de diferenca entao o servidor esta down
+            Long now = new Date().getTime();
+            StatusDocument sta = (StatusDocument) u;
+            Long initial = sta.getData_criacao().getTime();
+            if (((now - initial) / 1000) > 3) {
+                continue;
+            }else{
+                downservrs.remove(servs.indexOf(s));
+            }
+
+        }
+        return downservrs;
+
+    }
 
     // como usar recursos avancados do mongodb
 
