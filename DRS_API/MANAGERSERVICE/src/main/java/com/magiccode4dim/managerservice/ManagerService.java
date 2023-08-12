@@ -143,11 +143,17 @@ public class ManagerService {
         String responseBody = geService(id).getBody();
         JSONObject jsonObject = new JSONObject(responseBody);
         //s.Spec.Name
-        String nome = jsonObject.getJSONObject("Spec").getString("Name");
+        String nome = "";
+        try {
+            nome = jsonObject.getJSONObject("Spec").getString("Name");
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        
 
-         String url = this.apiDockerUri + "/services/delete/"+id; // URL de destino
+        String url = this.apiDockerUri + "/services/delete/"+id; // URL de destino
          // Enviar a requisição POST
-         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+        ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
 
          //apaga na base de dados
 

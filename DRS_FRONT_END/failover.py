@@ -5,7 +5,6 @@ from DRS_WEB_APP.modulos.requests.sendRequests import *
 
 WEB_PATH = '/web'
 
-DELETE_STATUS_INTERVAL =  100
 
 STATUS_SERVICE = {
     "name" : 'STATUS_SERVICE',
