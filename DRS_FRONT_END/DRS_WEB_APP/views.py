@@ -108,12 +108,55 @@ def getServicesDB():
         else:
              services = []
         return services
+#get all failovers
+def getFailovers():
+        server = get_microservice_address_port(FAILOVER_SERVICE["name"])
+        if(server['port']!=0):
+            failsovers = get_microservice_data(FAILOVER_SERVICE["username"],FAILOVER_SERVICE["password"],
+                                  server['address'],server['port'],FAILOVER_SERVICE["protocol"],
+                                  path='drs/api/failover/getall')
+        else:
+             failsovers = []
+        return failsovers
 
 #GLOBAL METODOS END
 
 @login_required
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
+
+#delete failover
+@login_required
+def deleteFailover(request):
+    id = request.GET.get("id")
+    server = get_microservice_address_port(FAILOVER_SERVICE["name"])
+    url = FAILOVER_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/failover/delete/"+str(id)
+    respo = sendDeleteRequest(json = None,adress=url,username=FAILOVER_SERVICE["username"], password=FAILOVER_SERVICE["password"])
+    if(respo["response"]==200):
+        return redirect(WEB_PATH+f"/failover/manager?done= Failover Apagado Com sucesso")
+    else:
+         return redirect(WEB_PATH+f"/failover/create?error= Erro {str(respo)}")
+
+
+#failover list
+#manage services
+@method_decorator(login_required, name='dispatch')
+class  manageFailovers(View):
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        done = request.GET.get('done')
+        fo =  getFailovers()
+        return render(request,"userpages/manageFailovers.html",{"error":error_message, 
+                                                              "done":done,
+                                                              "failovers":fo
+                                                    })
+    def post(self, request, *args, **kwargs):
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
 
 #create new failover
 @method_decorator(login_required, name='dispatch')
@@ -145,9 +188,11 @@ class  newFailover(View):
         respo = sendPostRequest(json = failover,adress=url
                                 ,username=FAILOVER_SERVICE["username"], password=FAILOVER_SERVICE["password"])
         if(respo["response"]==200):
-            return self.get(request)
+            return redirect(WEB_PATH+"/failover/manager?done=Failover criado com sucesso")
         elif(respo["response"]==500):
-            return HttpResponse("erro")
+            return redirect(WEB_PATH+"/failover/create?error=Ocorreu algum erro")
+        else:
+            return redirect(WEB_PATH+f"/failover/create?error={str(respo)}")
 
 
     def put(self, request, *args, **kwargs):

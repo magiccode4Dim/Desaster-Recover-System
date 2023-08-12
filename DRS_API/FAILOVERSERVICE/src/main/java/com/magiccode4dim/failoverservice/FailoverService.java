@@ -86,7 +86,19 @@ public class FailoverService {
         return this.foCRUD.findAll();
     }
 
-    
+    //delete failover
+    @Secured("USER")
+    @DeleteMapping("/delete/{id}")
+    @ResponseBody
+    public Object delete(@PathVariable String id) {
+        this.foCRUD.deleteById(id);
+        return new Object() {
+            // TUDO BEM
+            public int response = 200;
+        };
+    }
+
+
 
 
 

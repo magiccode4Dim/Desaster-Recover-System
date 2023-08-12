@@ -1,0 +1,74 @@
+{% extends 'baseUser.html' %}
+
+
+{% block title%}Manage Failovers{% endblock %}
+
+{% block content%}
+    <div class="pageheader pd-t-25 pd-b-35">
+        <div class="pd-t-5 pd-b-5">
+        <h1 class="pd-0 mg-0 tx-20">Failovers Activos</h1>
+        <h3 class="pd-0 mg-0 tx-20">Estes são os failovers activos</h3>
+        </div>
+    </div>
+      {% if done %}
+      <div class="alert alert-success alert-bordered pd-y-15" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="ico icon-close"></i></span>
+            </button>
+            <div class="d-sm-flex align-items-center justify-content-start">
+            <i class="icon ion-ios-checkmark alert-icon tx-52 mg-r-20 tx-success"></i>
+            <div class="mg-t-20 mg-sm-t-0">
+                  <h5 class="mg-b-2 tx-success">{{done}}</h5>
+            </div>
+            </div>
+         </div>
+      {% endif %}
+    <!--Mannage Replica-->
+     <!--================================-->
+                     <!-- Action Table Start -->
+                     <!--================================-->
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                           <div class="card-header">
+                              <h4 class="card-header-title">
+                                 Failover
+                              </h4>
+                              <div class="card-header-btn">
+                                 <a  href="#" data-toggle="collapse" class="btn card-collapse" data-target="#collapse7" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                                 <a href="{% url 'managevolumes' %}" data-toggle="refresh" class="btn card-refresh"><i class="ion-android-refresh"></i></a>
+                                 <a href="#" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                              </div>
+                           </div>
+                           <div class="card-body pd-0 collapse show" id="collapse7">
+                              <table class="table table-separated table-responsive-sm">
+                                 <thead>
+                                    <tr>
+                                       <th>NOME</th>
+                                       <th>SERVERID</th>
+                                       <th class="text-center w-100px">Actions</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for s in failovers %}
+                                        <tr>
+                                            <td>{{s.nome}}</td>
+                                            <td>{{s.serverID}}</td>
+                                            <td class="text-right table-actions">
+                                          
+                                             
+                                             <a class="table-action  mg-r-10" href="{% url 'deletefailover' %}?id={{s.id}}"><i class="fa fa-trash"></i></a>
+                                             
+                                             
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                   
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                     <!--/ Action Table End -->
+    
+{% endblock%}
+

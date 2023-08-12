@@ -47,6 +47,9 @@ urlpatterns = [
     #createfailover
     #newFailover
     path('failover/create', newFailover.as_view(), name='createfailover'),
+    path('failover/manager', manageFailovers.as_view(), name='managefailover'),
+    #deleteFailover
+    path('failover/delete', deleteFailover, name='deletefailover'),
 
     #
 #GESTÃO DE USUARIOS  newcontainer
