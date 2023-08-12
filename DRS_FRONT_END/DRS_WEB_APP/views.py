@@ -118,6 +118,14 @@ def getFailovers():
         else:
              failsovers = []
         return failsovers
+#verifica se um determinado nome de servico existe
+def serviceNameExists(sname):
+        server = get_microservice_address_port(FAILOVER_SERVICE["name"])
+        res = get_microservice_data(FAILOVER_SERVICE["username"],FAILOVER_SERVICE["password"],
+                                  server['address'],server['port'],FAILOVER_SERVICE["protocol"],
+                                  path='drs/api/failover/exists/'+str(sname))
+ 
+        return res["res"]
 
 #GLOBAL METODOS END
 
@@ -188,6 +196,12 @@ class  newFailover(View):
         respo = sendPostRequest(json = failover,adress=url
                                 ,username=FAILOVER_SERVICE["username"], password=FAILOVER_SERVICE["password"])
         if(respo["response"]==200):
+            #depois de criar o fail over, o servico em execucao deve ser apagado 
+            #para que e, ele sera iniciado somente quando o failover acontecer
+            for sd in servicesToCreate:
+                server = get_microservice_address_port(MANAGER_SERVICE["name"])
+                url = MANAGER_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/manager/services/delete/"+str(sd["Name"])
+                respo = sendDeleteRequest(json = None,adress=url,username=MANAGER_SERVICE["username"], password=MANAGER_SERVICE["password"])
             return redirect(WEB_PATH+"/failover/manager?done=Failover criado com sucesso")
         elif(respo["response"]==500):
             return redirect(WEB_PATH+"/failover/create?error=Ocorreu algum erro")
@@ -291,7 +305,13 @@ class  createService(View):
             s = json.loads(service)
         except Exception as e:
             return redirect(WEB_PATH+"/service/create?error=Existe Algum erro no objecto Json")
-        
+        try:
+            sname = s["Name"]
+            if(serviceNameExists(sname)):
+                return redirect(WEB_PATH+"/service/create?error=Já existe um Serviço com esse nome em um Failover")
+        except Exception as e:
+            pass
+
         respo = self.createNewService(s)
         if(respo["response"]==201):
             return redirect(WEB_PATH+f"/service/manager?done= Serviço  criado com Sucesso")

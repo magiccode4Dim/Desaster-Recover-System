@@ -45,6 +45,7 @@
                                     <tr>
                                        <th>NOME</th>
                                        <th>SERVERID</th>
+                                       <th>SERVICES</th>
                                        <th class="text-center w-100px">Actions</th>
                                     </tr>
                                  </thead>
@@ -53,6 +54,10 @@
                                         <tr>
                                             <td>{{s.nome}}</td>
                                             <td>{{s.serverID}}</td>
+                                            <td>{% for ser in s.services %}
+                                                   {{ser.Name}},
+                                                 {% endfor %}
+                                            </td>
                                             <td class="text-right table-actions">
                                           
                                              

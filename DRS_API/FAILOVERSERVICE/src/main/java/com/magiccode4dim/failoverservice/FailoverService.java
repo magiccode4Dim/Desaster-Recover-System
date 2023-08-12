@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -41,30 +40,29 @@ public class FailoverService {
 
     private final FailoverMongo foCRUD;
 
-
     @Autowired
     public FailoverService(FailoverMongo foCRUD) {
-       this.foCRUD =  foCRUD;
+        this.foCRUD = foCRUD;
     }
 
-    //create new failover
+    // create new failover
     @Secured("USER")
     @PostMapping("/create")
     public Object create(@RequestBody FailoverDocument st) {
-        st.setId(RandomToken.generateRandomString()+RandomToken.generateRandomToken(16));
+        st.setId(RandomToken.generateRandomString() + RandomToken.generateRandomToken(16));
         try {
             this.foCRUD.save(st);
         } catch (Exception e) {
             return new Object() {
-            // TUDO BEM
-            public int response = 500;
-        };
+                // TUDO BEM
+                public int response = 500;
+            };
         }
         return new Object() {
             // TUDO BEM
             public int response = 200;
         };
-        
+
     }
 
     @Secured("USER")
@@ -86,7 +84,7 @@ public class FailoverService {
         return this.foCRUD.findAll();
     }
 
-    //delete failover
+    // delete failover
     @Secured("USER")
     @DeleteMapping("/delete/{id}")
     @ResponseBody
@@ -98,18 +96,36 @@ public class FailoverService {
         };
     }
 
+    // verifica se nao existe nenhum failover que possui aquele nome de servico
+    @Secured("USER")
+    @GetMapping("/exists/{name}")
+    @ResponseBody
+    public Object serviceNameExists(@PathVariable String name) {
+        List<FailoverDocument> fod = this.foCRUD.findAll();
+        for (FailoverDocument f : fod) {
+            List<Object> services = f.getServices();
+            for (Object o : services) {
+                if (o instanceof Map) {
+                    Map<String, Object> serviceMap = (Map<String, Object>) o;
+                    if (serviceMap.containsKey("Name")) {
+                        String n = (String) serviceMap.get("Name");
+                        if (n.equals(name)) {
+                            return new Object() {
+                                // TUDO BEM
+                                public boolean res = true;
+                            };
+                        }
 
+                    }
+                }
+            }
+        }
+        return new Object() {
+            // TUDO BEM
+            public boolean res = false;
+        };
+    }
 
-
-
-
-
-   
-
-
-
-     
-   
     // como usar recursos avancados do mongodb
 
 }
