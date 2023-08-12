@@ -37,6 +37,12 @@ MANAGER_SERVICE = {
     "password" :"2001",
     "protocol" : "http"
 }
+FAILOVER_SERVICE = {
+    "name" : 'FAILOVER_SERVICE',
+    "username" : "nany",
+    "password" :"2001",
+    "protocol" : "http"
+}
 
 #Login
 #redirect to login
@@ -92,11 +98,62 @@ def getServices():
         else:
              services = []
         return services
+#get services from db
+def getServicesDB():
+        server = get_microservice_address_port(MANAGER_SERVICE["name"])
+        if(server['port']!=0):
+            services = get_microservice_data(MANAGER_SERVICE["username"],MANAGER_SERVICE["password"],
+                                  server['address'],server['port'],MANAGER_SERVICE["protocol"],
+                                  path='drs/api/manager/services/getalldb')
+        else:
+             services = []
+        return services
+
 #GLOBAL METODOS END
 
 @login_required
 def dashBoard(request):
     return render(request,'userpages/dashboard.html',{'user':request.user})
+
+#create new failover
+@method_decorator(login_required, name='dispatch')
+class  newFailover(View):
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        services = getServicesDB()
+        return render(request,'userpages/createFailover.html',{"error":error_message, "services":services})
+    def post(self, request, *args, **kwargs):
+        nome = request.POST.get("nome")
+        serverid = request.POST.get("serverid")
+        if(len(nome)==0 or len(serverid)==0):
+            return redirect(WEB_PATH+"/failover/create?error=Algum Campo não foi preenchido")
+        servicesToCreate = list()
+        #verificar se a pessoa marcou um servicos
+        services = getServicesDB()
+        for s in services:
+            if(request.POST.get(s["id"])!=None):
+                servicesToCreate.append(s["service"])     
+        if(len(servicesToCreate)==0):
+            return redirect(WEB_PATH+"/failover/create?error=Deve selecionar Pelomenos 1 Servico")
+        failover = {
+            "nome":nome,
+            "serverID":serverid,
+            "services":servicesToCreate
+        }
+        server = get_microservice_address_port(FAILOVER_SERVICE["name"])
+        url = FAILOVER_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/failover/create"
+        respo = sendPostRequest(json = failover,adress=url
+                                ,username=FAILOVER_SERVICE["username"], password=FAILOVER_SERVICE["password"])
+        if(respo["response"]==200):
+            return self.get(request)
+        elif(respo["response"]==500):
+            return HttpResponse("erro")
+
+
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
 
 #Service details
 @method_decorator(login_required, name='dispatch')
@@ -433,7 +490,7 @@ class  newVolume(View):
     def post(self, request, *args, **kwargs):
         nome = request.POST.get("nome")
         label = request.POST.get("label")
-        if(len(nome)==0 or len("label")==0):
+        if(len(nome)==0 or len(label)==0):
             return redirect(WEB_PATH+"/volumes/create?error=Algum Campo não foi preenchido")
         newvolume = {
             "nome":nome,

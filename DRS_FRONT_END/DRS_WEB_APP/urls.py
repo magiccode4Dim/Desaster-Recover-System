@@ -44,6 +44,10 @@ urlpatterns = [
     path('service/delete', deleteService, name='deleteservice'),
     #serviceDetails
     path('service/details', serviceDetails.as_view(), name='servicedetails'),
+    #createfailover
+    #newFailover
+    path('failover/create', newFailover.as_view(), name='createfailover'),
+
     #
 #GESTÃO DE USUARIOS  newcontainer
 ]+userManagerUrls.urlUserManager

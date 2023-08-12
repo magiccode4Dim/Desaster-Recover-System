@@ -22,6 +22,7 @@
         <module>IMAGESERVICE</module>
         <module>BACKUPSERVICE</module>
         <module>MANAGERSERVICE</module>
+        <module>FAILOVERSERVICE</module>
     </modules>
     <dependencies>
         <!--comum-->

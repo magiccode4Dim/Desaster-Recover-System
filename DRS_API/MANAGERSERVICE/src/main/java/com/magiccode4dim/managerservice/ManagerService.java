@@ -45,7 +45,7 @@ public class ManagerService {
     @Autowired
     public ManagerService(ServiceMongo serviceCRUD) {
         this.apiDockerUri = "http://localhost:5002";
-        this.serviceCRUD = serviceCRUD;
+        this.serviceCRUD = serviceCRUD;  
     }
 
     @Secured("USER")
@@ -109,6 +109,15 @@ public class ManagerService {
          // Enviar a requisição POST
          ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
          return responseEntity;
+ 
+     }
+
+     //get savedservices
+     @Secured("USER")
+     @GetMapping("/services/getalldb")
+     @ResponseBody
+     public List<ServiceDocument> geServicesofDB() {
+        return this.serviceCRUD.findAll();
  
      }
 

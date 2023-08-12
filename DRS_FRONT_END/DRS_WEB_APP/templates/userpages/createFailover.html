@@ -1,0 +1,99 @@
+{% extends 'baseUser.html' %}
+
+
+{% block title%}Criar Failover{% endblock %}
+
+{% block content%}
+    <div class="pageheader pd-t-25 pd-b-35">
+        <div class="pd-t-5 pd-b-5">
+        <h1 class="pd-0 mg-0 tx-20">Criar Failover</h1>
+        <h3 class="pd-0 mg-0 tx-20">Configure o Failover de um servidor, selecione quais serviços devem ser iniciados quando este servidor falhar.</h3>
+        </div>
+    </div>
+    <!--Create Replica Beggin-->
+    <div class="row row-xs clearfix">
+        <!--================================-->
+        <!-- Top Label Layout Start -->
+        <!--================================-->
+        <div class="col-md-12 col-lg-12">
+           <div class="card mg-b-20">
+              <div class="card-header">
+                 <h4 class="card-header-title">
+                    Configurações do Failover
+                 </h4>
+                 <div class="card-header-btn">
+                    <a  href="" data-toggle="collapse" class="btn card-collapse" data-target="#collapse1" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                    <a href="" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                 </div>
+              </div>
+
+              <div class="card-body collapse show" id="collapse1">
+                <form action="{% url 'createfailover' %}" method="POST"> {% csrf_token %}
+                 <div class="form-layout form-layout-1">
+                    <div class="row mg-b-25">
+                       <div class="col-lg-4">
+                          <div class="form-group">
+                             <label class="form-control-label active">Nome do Failover <span class="tx-danger">*</span></label>
+                             <input class="form-control" type="text" name="nome"  placeholder="Failover para servidor C33">
+                          </div>
+                       </div>
+                       <!-- col-4 -->
+                       <div class="col-lg-8">
+                          <div class="form-group mg-b-10-force">
+                             <label class="form-control-label active">SERVER ID <span class="tx-danger">*</span></label>
+                             <input class="form-control" type="text" name="serverid"  placeholder="#343434dsds323244223wwdd">
+                          </div>
+                       </div>
+                       <!-- col-8 -->
+                      
+                        <!-- Checkbox Validation Start -->
+                     <!--================================-->
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                           <div class="card-header">
+                              <h4 class="card-header-title">
+                                 Selecionar Serviços
+                              </h4>
+                              <div class="card-header-btn">
+                                 <a  href="" data-toggle="collapse" class="btn card-collapse" data-target="#collapse3" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                              </div>
+                           </div>
+                           <div class="card-body collapse show" id="collapse3">
+                              
+                                 <p class="mg-b-10">Quais Serviços devem ser iniciado depois deste servidor falhar? <span class="tx-danger">*</span></p>
+                                 <div id="cbWrapper" class="parsley-checkbox mg-b-0">
+                                 
+                                   {% for s in services %}
+                                       <div class="custom-control custom-checkbox">
+                                          <input type="checkbox" class="custom-control-input" id="{{s.id}}" name="{{s.id}}" value="{{s.service.Name}}">
+                                          <label class="custom-control-label" for="{{s.id}}">{{s.service.Name}} >>>> {{s.service.TaskTemplate.ContainerSpec.Image}}</label>
+                                       </div>
+                                    {% endfor %}
+                                   
+                                 </div>
+                                 <!-- parsley-checkbox -->
+                           
+                              
+                           </div>
+                        </div>
+                     </div>
+                     <!--/ Checkbox Validation End -->   
+                       
+
+                        <!--space-->
+                    <!-- row -->
+                    <div class="form-layout-footer">
+                       <button class="btn btn-custom-primary">Criar</button>
+                       <button class="btn btn-secondary">Cancelar</button>
+                    </div>
+                    <!-- form-layout-footer -->
+                 </div>
+                </form>
+              </div>
+           </div>
+        </div>
+        
+        <!--/ Form in Modal End -->					
+     </div>
+{% endblock%}
+

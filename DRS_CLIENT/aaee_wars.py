@@ -26,7 +26,7 @@ def choose(option):
         elif(op==2):
             printSincInfo()
     elif(option==4):
-    	showConfigs()
+      showConfigs()
     else:
         return "Opção Invalida"
 
