@@ -61,10 +61,11 @@ def get_microservice_data(username, password, ip, port,protocolo,path):
 
         # O conteúdo da resposta estará no formato JSON
         data = response.json()
+        #print(data)
         return data
 
     except requests.exceptions.RequestException as e:
-        print('Erro na requisição:', e)
+        print('Erro na requisição: ', e)
         return None
 
 if __name__=="__main__":

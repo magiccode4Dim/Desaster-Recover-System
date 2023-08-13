@@ -83,7 +83,7 @@ public class FailoverService {
     public FailoverDocument getFailoverByserverId(@PathVariable String id) {
         List<FailoverDocument> sds = this.foCRUD.findByServerID(id);
         if(sds.isEmpty()){
-             return null;
+             return new FailoverDocument();
         }
         
         return sds.get(0);

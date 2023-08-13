@@ -3,6 +3,10 @@
 import os
 import sys
 
+import time
+import threading
+from Treads import *
+
 
 def main():
     """Run administrative tasks."""
@@ -19,4 +23,11 @@ def main():
 
 
 if __name__ == '__main__':
+    #inicia as treads do sistema
+    recover = threading.Thread(target=createRecover)
+    recover.start()
+    deleterec = threading.Thread(target=deleteRecover)
+    deleterec.start()
+    deletes = threading.Thread(target=deleteStatus)
+    deletes.start()
     main()

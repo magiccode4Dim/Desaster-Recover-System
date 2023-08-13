@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -45,7 +44,7 @@ public class ManagerService {
     @Autowired
     public ManagerService(ServiceMongo serviceCRUD) {
         this.apiDockerUri = "http://localhost:5002";
-        this.serviceCRUD = serviceCRUD;  
+        this.serviceCRUD = serviceCRUD;
     }
 
     @Secured("USER")
@@ -59,16 +58,16 @@ public class ManagerService {
         return responseEntity;
     }
 
-     @Secured("USER")
-     @GetMapping("/networks/getall")
-     @ResponseBody
-     public ResponseEntity<String> geNets() {
-         String url = this.apiDockerUri + "/networks/list"; // URL de destino
-         // Enviar a requisição POST
-         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
-         return responseEntity;
- 
-     }
+    @Secured("USER")
+    @GetMapping("/networks/getall")
+    @ResponseBody
+    public ResponseEntity<String> geNets() {
+        String url = this.apiDockerUri + "/networks/list"; // URL de destino
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+        return responseEntity;
+
+    }
 
     @Secured("USER")
     @PostMapping("/service/create")
@@ -79,7 +78,6 @@ public class ManagerService {
 
         ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, null, null, url);
 
-
         String responseBody = responseEntity.getBody(); // Corpo da resposta JSON
 
         // Parse do JSON
@@ -88,111 +86,115 @@ public class ManagerService {
         // Obtém o valor da chave "response"
         int responseValue = jsonObject.getInt("response");
 
-        if(responseValue==201){
+        if (responseValue == 201) {
             ServiceDocument s = new ServiceDocument();
             s.setId(RandomToken.generateRandomString() + RandomToken.generateRandomToken(15));
             s.setService(cont);
 
             this.serviceCRUD.save(s);
         }
-  
+
         return responseEntity;
     }
 
-    //get services
+    // get services
 
-     @Secured("USER")
-     @GetMapping("/services/getall")
-     @ResponseBody
-     public ResponseEntity<String> geServices() {
-         String url = this.apiDockerUri + "/services/list"; // URL de destino
-         // Enviar a requisição POST
-         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
-         return responseEntity;
- 
-     }
+    @Secured("USER")
+    @GetMapping("/services/getall")
+    @ResponseBody
+    public ResponseEntity<String> geServices() {
+        String url = this.apiDockerUri + "/services/list"; // URL de destino
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+        return responseEntity;
 
-     //get savedservices
-     @Secured("USER")
-     @GetMapping("/services/getalldb")
-     @ResponseBody
-     public List<ServiceDocument> geServicesofDB() {
+    }
+
+    // get savedservices
+    @Secured("USER")
+    @GetMapping("/services/getalldb")
+    @ResponseBody
+    public List<ServiceDocument> geServicesofDB() {
         return this.serviceCRUD.findAll();
- 
-     }
 
-     //get service by id
-     @Secured("USER")
-     @GetMapping("/services/get/{id}")
-     @ResponseBody
-     public ResponseEntity<String> geService(@PathVariable String id) {
-         String url = this.apiDockerUri + "/services/get/"+id; // URL de destino
-         // Enviar a requisição POST
-         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
-         return responseEntity;
- 
-     }
+    }
 
+    // get service by id
+    @Secured("USER")
+    @GetMapping("/services/get/{id}")
+    @ResponseBody
+    public ResponseEntity<String> geService(@PathVariable String id) {
+        String url = this.apiDockerUri + "/services/get/" + id; // URL de destino
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
+        return responseEntity;
 
-     //delete service
-     @Secured("USER")
-     @DeleteMapping("/services/delete/{id}")
-     @ResponseBody
-     public ResponseEntity<String> deleteService(@PathVariable String id) {
-        //antes, precisa saber o nome do servico
+    }
+
+    // delete service
+    @Secured("USER")
+    @DeleteMapping("/services/delete/{id}")
+    @ResponseBody
+    public Object deleteService(@PathVariable String id) {
+        // antes, precisa saber o nome do servico
         String responseBody = geService(id).getBody();
         JSONObject jsonObject = new JSONObject(responseBody);
-        //s.Spec.Name
+        // s.Spec.Name
         String nome = "";
         try {
             nome = jsonObject.getJSONObject("Spec").getString("Name");
         } catch (Exception e) {
             // TODO: handle exception
         }
-        
 
-        String url = this.apiDockerUri + "/services/delete/"+id; // URL de destino
-         // Enviar a requisição POST
+        String url = this.apiDockerUri + "/services/delete/" + id; // URL de destino
+        // Enviar a requisição POST
         ResponseEntity<String> responseEntity = Request.sendGetRequest(null, null, url);
 
-         //apaga na base de dados
-
-         List<ServiceDocument> allser = this.serviceCRUD.findAll();
-         for(ServiceDocument s : allser){
-                Object service = s.getService();
-                if (service instanceof Map) {
-                    Map<String, Object> serviceMap = (Map<String, Object>) service;
-                    if (serviceMap.containsKey("Name")) {
-                        String n = (String)serviceMap.get("Name");
-                        if(n.equals(nome)){
-                            this.serviceCRUD.deleteById(s.getId());
-                            break;
-                        }
+        // apaga na base de dados
+        
+        List<ServiceDocument> allser = this.serviceCRUD.findAll();
+        for (ServiceDocument s : allser) {
+            Object service = s.getService();
+            if (service instanceof Map) {
+                Map<String, Object> serviceMap = (Map<String, Object>) service;
+                if (serviceMap.containsKey("Name")) {
+                    String n = (String) serviceMap.get("Name");
+                    if (n.equals(nome)) {
+                        this.serviceCRUD.deleteById(s.getId());
+                        break;
                     }
                 }
-         }
+            }
+        }
 
-         
+        return new Object() {
+            // TUDO BEM
+            public int response = 200;
+        };
 
-         return responseEntity;
- 
-     }
+    }
 
+    // scale service
+    /*
+     * @Secured("USER")
+     * 
+     * @PostMapping("/services/scale/{id}/{rep}/{v}")
+     * 
+     * @ResponseBody
+     * public ResponseEntity<String> serviceScale(@PathVariable String
+     * id, @PathVariable Integer rep,@PathVariable Integer v) {
+     * String url = this.apiDockerUri +
+     * "/service/scale/"+id+"/"+String.valueOf(rep)+"/"+String.valueOf(v); // URL de
+     * destino
+     * // Enviar a requisição POST
+     * ResponseEntity<String> responseEntity = Request.sendPostRequest(null,null,
+     * null, url);
+     * return responseEntity;
+     * 
+     * }
+     */
 
-     //scale service
-     /*
-     @Secured("USER")
-     @PostMapping("/services/scale/{id}/{rep}/{v}")
-     @ResponseBody
-     public ResponseEntity<String> serviceScale(@PathVariable String id, @PathVariable Integer rep,@PathVariable Integer v) {
-         String url = this.apiDockerUri + "/service/scale/"+id+"/"+String.valueOf(rep)+"/"+String.valueOf(v); // URL de destino
-         // Enviar a requisição POST
-         ResponseEntity<String> responseEntity = Request.sendPostRequest(null,null, null, url);
-         return responseEntity;
- 
-     }*/
-
-   
     // como usar recursos avancados do mongodb
 
 }

@@ -4,7 +4,7 @@ import threading
 
 TIME_TO_RECOVER = 2
 TIME_TO_DELETE = 2
-DELETE_STATUS_INTERVAL =  50
+DELETE_STATUS_INTERVAL =  1000
 
 
 #cria os servicos dos servidores que estao offline
@@ -13,10 +13,12 @@ def createRecover():
 		#pega os que estao offline
 		time.sleep(TIME_TO_RECOVER)
 		downservers =  whoisdown()
+		if(len(downservers)==0):
+			continue
 		for s in downservers:
 			#pega o faiover do servidor que esta down
 			fo = getServerFailover(s["id"])
-			if(fo==None):
+			if(fo["services"]==None):
 				continue
 			#cria os servicos dele
 			createServices(fo)
@@ -30,7 +32,7 @@ def deleteRecover():
 		for s in upservers:
 			#pega o faiover do servidor que esta down
 			fo = getServerFailover(s["id"])
-			if(fo==None):
+			if(fo["services"]==None):
 				continue
 			#apaga os servicos dele
 			deleteServices(fo)
