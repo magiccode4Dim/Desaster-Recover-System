@@ -42,15 +42,17 @@ def creatCon():
         "name" : cont["name"]
     }
     container_details = {
-        "Image": "ubuntursync", #se é um container de sincronizaçao entao a imagem é essa
+        "Image": "ubuntussh", #se é um container de sincronizaçao entao a imagem é essa
         "Hostname":cont["hostname"],
         "Detach": True,
         "PublishAllPorts": False,
-        "Cmd": [
-                    "bash",
-                    "-c",
-                    f"useradd -m -s /bin/bash {cont['username']} && echo '{cont['username']}:{cont['password']}' | chpasswd && usermod -aG sudo {cont['username']} && /usr/sbin/sshd -D"
-                ],
+        "Env": 
+	[
+
+	    f"NEW_USER={cont['username']}",
+	    f"NEW_USER_PASSWORD={cont['password']}"
+
+	],
         "ExposedPorts": { #deixar as portas mapeadas mesmo que o servico nao esteja a escuta
             "22/tcp": {},
         },

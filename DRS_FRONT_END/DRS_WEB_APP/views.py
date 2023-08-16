@@ -507,7 +507,7 @@ class  newDBSincronizer(View):
         
         print(res)
         #cria a base de dados do container
-        if(res["response"]==201):
+        if(res["response"]==204):
             return redirect(WEB_PATH+f"/container/manager?done= Container {name} criado com Sucesso")
         else:
             return redirect(WEB_PATH+f"/containerdb/create?error= Erro {str(res)}")

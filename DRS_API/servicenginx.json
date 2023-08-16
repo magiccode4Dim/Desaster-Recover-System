@@ -1,0 +1,45 @@
+{
+    "Name": "meuservico",
+    "TaskTemplate": {
+        "ContainerSpec": {
+            "Image": "192.168.122.10/funcionou",
+            "Command": [
+                "bash",
+                "-c",
+                "sudo service nginx start && sudo service php7.4-fpm start && /usr/sbin/sshd -D"
+            ]
+        },
+        "Networks": [
+            {
+                "Target": "narcisonet"  
+            }
+        ],
+        "RestartPolicy": {
+            "Condition": "any",
+            "MaxAttempts": 3
+        }
+    },
+    "Mode": {
+        "Replicated": {
+            "Replicas": 2  
+        }
+    },
+    "EndpointSpec": {
+
+    "Mode": "vip",
+    "Ports": 
+
+	    [
+
+		{
+		    "Name": "string",
+		    "Protocol": "tcp",
+		    "TargetPort": 80,
+		    "PublishedPort": 9000,
+		    "PublishMode": "ingress"
+		}
+	    ]
+
+}
+}
+

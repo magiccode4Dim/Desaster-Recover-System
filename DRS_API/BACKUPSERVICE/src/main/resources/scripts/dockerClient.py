@@ -84,7 +84,7 @@ def createContainer(auth, container_detais, container_params):
         ip = (ADRESS.split(":")[1])[2:]
         return (startContainer(auth,container_params['name']),ip)
     else:
-        print(response)
+        print(response.json())
         return {"response":response.status_code}
 
 #start container    
