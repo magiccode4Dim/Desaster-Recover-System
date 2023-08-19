@@ -1,0 +1,27 @@
+Vamos considerar a situação em que um usuário digita o subdomínio "b.aaaa.com" em seu navegador. Vou explicar o processo passo a passo:
+
+    Digite o URL:
+        O usuário digita "b.aaaa.com" em seu navegador para acessar a aplicação.
+
+    Resolução de Nomes Local:
+        O computador do usuário verifica se já tem o registro DNS (cache local) para "b.aaaa.com". Se não tiver, ele precisará consultar um servidor DNS para obter o endereço IP correspondente ao subdomínio.
+
+    Consulta DNS ao Servidor DNS Padrão (8.8.8.8):
+        Como o computador do cliente usa o servidor DNS 8.8.8.8 (servidor DNS público do Google) como seu servidor DNS padrão, ele envia uma consulta DNS para esse servidor para resolver "b.aaaa.com".
+
+    Consulta DNS no Servidor Autoritário de "aaaa.com":
+        O servidor DNS 8.8.8.8 não possui o registro DNS em seu cache. Portanto, ele inicia uma consulta DNS para o servidor autoritário de "aaaa.com". Os servidores autoritários possuem informações atualizadas sobre os registros DNS dos domínios que gerenciam.
+
+    Resposta do Servidor Autoritário:
+        O servidor autoritário de "aaaa.com" verifica seus registros DNS e encontra o registro correspondente para "b.aaaa.com". Ele envia a resposta ao servidor DNS 8.8.8.8.
+
+    Resposta para o Cliente:
+        O servidor DNS 8.8.8.8 recebe a resposta do servidor autoritário com o endereço IP correspondente a "b.aaaa.com". Ele então envia essa resposta para o computador do usuário.
+
+    Acesso ao Subdomínio:
+        Com o endereço IP obtido do registro DNS, o computador do usuário pode agora acessar a aplicação hospedada em "b.aaaa.com". A solicitação é enviada ao servidor correspondente ao endereço IP.
+
+    Redirecionamento de Tráfego:
+        Agora, considerando que você tem um ambiente de alta disponibilidade com servidores DNS primário e secundário (DNS1 e DNS2), se o DNS1 ficar inacessível (por exemplo, devido à falta de energia), o tráfego ainda pode ser redirecionado através do DNS2.
+
+Em resumo, a consulta DNS para o subdomínio "b.aaaa.com" é iniciada no computador do cliente, passa pelo servidor DNS padrão (8.8.8.8, no caso), vai para o servidor autoritário do domínio "aaaa.com" e retorna com o endereço IP correto. Se o ambiente for configurado com servidores DNS secundários, a consulta poderá ser redirecionada através do DNS secundário em caso de falha do DNS primário.
