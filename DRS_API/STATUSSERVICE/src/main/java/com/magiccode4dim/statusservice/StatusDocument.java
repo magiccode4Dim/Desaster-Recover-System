@@ -22,6 +22,10 @@ public class StatusDocument {
     private Double cpu;
     private Double memory;
     private Double disc;
+    private Double totalup;
+    private Double totaldown;
+    private Double nowup;
+    private Double nowdown;
 
     /* {
         "cpu":cpu_usage,
@@ -93,5 +97,22 @@ public class StatusDocument {
     public void setServerID(String serverID) {
         this.serverID = serverID;
     }
+
+    public Double getTotalup() {
+        return totalup;
+    }
+
+    public Double getTotaldown() {
+        return totaldown;
+    }
+
+    public Double getNowup() {
+        return nowup;
+    }
+
+    public Double getNowdown() {
+        return nowdown;
+    }
+    
 
 }

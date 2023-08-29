@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.magiccode4dim.statusservice.util.RandomToken;
+import com.thoughtworks.xstream.mapper.Mapper.Null;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -120,7 +121,13 @@ public class StatusService {
     @GetMapping("/getlaststatus/{serverid}")
     @ResponseBody
     public StatusDocument getLastStatus(@PathVariable String serverid) {
-        List<StatusDocument> sds = this.ss.findByServerID(serverid);
+        ServerDocument sr = getServer(serverid);
+        List<StatusDocument> sds = null;
+        if(sr==null){
+            sds = this.ss.findByServerID(serverid);
+        }else{
+            sds = this.ss.findByServerID(sr.getId());
+        }
         if (sds.isEmpty()) {
             return new StatusDocument();
         }
@@ -169,8 +176,9 @@ public class StatusService {
     @ResponseBody
     public ServerDocument getServer(@PathVariable String id) {
         Object u = this.sermongo.findById(id).orElse(null);
-        if (u == null) {
-            return null;
+        if (u == null ) {
+            if(this.sermongo.findByNome(id).size()>0)
+                u = this.sermongo.findByNome(id).get(0);
         }
         return (ServerDocument) u;
     }

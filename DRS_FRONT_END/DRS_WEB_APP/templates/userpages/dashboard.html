@@ -1,13 +1,53 @@
 {% extends 'baseUser.html' %}
-
+{% load static %}
 
 {% block title%}AAEE WARS - DashBoard{% endblock %}
 
 {% block content%}
+  
+
+
     <div class="pageheader pd-t-25 pd-b-35">
         <div class="pd-t-5 pd-b-5">
-        <h1 class="pd-0 mg-0 tx-20">DashBoard</h1>
+        <h1 class="pd-0 mg-0 tx-20">AAEE WARS</h1>
         </div>
     </div>
+    <!-- Placeholder As Label Start -->
+                     <!--================================-->
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                           <div class="card-header">
+                            <h4 class="card-header-title">
+                                 Infraestrutura
+                              </h4>
+                              <div class="card-header-btn">
+                              
+                              </div>
+                           </div>
+                           <div class="card-body collapse show" id="collapse3">
+                            <!--Graficos-->
+                            <div class="row row-xs clearfix">
+                            <!--================================-->
+                            <!-- Brush Chart Area Start -->
+                            <!--================================-->	
+                            
+                                  <div class="card-body">
+                                     <div id="bandchart"></div>
+                                  </div>
+                              
+                            <!--/ Brush Chart Area End -->
+                            <!--================================-->
+                         </div>  
+                          
+                            <!--Graficos-->
+
+
+                           </div>
+                        </div>
+                     </div>
+                     <!--/ Placeholder As Label End --> 
+
+            <script src="{% static 'assets2/plugins/apex-chart/apexcharts.min.js'%}"></script>
+            <script src="{% static 'assets3/scripts.js'%}"></script>
 {% endblock%}
 

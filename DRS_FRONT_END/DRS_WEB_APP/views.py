@@ -131,7 +131,10 @@ def serviceNameExists(sname):
 
 @login_required
 def dashBoard(request):
-    return render(request,'userpages/dashboard.html',{'user':request.user})
+        response =render(request,'userpages/dashboard.html',{'user':request.user})
+        response.set_cookie('apiurl', request.META.get('HTTP_HOST', None))
+        response.set_cookie('protocol', request.scheme)
+        return response  
 
 #delete failover
 @login_required

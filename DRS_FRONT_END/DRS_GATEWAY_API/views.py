@@ -47,14 +47,30 @@ class StatusService(View):
         memory = request.POST.get("memory")
         disc = request.POST.get("disc")
         token  = request.POST.get("token")
-        print(f"cpu = {cpu} memory = {memory} disc = {disc}")
+        #print(request.body)
+        #print(f"cpu = {cpu} memory = {memory} disc = {disc}")
+        try:
+            totalup = request.POST.get("totalup")
+            totaldown = request.POST.get("totaldown")
+            nowup = request.POST.get("nowup")
+            nowdown = request.POST.get("nowdown")
+        except Exception as e:
+            totalup = 0
+            totaldown = 0
+            nowup = 0
+            nowdown = 0
         status = {
             "value": True,
             "token":token,
             "cpu":float(cpu),
             "memory":float(memory),
-            "disc":float(disc)
+            "disc":float(disc),
+            "totalup" : float(totalup),
+            "totaldown" : float(totaldown),
+            "nowup" : float(nowup),
+            "nowdown" : float(nowdown)
         }
+        #print(status)
         serverImage = get_microservice_address_port(STATUS_SERVICE["name"])
         url = STATUS_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/status/create"
         respo = sendPostRequest(json = status,adress=url
