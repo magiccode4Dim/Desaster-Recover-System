@@ -14,7 +14,7 @@ def get_current_network_usage():
         download_bytes += stats.bytes_recv
 
     upload_mbps = upload_bytes / (1024 * 1024)
-    download_mbps = download_bytes / (1024 * 1024)
+    download_mbps = download_bytes  / (1024 * 1024)
 
     return [upload_mbps, download_mbps]
 

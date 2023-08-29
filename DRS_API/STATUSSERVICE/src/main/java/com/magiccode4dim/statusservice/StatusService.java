@@ -134,7 +134,7 @@ public class StatusService {
         Object u = sds.get(sds.size() - 1);
 
         if (u == null) {
-            return null;
+            return new StatusDocument();
         }
         return (StatusDocument) u;
     }

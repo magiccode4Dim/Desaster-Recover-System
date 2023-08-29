@@ -44,6 +44,9 @@ FAILOVER_SERVICE = {
     "protocol" : "http"
 }
 
+#Esses sao nos do cluster cujo servidores devem ter os mesmos nomes se quisermos fazer monitoramento
+CLUSTER_NODES=["MASTER","WORKER1","WORKER2","REGISTRY"]
+
 #Login
 #redirect to login
 def redirect_login(request):
@@ -129,9 +132,15 @@ def serviceNameExists(sname):
 
 #GLOBAL METODOS END
 
+def convertArraytostring(array):
+    comma_separated_string = ','.join(array)
+    return comma_separated_string 
+
+
 @login_required
 def dashBoard(request):
         response =render(request,'userpages/dashboard.html',{'user':request.user})
+        response.set_cookie("nodes",convertArraytostring(CLUSTER_NODES))
         response.set_cookie('apiurl', request.META.get('HTTP_HOST', None))
         response.set_cookie('protocol', request.scheme)
         return response  
