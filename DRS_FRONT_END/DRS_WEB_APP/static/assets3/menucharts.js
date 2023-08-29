@@ -21,7 +21,7 @@ for (var i = 0; i < cookies.length; i++) {
 }
 
 var nodesCookie = getCookie('nodes').substring(1, getCookie('nodes').length - 1);
-; // Obtém o valor do cookie 'nodes'
+ // Obtém o valor do cookie 'nodes'
 nodes = nodesCookie.split("\\054")
 
 // Função para fazer a requisição GET na API e atualizar o gráfico
@@ -65,18 +65,25 @@ function getNewSeries(baseval, yrange) {
     data[i].y = 0
   }
   var upplusdown = 0;
-
+  var ramusagenodes = new Array();
   if (document.visibilityState === 'visible') {
-
+   
     for (var i = 0; i < nodes.length; i++) {
+      let index =  i;
       var apiUrl = `${p}://${ip}/api/statusservice/getlaststatus?id=${nodes[i]}`;
       fetch(apiUrl)
         .then(response => response.json())
         .then(apiData => {
           try {
             upplusdown += (apiData.totalup) + (apiData.totaldown);
+            //ramusagenodes.push(apiData.memory);
+            ramusagenodes.splice(index, 0, apiData.memory);
+            
           } catch (error) {
             console.error('Erro ao processar dados:', error);
+            //ramusagenodes[i].push(0);
+            //adicionar um uma posicao especifica
+            ramusagenodes.splice(index, 0, 0);
           }
         })
         .catch(error => {
@@ -98,6 +105,7 @@ function getNewSeries(baseval, yrange) {
       }
 
       chart.updateSeries([{ data }]);
+      chart2.updateSeries([{data : ramusagenodes}])
     }, 1000); // Aguarda um tempo adequado para que todas as requisições sejam concluídas
   }
 
@@ -111,6 +119,7 @@ function resetData() {
 }
 
 
+//Bandusage chart begginnnn
 
 var options = {
   tooltip: {
@@ -198,3 +207,44 @@ window.setInterval(function () {
     data: data
   }])
 }, nodes.length * 1000)
+
+
+//Bandusage chart end
+
+//memoryusage chart  begginnn
+
+var options = {
+  series: [{
+  data: []
+}],
+  chart: {
+  type: 'bar',
+  height: 350
+},
+plotOptions: {
+  bar: {
+    borderRadius: 4,
+    horizontal: true,
+  }
+},
+title: {
+  text: 'Utilização de Memoria RAM',
+  align: 'left'
+},
+dataLabels: {
+  enabled: false
+},
+xaxis: {
+  categories: nodes,
+  title: {
+    text: "Percentagem (%)", // Define o rótulo do eixo Y como "MB/s"
+    style: {
+      fontSize: '12px',
+      fontWeight: 'bold',
+    }}
+  
+}
+};
+
+var chart2 = new ApexCharts(document.querySelector("#memorychart"), options);
+chart2.render();

@@ -30,10 +30,20 @@
                             <!--================================-->
                             <!-- Brush Chart Area Start -->
                             <!--================================-->	
-                            
-                                  <div class="card-body">
-                                     <div id="bandchart"></div>
-                                  </div>
+                    
+                                 
+                                    <div class="col-md-6">
+                                      <div class="box columnbox mt-4">
+                                        <div id="bandchart"></div>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="box  mt-4">
+                                        <div id="memorychart"></div>
+                                      </div>
+                                    </div>
+                                 
+                              
                               
                             <!--/ Brush Chart Area End -->
                             <!--================================-->
@@ -48,6 +58,6 @@
                      <!--/ Placeholder As Label End --> 
 
             <script src="{% static 'assets2/plugins/apex-chart/apexcharts.min.js'%}"></script>
-            <script src="{% static 'assets3/scripts.js'%}"></script>
+            <script src="{% static 'assets3/menucharts.js'%}"></script>
 {% endblock%}
 
