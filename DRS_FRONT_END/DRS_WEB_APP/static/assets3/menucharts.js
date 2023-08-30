@@ -66,6 +66,8 @@ function getNewSeries(baseval, yrange) {
   }
   var upplusdown = 0;
   var ramusagenodes = new Array();
+  var storagenodes = new Array();
+  var cpuvaluesnodes = 0;
   if (document.visibilityState === 'visible') {
    
     for (var i = 0; i < nodes.length; i++) {
@@ -76,14 +78,16 @@ function getNewSeries(baseval, yrange) {
         .then(apiData => {
           try {
             upplusdown += (apiData.totalup) + (apiData.totaldown);
-            //ramusagenodes.push(apiData.memory);
+            cpuvaluesnodes+= apiData.cpu
             ramusagenodes.splice(index, 0, apiData.memory);
+            storagenodes.splice(index, 0, apiData.disc);
             
           } catch (error) {
             console.error('Erro ao processar dados:', error);
             //ramusagenodes[i].push(0);
             //adicionar um uma posicao especifica
             ramusagenodes.splice(index, 0, 0);
+            storagenodes.splice(index, 0, 0);
           }
         })
         .catch(error => {
@@ -106,6 +110,8 @@ function getNewSeries(baseval, yrange) {
 
       chart.updateSeries([{ data }]);
       chart2.updateSeries([{data : ramusagenodes}])
+      chart3.updateSeries([cpuvaluesnodes/nodes.length])
+      chart4.updateSeries([{data : storagenodes}])
     }, 1000); // Aguarda um tempo adequado para que todas as requisições sejam concluídas
   }
 
@@ -215,7 +221,8 @@ window.setInterval(function () {
 
 var options = {
   series: [{
-  data: []
+  data: [],
+  name: 'RAM',
 }],
   chart: {
   type: 'bar',
@@ -248,3 +255,141 @@ xaxis: {
 
 var chart2 = new ApexCharts(document.querySelector("#memorychart"), options);
 chart2.render();
+
+//memory usage chart end
+
+//cpu media usage chart begginnn
+var options = {
+  series: [0],
+  chart: {
+  height: 350,
+  type: 'radialBar',
+  offsetY: -10
+},
+plotOptions: {
+  radialBar: {
+    startAngle: -135,
+    endAngle: 135,
+    dataLabels: {
+      name: {
+        fontSize: '16px',
+        color: undefined,
+        offsetY: 120
+      },
+      value: {
+        offsetY: 76,
+        fontSize: '22px',
+        color: undefined,
+        formatter: function (val) {
+          return val + "%";
+        }
+      }
+    }
+  }
+},
+fill: {
+  type: 'gradient',
+  gradient: {
+      shade: 'dark',
+      shadeIntensity: 0.15,
+      inverseColors: false,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 50, 65, 91]
+  },
+},
+stroke: {
+  dashArray: 4
+},
+labels: ['Media de utilização da CPU no Cluster'],
+};
+
+var chart3 = new ApexCharts(document.querySelector("#mediacpuusage"), options);
+chart3.render();
+
+
+//cpu media usage chart end
+
+
+//storage chart begginnn
+
+var options = {
+  series: [{
+  name: 'DISC',
+  data: []
+}],
+  chart: {
+  height: 350,
+  type: 'bar',
+},
+plotOptions: {
+  bar: {
+    borderRadius: 10,
+    dataLabels: {
+      position: 'top', // top, center, bottom
+    },
+  }
+},
+dataLabels: {
+  enabled: true,
+  formatter: function (val) {
+    return val + "%";
+  },
+  offsetY: -20,
+  style: {
+    fontSize: '12px',
+    colors: ["#304758"]
+  }
+},
+
+xaxis: {
+  categories: nodes,
+  position: 'top',
+  axisBorder: {
+    show: false
+  },
+  axisTicks: {
+    show: false
+  },
+  crosshairs: {
+    fill: {
+      type: 'gradient',
+      gradient: {
+        colorFrom: '#D8E3F0',
+        colorTo: '#BED1E6',
+        stops: [0, 100],
+        opacityFrom: 0.4,
+        opacityTo: 0.5,
+      }
+    }
+  },
+  tooltip: {
+    enabled: true,
+  }
+},
+yaxis: {
+  axisBorder: {
+    show: false
+  },
+  axisTicks: {
+    show: false,
+  },
+  labels: {
+    show: false,
+  }
+
+},
+title: {
+  text: 'Utilização do Armazenamento no Cluster (%)',
+  floating: true,
+  offsetY: 330,
+  align: 'center',
+  style: {
+    color: '#444'
+  }
+}
+};
+
+var chart4 = new ApexCharts(document.querySelector("#storagechart"), options);
+chart4.render();
+//storage chart end
