@@ -150,7 +150,29 @@ public class ImageService {
         ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null, url);
         return responseEntity;
     }
-
+    //pause container
+     @Secured("USER")
+    @PostMapping("/container/pause/{id}")
+    @ResponseBody
+    public  ResponseEntity<String> pauseContainer(@PathVariable String id) {
+        // cria um container
+        String url = this.apiDockerUri + "/container/pause/" + id; // URL de destino
+        //System.out.println(url);
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null, url);
+        return responseEntity;
+    }
+    //unpause container
+    @Secured("USER")
+    @PostMapping("/container/unpause/{id}")
+    @ResponseBody
+    public  ResponseEntity<String> unpauseContainer(@PathVariable String id) {
+        // cria um container
+        String url = this.apiDockerUri + "/container/unpause/" + id; // URL de destino
+        //System.out.println(url);
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null, url);
+        return responseEntity;
+    }
+  
     @Secured("USER")
     @PostMapping("/createnewimage")
     public String createImage(@RequestBody ImageDocument cont) {

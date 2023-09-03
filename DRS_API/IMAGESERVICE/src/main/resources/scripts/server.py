@@ -142,6 +142,7 @@ def creatCon():
                     "default2_p":default2_p,
                     "ip":res[1]     
                     })
+#start container
 @app.route('/container/start/<id>', methods=['POST'])
 def creatSta(id):
     return str(startContainer(getAuth(),id))
@@ -149,6 +150,14 @@ def creatSta(id):
 @app.route('/container/delete/<id>', methods=['POST'])
 def delConainer(id):
     return jsonify(deleteContainer(getAuth(),id))
+#pause container
+@app.route('/container/pause/<id>', methods=['POST'])
+def pauConainer(id):
+    return jsonify(pauseContainer(getAuth(),id))
+#unpause container
+@app.route('/container/unpause/<id>', methods=['POST'])
+def unpauConainer(id):
+    return jsonify(unpauseContainer(getAuth(),id))
 
 @app.route('/container/commit', methods=['POST'])
 def commitContainerAsIMa():

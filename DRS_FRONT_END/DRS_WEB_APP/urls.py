@@ -50,6 +50,10 @@ urlpatterns = [
     path('failover/manager', manageFailovers.as_view(), name='managefailover'),
     #deleteFailover
     path('failover/delete', deleteFailover, name='deletefailover'),
+    #pause container
+    path('container/pause', pauseContainer, name='pausecontainer'),
+    #unpause container
+    path('container/unpause', unpauseContainer, name='unpausecontainer'),
 
     #
 #GESTÃO DE USUARIOS  newcontainer

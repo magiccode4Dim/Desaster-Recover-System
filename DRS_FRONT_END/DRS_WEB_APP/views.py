@@ -782,8 +782,28 @@ def deleteContainer(request):
     serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
     url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/container/delete/"+str(id)
     respo = sendDeleteRequest(None,adress=url,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
-    if(respo["response"]==200):
+    if(respo["response"]==204):
          return redirect(WEB_PATH+"/container/manager?done= Container Apagado com Sucesso")
+    else:
+        return redirect(WEB_PATH+f"/container/manager?error={respo['response']}")
+#pause container
+def pauseContainer(request):
+    id = request.GET.get("id")
+    serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+    url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/container/pause/"+str(id)
+    respo = sendPostRequest(None,adress=url,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+    if(respo["response"]==204):
+         return redirect(WEB_PATH+"/container/manager?done= Container Pausado com Sucesso")
+    else:
+        return redirect(WEB_PATH+f"/container/manager?error={respo['response']}")
+#unpause container
+def unpauseContainer(request):
+    id = request.GET.get("id")
+    serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+    url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/container/unpause/"+str(id)
+    respo = sendPostRequest(None,adress=url,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+    if(respo["response"]==204):
+         return redirect(WEB_PATH+"/container/manager?done= Container Iniciado com Sucesso")
     else:
         return redirect(WEB_PATH+f"/container/manager?error={respo['response']}")
 

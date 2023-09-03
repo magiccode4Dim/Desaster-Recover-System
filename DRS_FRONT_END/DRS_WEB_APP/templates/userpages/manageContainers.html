@@ -60,7 +60,11 @@
                                             <td>{{c.NetworkSettings.Networks.bridge.IPAddress}}</td>
                                             <td>{{c.State}}</td>
                                             <td class="text-right table-actions">
-                                                <!--<a class="table-action  mg-r-10" href="#"><i class="fa fa-stop"></i></a>-->
+                                             {% if c.State != "running"  %}
+                                                <a class="table-action  mg-r-10" href="{% url 'unpausecontainer' %}?id={{ c.Id|slice:":12" }}"><i class="fa fa-play"></i></a>
+                                             {% else %}
+                                                <a class="table-action  mg-r-10" href="{% url 'pausecontainer' %}?id={{ c.Id|slice:":12" }}" }}"><i class="fa fa-stop"></i></a>
+                                             {% endif %}
                                                 <a class="table-action  mg-r-10" href="{% url 'deletecontainer' %}?id={{ c.Id|slice:":12" }}"><i class="fa fa-trash"></i></a>
                                                 <span class="dropdown-toggle " data-toggle="dropdown"></span>
                                                 <div class="dropdown-menu dropdown-menu-right">

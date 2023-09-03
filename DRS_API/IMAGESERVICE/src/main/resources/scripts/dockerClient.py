@@ -129,18 +129,19 @@ def deleteContainer(auth,container_name):
     stopContainer(auth,container_name)
     response = requests.delete(f"{ADRESS}/"+DELETE_CONTAINER+"/"+container_name,auth=auth,
                              verify=TLS_VALUE)
-    return pruneContainers(auth)
+    return {"response":response.status_code}
     
 #pausar um container
 def pauseContainer(auth,container_name):
     response = requests.post(f"{ADRESS}/"+PAUSE_CONTAINER+"/"+container_name+"/pause",auth=auth,
                              verify=TLS_VALUE)
-    if response.status_code == 204:
-        #ver o progresso do pull
-        print("Parado Com Sucesso")
-    else:
-        print(response)
-        return (None,response.status_code)
+    return {"response":response.status_code}
+
+#unpause container
+def unpauseContainer(auth,container_name):
+    response = requests.post(f"{ADRESS}/"+PAUSE_CONTAINER+"/"+container_name+"/unpause",auth=auth,
+                             verify=TLS_VALUE)
+    return {"response":response.status_code}
 #fazer stop
 def stopContainer(auth,container_name):
     response = requests.post(f"{ADRESS}/"+STOP_CONTAINER+"/"+container_name+"/stop",auth=auth,
