@@ -26,6 +26,20 @@ def pullIm():
     print(image)
     
     return jsonify(pullImage(getAuth(),image))
+#build imagem
+@app.route('/images/build', methods=['POST'])
+def builIm():
+    image = (request.get_json()['json'])[0]
+    #image =  dict(image)
+    image = json.loads(image)
+    return jsonify(buildImage(getAuth(),image))
+
+#remove image
+@app.route('/images/remove/<id>', methods=['POST'])
+def imRM(id):
+    return jsonify(removeImage(getAuth(),id))
+
+
 @app.route('/container/create', methods=['POST','GET'])
 def creatCon():
     cont = (request.get_json()['json'])[0]

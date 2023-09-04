@@ -157,6 +157,57 @@ def deleteFailover(request):
     else:
          return redirect(WEB_PATH+f"/failover/create?error= Erro {str(respo)}")
 
+#Criate image with dockerfile
+@method_decorator(login_required, name='dispatch')
+class  newImage(View):
+    def createImage(self, im):
+        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+        url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/build"
+        respo = sendPostRequest(json = im,adress=url
+                                ,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+        return respo
+    def createnewImage(self, im):
+        serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+        url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/createnewimage"
+        respo = sendPostRequest(json = im,adress=url
+                                ,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+        return respo
+
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        return render(request,"userpages/criateImage.html",{"error":error_message, 
+                                                    })
+    def post(self, request, *args, **kwargs):
+        nome =  request.POST.get("nome")
+        tag =  request.POST.get("tag")
+        dockerfile = request.POST.get("dockerfile")
+        if(len(nome)==0 or len(tag)==0 or len(dockerfile)==0):
+            return redirect(WEB_PATH+"/image/create?error=Algum Campo não foi preenchido")
+        
+        image =  {
+            "remote":dockerfile,
+            "t":str(nome)+str(tag)
+            }
+        
+        res= self.createImage(image)
+        
+        if(res["response"]==200):
+            #return redirect(WEB_PATH+f"/networks/manager?done= Rede {nome} criada com Sucesso")
+            self.createnewImage({
+                "nome":nome,
+                "tag":tag
+                })
+
+
+        #else:
+        #    return redirect(WEB_PATH+f"/network/create?error= Erro {str(res)}")
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
+
 
 #failover list
 #manage services

@@ -1,0 +1,65 @@
+{% extends 'baseUser.html' %}
+{% load static %}
+
+{% block title%}Criar Imagem {% endblock %}
+
+{% block content%}
+<div class="pageheader pd-t-25 pd-b-35">
+    <div class="pd-t-5 pd-b-5">
+    <h1 class="pd-0 mg-0 tx-20">Criar uma Imagem</h1>
+    <h3 class="pd-0 mg-0 tx-20">Para adicionar uma nova imagem, basta adicionar os dados e colocar a URL de um Dockerfile</h3>
+    <h3 class="pd-0 mg-0 tx-20">Esta acção pode demorar dependendo do dockerfile e da velocidade da internet no cluster</h3>
+    </div>
+</div>
+
+<!-- Placeholder As Label Start -->
+                     <!--================================-->
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                           <div class="card-header">
+                              <h4 class="card-header-title">
+                                 Dados da Imagem
+                              </h4>
+                              <div class="card-header-btn">
+                                 <a  href="" data-toggle="collapse" class="btn card-collapse" data-target="#collapse3" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                                 <a href="" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                              </div>
+                           </div>
+                           <div class="card-body collapse show" id="collapse3">
+                            <form action="{% url 'newimage' %}" method="POST" >{% csrf_token %}
+                                <div class="form-layout form-layout-3">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-control-label active">Nome da Imagem: <span class="tx-danger">*</span></label>
+                                            <input class="form-control" type="text" name="nome" placeholder="ubuntuaaee">
+                                        </div>
+                                        </div>
+                                        <!-- col-4 -->
+                                        <div class="col-md-4 mg-t--1 mg-md-t-0">
+                                        <div class="form-group mg-md-l--1">
+                                            <label class="form-control-label active">Tag: <span class="tx-danger">*</span></label>
+                                            <input class="form-control" type="text" name="tag" placeholder="latest">
+                                        </div>
+                                        </div>
+                                        <div class="col-md-4 mg-t--1 mg-md-t-0">
+                                            <div class="form-group mg-md-l--1">
+                                                <label class="form-control-label active">Dockerfile PATH: <span class="tx-danger">*</span></label>
+                                                <input class="form-control" type="text" name="dockerfile" placeholder="http://192.168.122.1:7000/Dockerfile">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- row -->
+                                    <div class="form-layout-footer bd pd-20 bd-t-0">
+                                        <input  type="submit" class="btn btn-custom-primary" value="Criar"/>
+                                        <a href="#" class="btn btn-secondary">Cancel</a>
+                                    </div>
+                                    <!-- form-group -->
+                                </div>
+                            </form>
+                           </div>
+                        </div>
+                     </div>
+                     <!--/ Placeholder As Label End -->	
+    
+{% endblock %}

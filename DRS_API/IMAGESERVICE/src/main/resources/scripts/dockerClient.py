@@ -35,7 +35,7 @@ BUild_DELETE = "build/prune"
 COMMIT_CONTAINER = "commit"
 RENAME_IMAGE ="images"#<ID>/tag
 PUSH_IMAGE = "images"#<ID>/push
-
+BUILD_IMAGE = "build"
 
 #Retorna as Credencias de Autenticacao
 def getAuth():
@@ -81,21 +81,26 @@ def pullImage(auth, image):
         return {"response":200}
     else:
         return {"response":response.status_code}
+#faz o build de uma imagem passando o docker file
+def buildImage(auth, dockerfile):
+    response = requests.post(f"{ADRESS}/"+BUILD_IMAGE,auth=auth,  params=dockerfile, stream=True, verify=TLS_VALUE)
+    if response.status_code == 200:
+        #ver o progresso do pull
+        for chunk in response.iter_content(chunk_size=4096):
+            print(chunk)  # Aqui você pode processar os dados do "pull" conforme necessário
+        return {"response":200}
+    else:
+        return {"response":response.status_code}
+
 #apaga uma imagem
 def removeImage(auth,image_id):
     response = requests.delete(f"{ADRESS}/"+IMAGE_DELETE+"/"+image_id,auth=auth, verify=TLS_VALUE)
-    if response.status_code == 200:
-        print("Imagem Apagada com Sucesso")
-        pruneBuildCache(auth)
-    else:
-        return (None,response.status_code)
+    #pruneBuildCache(auth)
+    return {"response":response.status_code}
 #remove buildCash
 def pruneBuildCache(auth):
     response = requests.post(f"{ADRESS}/"+BUild_DELETE,auth=auth, verify=TLS_VALUE)
-    if response.status_code == 200:
-        print("Arquivos resultantes de compilacao APgados")
-    else:
-        return (None,response.status_code)
+    return {"response":response.status_code}
 
 #cria um container
 def createContainer(auth, container_detais, container_params):

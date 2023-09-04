@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,6 +71,28 @@ public class ImageService {
         }
         return "NUll";
     }
+
+    //criar uma imagem apartir de um docker file
+    @Secured("USER")
+    @PostMapping("/build")
+    @ResponseBody
+    public ResponseEntity<String>  buildImage(@RequestBody Object im) {
+        // fazer o download da imagem no docker hub e guarda no runner
+        String url = this.apiDockerUri + "/images/build"; // URL de destino
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(im, null, null,url);
+       
+        return responseEntity;
+    }
+    //apaga uma imagem do cluster
+    // apagar imagem
+    @Secured("USER")
+    @DeleteMapping("/deleteoncluster/{id}")
+    public ResponseEntity<String> deleteOnCluster(@PathVariable String id) {
+        String url = this.apiDockerUri + "/images/remove/"+id; // URL de destino
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null,url);
+        return responseEntity;
+    }
+
 
     // criar container
     @Secured("USER")
@@ -175,9 +196,16 @@ public class ImageService {
   
     @Secured("USER")
     @PostMapping("/createnewimage")
-    public String createImage(@RequestBody ImageDocument cont) {
+    @ResponseBody
+    public Object createImage(@RequestBody ImageDocument cont) {
+        cont.setId(cont.getNome().hashCode());
+        cont.setData_criacao(new Date());
         this.imageCRUD.save(cont);
-        return "Salvo Com Sucesso";
+
+        return new Object() {
+            // TUDO BEM
+            public int response = 200;
+        };
     }
 
     // apagar imagem
