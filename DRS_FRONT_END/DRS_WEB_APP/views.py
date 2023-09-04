@@ -139,11 +139,55 @@ def convertArraytostring(array):
 
 @login_required
 def dashBoard(request):
-        response =render(request,'userpages/dashboard.html',{'user':request.user})
+        response =render(request,'userpages/dashboard.html',
+            {'user':request.user,'adress':request.scheme+"://"+request.META.get('HTTP_HOST', None), 
+            'file':"AAEE_WARS_NODE.zip"})
         response.set_cookie("nodes",convertArraytostring(CLUSTER_NODES))
         response.set_cookie('apiurl', request.META.get('HTTP_HOST', None))
         response.set_cookie('protocol', request.scheme)
         return response  
+
+#detele image
+@login_required
+def deleteImage(request):
+    id = request.GET.get("id")
+    nome = request.GET.get("nome")
+    server = get_microservice_address_port(IMAGE_SERVICE["name"])
+    baseurl = IMAGE_SERVICE["protocol"]+"://"+server['address']+":"+str(server['port'])+"/drs/api/image/"
+    url = baseurl+"deleteoncluster/"+str(nome)
+    respo = sendDeleteRequest(json = None,adress=url,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+    if(respo["response"]==200):
+        url = baseurl+"delete/"+str(id)
+        respo = sendDeleteRequest(json = None,adress=url,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+        return redirect(WEB_PATH+f"/images/manager?done= Imagem Apagada com sucesso")
+    else:
+         return redirect(WEB_PATH+f"/images/manager?error= Erro {str(respo)}")
+
+
+#manage images
+@method_decorator(login_required, name='dispatch')
+class  manageImages(View):
+    
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        done = request.GET.get('done')
+        volumes = getVolumes()
+        #print(volumes)
+        try:
+            images = getAvailableImages()
+        except Exception as e:
+            pass
+        return render(request,"userpages/manageImages.html",{"error":error_message, 
+                                                              "done":done,
+                                                              "images":images
+                                                    })
+    def post(self, request, *args, **kwargs):
+        return self.get(request)
+    def put(self, request, *args, **kwargs):
+        return self.get(request)
+    def delete(self, request, *args, **kwargs):
+        return self.get(request)
+
 
 #delete failover
 @login_required
@@ -186,21 +230,19 @@ class  newImage(View):
         
         image =  {
             "remote":dockerfile,
-            "t":str(nome)+str(tag)
+            "t":str(nome)+":"+str(tag)
             }
         
         res= self.createImage(image)
         
         if(res["response"]==200):
-            #return redirect(WEB_PATH+f"/networks/manager?done= Rede {nome} criada com Sucesso")
             self.createnewImage({
                 "nome":nome,
                 "tag":tag
                 })
-
-
-        #else:
-        #    return redirect(WEB_PATH+f"/network/create?error= Erro {str(res)}")
+            return redirect(WEB_PATH+f"/images/manager?done= Imagem {nome} criada com Sucesso")
+        else:
+            return redirect(WEB_PATH+f"/images/create?error= Erro {str(res)}")
         return self.get(request)
     def put(self, request, *args, **kwargs):
         return self.get(request)

@@ -5,6 +5,7 @@ from functions.copy_to_remote import copyToRemote
 from functions.sincronizeDir import sincronizeDirs
 from functions.monitorMode import startMonitorMode
 from functions.configs import showConfigs
+import sys
 
 #chama a funcao 
 def choose(option):
@@ -51,4 +52,9 @@ def main():
 
 
 if __name__ == '__main__':
-	main()
+	try:
+		if(sys.argv[1]=="-monitorar" or sys.argv[1]=="-m" ):
+			startMonitorMode()
+			
+	except IndexError as e:
+		main()

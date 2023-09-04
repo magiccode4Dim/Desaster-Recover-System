@@ -72,27 +72,27 @@ public class ImageService {
         return "NUll";
     }
 
-    //criar uma imagem apartir de um docker file
+    // criar uma imagem apartir de um docker file
     @Secured("USER")
     @PostMapping("/build")
     @ResponseBody
-    public ResponseEntity<String>  buildImage(@RequestBody Object im) {
+    public ResponseEntity<String> buildImage(@RequestBody Object im) {
         // fazer o download da imagem no docker hub e guarda no runner
         String url = this.apiDockerUri + "/images/build"; // URL de destino
-        ResponseEntity<String> responseEntity = Request.sendPostRequest(im, null, null,url);
-       
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(im, null, null, url);
+
         return responseEntity;
     }
-    //apaga uma imagem do cluster
+
+    // apaga uma imagem do cluster
     // apagar imagem
     @Secured("USER")
     @DeleteMapping("/deleteoncluster/{id}")
     public ResponseEntity<String> deleteOnCluster(@PathVariable String id) {
-        String url = this.apiDockerUri + "/images/remove/"+id; // URL de destino
-        ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null,url);
+        String url = this.apiDockerUri + "/images/remove/" + String.valueOf(id); // URL de destino
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null, url);
         return responseEntity;
     }
-
 
     // criar container
     @Secured("USER")
@@ -157,43 +157,46 @@ public class ImageService {
             System.out.println("Response Body: " + responseBody);
             return responseBody;
         }
- 
+
         return "Salvo Com Sucesso";
     }
-    //delete conteriner
+
+    // delete conteriner
     @Secured("USER")
     @DeleteMapping("/container/delete/{id}")
     @ResponseBody
-    public  ResponseEntity<String> deleteContainer(@PathVariable String id) {
+    public ResponseEntity<String> deleteContainer(@PathVariable String id) {
         // cria um container
         String url = this.apiDockerUri + "/container/delete/" + id; // URL de destino
-        //System.out.println(url);
+        // System.out.println(url);
         ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null, url);
         return responseEntity;
     }
-    //pause container
-     @Secured("USER")
+
+    // pause container
+    @Secured("USER")
     @PostMapping("/container/pause/{id}")
     @ResponseBody
-    public  ResponseEntity<String> pauseContainer(@PathVariable String id) {
+    public ResponseEntity<String> pauseContainer(@PathVariable String id) {
         // cria um container
         String url = this.apiDockerUri + "/container/pause/" + id; // URL de destino
-        //System.out.println(url);
+        // System.out.println(url);
         ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null, url);
         return responseEntity;
     }
-    //unpause container
+
+    // unpause container
     @Secured("USER")
     @PostMapping("/container/unpause/{id}")
     @ResponseBody
-    public  ResponseEntity<String> unpauseContainer(@PathVariable String id) {
+    public ResponseEntity<String> unpauseContainer(@PathVariable String id) {
         // cria um container
         String url = this.apiDockerUri + "/container/unpause/" + id; // URL de destino
-        //System.out.println(url);
+        // System.out.println(url);
         ResponseEntity<String> responseEntity = Request.sendPostRequest(null, null, null, url);
         return responseEntity;
     }
-  
+
     @Secured("USER")
     @PostMapping("/createnewimage")
     @ResponseBody
@@ -211,9 +214,13 @@ public class ImageService {
     // apagar imagem
     @Secured("USER")
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id) {
+    @ResponseBody
+    public Object delete(@PathVariable Integer id) {
         this.imageCRUD.deleteById(id);
-        return "Salvo Com Sucesso";
+        return new Object() {
+            // TUDO BEM
+            public int response = 200;
+        };
     }
 
     // pegar a imagem com id

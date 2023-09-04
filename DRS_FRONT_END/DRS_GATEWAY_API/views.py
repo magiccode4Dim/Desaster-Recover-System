@@ -1,13 +1,17 @@
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse,JsonResponse
+from django.http import HttpResponse,JsonResponse,FileResponse
 import json
 from django.middleware.csrf import get_token
 from DRS_WEB_APP.modulos.requests.eurekaservermethods import *
 from DRS_WEB_APP.modulos.requests.sendRequests import *
 from django.contrib.auth.decorators import login_required
+from django.templatetags.static import static
+import os
+from django.conf import settings
 
 WEB_PATH = '/web'
+API_GATEWAY ="/DRS_GATEWAY_API"
 
 STATUS_SERVICE = {
     "name" : 'STATUS_SERVICE',
@@ -49,12 +53,12 @@ class StatusService(View):
         token  = request.POST.get("token")
         #print(request.body)
         #print(f"cpu = {cpu} memory = {memory} disc = {disc}")
-        try:
-            totalup = request.POST.get("totalup")
-            totaldown = request.POST.get("totaldown")
-            nowup = request.POST.get("nowup")
-            nowdown = request.POST.get("nowdown")
-        except Exception as e:
+        
+        totalup = request.POST.get("totalup")
+        totaldown = request.POST.get("totaldown")
+        nowup = request.POST.get("nowup")
+        nowdown = request.POST.get("nowdown")
+        if(totalup==None):
             totalup = 0
             totaldown = 0
             nowup = 0
@@ -83,3 +87,22 @@ class StatusService(View):
 
     def delete(self, request):
         return HttpResponse("This is a DELETE request.")
+
+#Baixar a ficheiros da pasta download
+def downloadFiles(request):
+    file =  request.GET.get("file")
+    relative_path = f'downloads/{file}'
+    file_path = static(relative_path)
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+API_GATEWAY
+    #file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', relative_path))
+    #print(BASE_DIR+file_path)
+    if os.path.exists(BASE_DIR+file_path):
+                file = open(BASE_DIR+file_path, 'rb')
+                response = FileResponse(file)
+                response['Content-Type'] = 'application/zip'
+                # Defina o cabeçalho de resposta para anexar o arquivo
+                response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
+                #file.close()
+                return response
+    else:
+        return HttpResponse("Arquivo não encontrado", status=404)

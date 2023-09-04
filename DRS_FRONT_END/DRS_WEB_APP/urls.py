@@ -56,6 +56,10 @@ urlpatterns = [
     path('container/unpause', unpauseContainer, name='unpausecontainer'),
     #create imagem 
     path('image/create', newImage.as_view(), name='newimage'),
+    #manage images
+    path('images/manager', manageImages.as_view(), name='manageImages'),
+    #delete image
+    path('image/delete', deleteImage, name='deleteimage'),
 
     #
 #GESTÃO DE USUARIOS  newcontainer
