@@ -6,6 +6,7 @@ from functions.sincronizeDir import sincronizeDirs
 from functions.monitorMode import startMonitorMode
 from functions.configs import showConfigs
 import sys
+import time
 
 #chama a funcao 
 def choose(option):
@@ -54,7 +55,9 @@ def main():
 if __name__ == '__main__':
 	try:
 		if(sys.argv[1]=="-monitorar" or sys.argv[1]=="-m" ):
-			startMonitorMode()
+			while True:
+				startMonitorMode()
+				time.sleep(1)
 			
 	except IndexError as e:
 		main()

@@ -20,10 +20,14 @@ def startMonitorMode():
             print(sta) 
             old_upload = upload_speed
             old_download = download_speed
-            response =  requests.get(f"{monitorConfig['serverprotocol']}://{monitorConfig['serveradress']}/api/statusservice/sendstatus")
-            sta['csrfmiddlewaretoken'] = response.json()["csrf_token"]
-            sta['token'] = monitorConfig['token']
-            response =  requests.post(f"{monitorConfig['serverprotocol']}://{monitorConfig['serveradress']}/api/statusservice/sendstatus",data=sta,cookies=response.cookies)
+            try:
+            	response =  requests.get(f"{monitorConfig['serverprotocol']}://{monitorConfig['serveradress']}/api/statusservice/sendstatus")
+            	sta['csrfmiddlewaretoken'] = response.json()["csrf_token"]
+            	sta['token'] = monitorConfig['token']
+            	response =  requests.post(f"{monitorConfig['serverprotocol']}://{monitorConfig['serveradress']}/api/statusservice/sendstatus",data=sta,cookies=response.cookies)
+            except Exception as e:
+            	time.sleep(1)
+            	continue
             print(response.json())
             time.sleep(1)
     except Exception as e:

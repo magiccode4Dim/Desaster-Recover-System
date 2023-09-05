@@ -47,12 +47,14 @@
                                       <div class="box columnbox mt-4">
                                         <div id="mediacpuusage"></div>
                                       </div>
+                                    
                                     </div>
                                     <div class="col-md-6">
                                       <div class="box  mt-4">
                                         <div id="storagechart"></div>
                                       </div>
                                     </div>
+                                    
                                    
                                  
                               
@@ -68,13 +70,56 @@
                         </div>
                      </div>
                      <!--/ Placeholder As Label End --> 
+
+                     <div class="col-md-12 col-lg-12">
+                        <div class="card mg-b-20">
+                           <div class="card-header">
+                            <h4 class="card-header-title">
+                                 Detalhes dos nós do Cluster
+                              </h4>
+                              <div class="card-header-btn">
+                                 <a  href="#" data-toggle="collapse" class="btn card-collapse" data-target="#collapse19" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
+                                 <a href="#" data-toggle="expand" class="btn card-expand"><i class="ion-android-expand"></i></a>
+                                
+                              </div>
+                            </div>
+                              <div class="card-body collapse " id="collapse19">
+                                <table id="foo-row-toggler" class="table toggle-circle-filled">
+                                 <thead>
+                                    <tr>
+                                       <th data-toggle="true">Nome do Nó</th>
+                                       <th>Detalhes</th>
+                          
+                                       
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                  {% for s in clusterservers %}
+                                    
+                                        <tr>
+                                           <td>{{ s }}</td>
+                                        
+                                           
+                                           <td><a href="{% url 'serverdetails' %}?id={{ s }}" target="_blank"><span class="btn btn-primary btn-block mg-b-4"><i class="fa fa-linux "></i> Ver {{ s }}</span></a></td>
+                                        </tr>
+                                    
+                                   {% endfor %}  
+                                    
+                                 </tbody>
+                              </table>
+                                                 
+                              </div>
+                          
+                        </div>
+                      </div>
+
                     <!-- Code Start -->
                      <!--================================-->
                      <div class="col-md-12 col-lg-12">
                         <div class="card mg-b-20">
                            <div class="card-header">
                             <h4 class="card-header-title">
-                                 Como instalar o Agente em um nó do Cluster?
+                                 Como instalar a aplicação Agente ?
                               </h4>
                               <div class="card-header-btn">
                                  <a  href="#" data-toggle="collapse" class="btn card-collapse" data-target="#collapse14" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
@@ -82,17 +127,34 @@
                                 
                               </div>
                            </div>
-                           <div class="card-body collapse show" id="collapse14">
-                            <p>O agente é responsavel por enviar o status dos nós do Cluster tornando possivel o funcionamento do dashboard anterior entre outras funcionalidades. Para instalar a aplicação Agente em um nó do Cluster, primeiro é necessário fazer o download da aplicação agente neste nó, pode se fazer o download usando o comando:</p>
+                           <div class="card-body collapse" id="collapse14">
+                            <p>O agente é responsavel por enviar o status de um servidor(informações de memoria, disco, net) entre outras operações como o envio de ficheiros e sincronização de directorios.</p>
+                            <p>Instalar programas necessarios: </p>
+                            <pre>sudo apt install python3 python3-pip wget nano unzip rsync</pre>
+                            <p>Para instalar a aplicação Agente, primeiro é necessário fazer o download, pode se fazer o download usando o comando:</p>
+                              <p><var>Baixar o agente em um nó do cluster</var></p>
                               <pre>wget -O {{file}} {{adress}}/api/downloads?file={{file}}</pre>
-                              <p>For example, <code>&lt;section&gt;</code> should be wrapped as inline.</p>
+                              <p><var>Baixar o agente em um servidor monitorado</var></p>
+                              <pre>wget -O {{file2}} {{adress}}/api/downloads?file={{file2}}</pre>
+                              <p>Depois de fazer o download do arquivo zip, deve-se descompactar o ficheiro. Pode se usar a ferramenta unzip </p>
+                              <pre>unzip AAEE_WARS_(NODE/SERVER).zip</pre>
+                              <p>Navegando até ao directorio <code>DRS_NODE</code> (se for nó do cluster) ou  <code>DRS_CLIENT</code> (se for um servidor),  deve-se conceder permissão de leitura e execução para os ficheiros <code>install.sh</code> e <code>uninstall.sh</code> </p>
+                              <pre>sudo chmod +xr install.sh uninstall.sh</pre>
+                              
+                              <p>Instalar as bibliotecas do Python: </p>
+                              <pre>sudo pip install -r requirements.txt</pre>
+                              <p>De seguida, deve-se criar um novo servidor na dashboard navegando em <kbd>Monitoramento>Adicionar Servidor</kbd>. Se for um nó do Cluster, o nome do servidor deve ser igual a um dos nomes configurados no arquivo de configuração Por exemplo : <var>worker1</var>. </p>
                               <p>
-                                 To switch directories, type <kbd>cd</kbd> followed by the name of the directory.
-                                 <br> To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
+                                 Depois de criar o servidor, deve-se adicionar o token do novo servidor criado no arquivo de configuração <code>(DRS_NODE/DRS_CLIENT)/functions/data/monitorconfig.json</code> no  atributo "token". Para o campo "serveradress" deve se adicionar o endereço do servidor do sistema de replicação (por exemplo: 10.10.10.1:9000 ou aaee.com) para o "serverprotocol" deve se adicionar o protocolo do servidor se é http ou https.
                               </p>
+                              <p>Por fim, deve-se executar o script de monitoramento</p>
+                              <pre>sudo ./install.sh</pre>
+                              <p>Para apagar o serviço de monitoramento</p>
+                              <pre>sudo ./uninstall.sh</pre>
+                              <!--
                               <p>
                                  <var>y</var> = <var>m</var><var>x</var> + <var>b</var>
-                              </p>
+                              </p>-->
                            </div>
                         </div>
                      </div>

@@ -141,7 +141,7 @@ def convertArraytostring(array):
 def dashBoard(request):
         response =render(request,'userpages/dashboard.html',
             {'user':request.user,'adress':request.scheme+"://"+request.META.get('HTTP_HOST', None), 
-            'file':"AAEE_WARS_NODE.zip"})
+            'file':"AAEE_WARS_NODE.zip", 'file2':"AAEE_WARS_SERVER.zip",'clusterservers':CLUSTER_NODES})
         response.set_cookie("nodes",convertArraytostring(CLUSTER_NODES))
         response.set_cookie('apiurl', request.META.get('HTTP_HOST', None))
         response.set_cookie('protocol', request.scheme)
