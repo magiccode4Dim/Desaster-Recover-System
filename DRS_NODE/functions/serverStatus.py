@@ -38,9 +38,19 @@ def returnstatus():
         "memory":memory_usage,
         "disc":disk_usage,
         "totalup":round(netdata[0],2),
-        "totaldown":round(netdata[1],2)
-        
+        "totaldown":round(netdata[1],2)        
     }
 
-
-
+#GET PC INFO
+def getMachineInfo():
+    # Número de núcleos do processador
+    num_cores = psutil.cpu_count(logical=False)  # Número de núcleos físicos
+    num_cores_logicos = psutil.cpu_count(logical=True)  # Número de núcleos lógicos
+    frequencia_atual = psutil.cpu_freq().current / 1000.0  # Frequência atual em GHz
+    memoria = psutil.virtual_memory()
+    return {
+        "fcores":num_cores,
+        "vcores":num_cores_logicos,
+        "freq":frequencia_atual,
+        "men":memoria
+    }

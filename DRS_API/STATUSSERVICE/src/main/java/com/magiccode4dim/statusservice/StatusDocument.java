@@ -33,9 +33,20 @@ public class StatusDocument {
         "disc":disk_usage
     } 
      */
+    
 
     public Boolean getValue() {
         return value;
+    }
+
+    public StatusDocument() {
+        this.cpu = 0.0;
+        this.memory = 0.0;
+        this.disc = 0.0;
+        this.totalup = 0.0;
+        this.totaldown = 0.0;
+        this.nowup = 0.0;
+        this.nowdown = 0.0;
     }
 
     public void setValue(Boolean value) {

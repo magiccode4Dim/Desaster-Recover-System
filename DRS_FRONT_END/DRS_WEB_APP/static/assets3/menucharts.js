@@ -56,47 +56,36 @@ function getDayWiseTimeSeries(baseval, count, yrange) {
   max: 90
 })*/
 
-function getNewSeries(baseval, yrange) {
+async function getNewSeries(baseval, yrange) {
   var newDate = baseval + TICKINTERVAL;
-  lastDate = newDate
+  lastDate = newDate;
 
   for (var i = 0; i < data.length - 10; i++) {
-    data[i].x = newDate - XAXISRANGE - TICKINTERVAL
-    data[i].y = 0
+    data[i].x = newDate - XAXISRANGE - TICKINTERVAL;
+    data[i].y = 0;
   }
+
   var upplusdown = 0;
   var ramusagenodes = new Array();
   var storagenodes = new Array();
   var cpuvaluesnodes = 0;
   if (document.visibilityState === 'visible') {
-   
-    for (var i = 0; i < nodes.length; i++) {
-      let index =  i;
-      var apiUrl = `${p}://${ip}/api/statusservice/getlaststatus?id=${nodes[i]}`;
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(apiData => {
-          try {
-            upplusdown += (apiData.totalup) + (apiData.totaldown);
-            cpuvaluesnodes+= apiData.cpu
-            ramusagenodes.splice(index, 0, apiData.memory);
-            storagenodes.splice(index, 0, apiData.disc);
-            
-          } catch (error) {
-            console.error('Erro ao processar dados:', error);
-            //ramusagenodes[i].push(0);
-            //adicionar um uma posicao especifica
-            ramusagenodes.splice(index, 0, 0);
-            storagenodes.splice(index, 0, 0);
-          }
-        })
-        .catch(error => {
-          console.error('Erro ao obter os dados da API:', error);
-        });
-    }
+    try {
+      const fetchPromises = nodes.map(async (node, index) => {
+        const apiUrl = `${p}://${ip}/api/statusservice/getlaststatus?id=${node}`;
+        const response = await fetch(apiUrl);
+        const apiData = await response.json();
+        console.log("Depois ", index);
+        
+        upplusdown += apiData.totalup + apiData.totaldown;
+        cpuvaluesnodes += apiData.cpu;
 
-    // Após todas as requisições serem concluídas
-    setTimeout(function () {
+        ramusagenodes[index] = apiData.memory;
+        storagenodes[index] = apiData.disc;
+      });
+
+      await Promise.all(fetchPromises);
+
       var newDataPoint = {
         x: newDate,
         y: upplusdown
@@ -107,17 +96,18 @@ function getNewSeries(baseval, yrange) {
       if (data.length > XAXISRANGE / TICKINTERVAL) {
         data.shift();
       }
-
+      
+      console.log(ramusagenodes);
       chart.updateSeries([{ data }]);
-      chart2.updateSeries([{data : ramusagenodes}])
-      chart3.updateSeries([cpuvaluesnodes/nodes.length])
-      chart4.updateSeries([{data : storagenodes}])
-    }, 1000); // Aguarda um tempo adequado para que todas as requisições sejam concluídas
+      chart2.updateSeries([{ data: ramusagenodes }]);
+      chart3.updateSeries([cpuvaluesnodes / nodes.length]);
+      chart4.updateSeries([{ data: storagenodes }]);
+    } catch (error) {
+      console.error('Erro ao processar dados:', error);
+    }
   }
-
-
-
 }
+
 
 function resetData() {
   // Alternatively, you can also reset the data at certain intervals to prevent creating a huge series 
