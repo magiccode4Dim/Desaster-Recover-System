@@ -11,6 +11,8 @@ from .modulos.requests.eurekaservermethods import get_microservice_address_port,
 from .modulos.requests.sendRequests import *
 import json
 
+from DRS_GATEWAY_API.views import getStatusByID
+
 WEB_PATH = '/web'
 
 IMAGE_SERVICE = {
@@ -46,6 +48,17 @@ FAILOVER_SERVICE = {
 
 #Esses sao nos do cluster cujo servidores devem ter os mesmos nomes se quisermos fazer monitoramento
 CLUSTER_NODES=["MASTER","WORKER1","WORKER2","REGISTRY"]
+
+
+def getNodesInfo():
+    nodesinfos = list()
+    for n in CLUSTER_NODES:
+        lastis = getStatusByID(n)
+        lastis["node"]=n
+        nodesinfos.append(lastis)
+    return nodesinfos
+
+
 
 #Login
 #redirect to login
@@ -141,7 +154,7 @@ def convertArraytostring(array):
 def dashBoard(request):
         response =render(request,'userpages/dashboard.html',
             {'user':request.user,'adress':request.scheme+"://"+request.META.get('HTTP_HOST', None), 
-            'file':"AAEE_WARS_NODE.zip", 'file2':"AAEE_WARS_SERVER.zip",'clusterservers':CLUSTER_NODES})
+            'file':"AAEE_WARS_NODE.zip", 'file2':"AAEE_WARS_SERVER.zip",'clusterservers':getNodesInfo()})
         response.set_cookie("nodes",convertArraytostring(CLUSTER_NODES))
         response.set_cookie('apiurl', request.META.get('HTTP_HOST', None))
         response.set_cookie('protocol', request.scheme)
@@ -700,7 +713,8 @@ class  serverDetails(View):
         serverID = request.GET.get('id')
         server  = self.getServerByID(serverID)
         response =render(request,'userpages/serverDetails.html',{"error":error_message, 
-                                                                 "server": server})
+                                                                 "server": server,
+                                                                 "specs":getStatusByID(serverID)})
         response.set_cookie('serverID', serverID)
         response.set_cookie('apiurl', request.META.get('HTTP_HOST', None))
         response.set_cookie('protocol', request.scheme)

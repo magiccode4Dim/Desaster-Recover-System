@@ -58,6 +58,15 @@ class StatusService(View):
         totaldown = request.POST.get("totaldown")
         nowup = request.POST.get("nowup")
         nowdown = request.POST.get("nowdown")
+
+        #computer info
+        fcores = request.POST.get("fcores")
+        vcores = request.POST.get("vcores")
+        freq = request.POST.get("freq")
+        men = request.POST.get("men")
+
+        print(token)
+
         if(totalup==None):
             totalup = 0
             totaldown = 0
@@ -72,7 +81,11 @@ class StatusService(View):
             "totalup" : float(totalup),
             "totaldown" : float(totaldown),
             "nowup" : float(nowup),
-            "nowdown" : float(nowdown)
+            "nowdown" : float(nowdown),
+            "fcores":fcores,
+            "vcores":vcores,
+            "freq":float(freq),
+            "men":float(men)
         }
         #print(status)
         serverImage = get_microservice_address_port(STATUS_SERVICE["name"])

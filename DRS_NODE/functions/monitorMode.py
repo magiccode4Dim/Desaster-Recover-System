@@ -1,4 +1,4 @@
-from .serverStatus import returnstatus
+from .serverStatus import returnstatus,getMachineInfo
 import requests
 import time
 from .json_Save import *
@@ -10,6 +10,7 @@ def startMonitorMode():
     try:
         monitorConfig = getJSON("./functions/data/monitorconfig.json")
         while True:
+            minfo = getMachineInfo()
             sta = returnstatus()
             upload_speed = sta["totalup"]
             download_speed = sta["totaldown"]
@@ -17,7 +18,11 @@ def startMonitorMode():
             download_now = download_speed - old_download
             sta["nowup"] = round(upload_now,2) 
             sta["nowdown"] = round(download_now,2)
-            print(sta) 
+            sta["fcores"]=minfo["fcores"]
+            sta["vcores"]=minfo["vcores"]
+            sta["freq"]=minfo["freq"]
+            sta["men"]=minfo["men"]   
+            #print(sta) 
             old_upload = upload_speed
             old_download = download_speed
             try:
@@ -28,7 +33,7 @@ def startMonitorMode():
             except Exception as e:
             	time.sleep(1)
             	continue
-            print(response.json())
+            #print(response.json())
             time.sleep(1)
     except Exception as e:
         return f"<ERROR: {str(e)}>"

@@ -48,9 +48,11 @@ def getMachineInfo():
     num_cores_logicos = psutil.cpu_count(logical=True)  # Número de núcleos lógicos
     frequencia_atual = psutil.cpu_freq().current / 1000.0  # Frequência atual em GHz
     memoria = psutil.virtual_memory()
+    frequencia = round(frequencia_atual, 2)  # Arredonda para 2 casas decimais
+    memoria = round(memoria.total / (1024 ** 3), 2)
     return {
         "fcores":num_cores,
         "vcores":num_cores_logicos,
-        "freq":frequencia_atual,
+        "freq":frequencia,
         "men":memoria
     }

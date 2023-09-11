@@ -26,20 +26,20 @@ public class StatusDocument {
     private Double totaldown;
     private Double nowup;
     private Double nowdown;
-
-    /* {
-        "cpu":cpu_usage,
-        "memory":memory_usage,
-        "disc":disk_usage
-    } 
-     */
-    
+    private Integer fcores;
+    private Integer vcores;
+    private Double freq;
+    private Double men;
 
     public Boolean getValue() {
         return value;
     }
 
     public StatusDocument() {
+        this.fcores=0;
+        this.vcores=0;
+        this.freq=0.0;
+        this.men=0.0;
         this.cpu = 0.0;
         this.memory = 0.0;
         this.disc = 0.0;
@@ -52,6 +52,7 @@ public class StatusDocument {
     public void setValue(Boolean value) {
         this.value = value;
     }
+
 
     public Date getData_criacao() {
         return data_criacao;
@@ -103,6 +104,24 @@ public class StatusDocument {
 
     public String getServerID() {
         return serverID;
+    }
+    
+
+
+    public Integer getFcores() {
+        return fcores;
+    }
+
+    public Integer getVcores() {
+        return vcores;
+    }
+
+    public Double getFreq() {
+        return freq;
+    }
+
+    public Double getMen() {
+        return men;
     }
 
     public void setServerID(String serverID) {
