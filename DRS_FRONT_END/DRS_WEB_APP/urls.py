@@ -60,6 +60,8 @@ urlpatterns = [
     path('images/manager', manageImages.as_view(), name='manageImages'),
     #delete image
     path('image/delete', deleteImage, name='deleteimage'),
+    #create container json
+    path('containerjson/create', newContainerJson.as_view(), name='newcontainerjson'),
 
     #
 #GESTÃO DE USUARIOS  newcontainer

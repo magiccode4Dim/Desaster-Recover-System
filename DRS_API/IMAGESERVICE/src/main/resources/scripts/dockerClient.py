@@ -102,6 +102,18 @@ def pruneBuildCache(auth):
     response = requests.post(f"{ADRESS}/"+BUild_DELETE,auth=auth, verify=TLS_VALUE)
     return {"response":response.status_code}
 
+#create containe json
+def createContainerJson(auth, container_detais, container_params):
+    response = requests.post(f"{ADRESS}/"+CREATE_CONTAINER,auth=auth,
+                             params=container_params,json = container_detais,
+                             headers = {'Content-Type': 'application/json'},
+                             stream=True,
+                             verify=TLS_VALUE)
+    if(response.status_code == 201):
+        return startContainerJson(auth,container_params["name"])
+    else:
+        return {"response":response.status_code}
+
 #cria um container
 def createContainer(auth, container_detais, container_params):
     response = requests.post(f"{ADRESS}/"+CREATE_CONTAINER,auth=auth,
@@ -115,8 +127,16 @@ def createContainer(auth, container_detais, container_params):
         ip = (ADRESS.split(":")[1])[2:]
         return (startContainer(auth,container_params['name']),ip)
     else:
-        print(response)
+        #print(response)
         return {"response":response.status_code}
+    
+#start contariner json
+def startContainerJson(auth,container_name):
+    response = requests.post(f"{ADRESS}/"+START_CONTAINER+"/"+container_name+"/start",auth=auth,
+                             verify=TLS_VALUE)
+    return {"response":response.status_code}
+    
+    
 #dar start ao container
 def startContainer(auth,container_name):
     response = requests.post(f"{ADRESS}/"+START_CONTAINER+"/"+container_name+"/start",auth=auth,

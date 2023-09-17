@@ -1,7 +1,7 @@
 {% extends 'baseUser.html' %}
 {% load static %}
 
-{% block title%}Criar Serviço{% endblock %}
+{% block title%}Criar Container{% endblock %}
 
 {% block content%}
 <link type="text/css" rel="stylesheet" href="{% static 'assets2\plugins\codemirror\codemirror.css'%}">
@@ -9,26 +9,13 @@
 
     <div class="pageheader pd-t-25 pd-b-35">
         <div class="pd-t-5 pd-b-5">
-        <h1 class="pd-0 mg-0 tx-20">Criar Serviço</h1>
-        <h3 class="pd-0 mg-0 tx-20">Os Serviços Possibilitam Executar a Aplicação no Cluster </h3>
-        <h3 class="pd-0 mg-0 tx-20">Antes de Criar um Serviço, Certifique-que de ter a Imagem da Aplicação em um Registry </h3>
-        <h3 class="pd-0 mg-0 tx-20">O Serviço é criado usando um objecto Json. </h3>
+        <h1 class="pd-0 mg-0 tx-20">Criar Container</h1>
+        <h3 class="pd-0 mg-0 tx-20">Pode criar um container adicionando as configurações que quiser como a a alocação de recursos </h3>
+        <h3 class="pd-0 mg-0 tx-20">Para criar é necessário inserir o objecto Json com as configurações no campo a baixo.</h3>
+        <h3 class="pd-0 mg-0 tx-20">Considere visitar ao site official do Docker para mais informações sobre como o objecto Json deve ficar. </h3>
       
         </div>
     </div>
-    {% if done %}
-      <div class="alert alert-success alert-bordered pd-y-15" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true"><i class="ico icon-close"></i></span>
-            </button>
-            <div class="d-sm-flex align-items-center justify-content-start">
-            <i class="icon ion-ios-checkmark alert-icon tx-52 mg-r-20 tx-success"></i>
-            <div class="mg-t-20 mg-sm-t-0">
-                  <h5 class="mg-b-2 tx-success">{{done}}</h5>
-            </div>
-            </div>
-         </div>
-      {% endif %}
     <!--Create Replica Beggin-->
     <div class="row row-xs clearfix">
         <!--================================-->
@@ -36,10 +23,10 @@
         <!--================================-->
         <div class="col-md-12 col-lg-12">
            <div class="card mg-b-20">
-            <form action="{% url 'newservice' %}" method="POST"> {% csrf_token %}
+            <form action="{% url 'newcontainerjson' %}" method="POST"> {% csrf_token %}
               <div class="card-header">
                  <h4 class="card-header-title">
-                    Configurações do Serviço
+                    Configurações do Container
                  </h4>
                  <div class="card-header-btn">
                     <a  href="" data-toggle="collapse" class="btn card-collapse" data-target="#collapse1" aria-expanded="true"><i class="ion-ios-arrow-down"></i></a>
@@ -51,10 +38,16 @@
                 
      <!-- Code Editor - Theme Dracula Start -->
                      <!--================================-->
+                      <div class="col-lg-8">
+                                      <div class="form-group mg-b-10-force">
+                                         <label class="form-control-label active">Nome do Container<span class="tx-danger">*</span></label>
+                                         <input class="form-control" type="text" name="name"  placeholder="container">
+                                      </div>
+                        </div>
                      <div class="col-md-12 col-lg-12">
                         <label class="form-control-label active">Objecto Json<span class="tx-danger">*</span></label>
                         <div class="card mg-b-20">
-                                    <input id="code4" name="servicejson" value="Em caso de dúvidas visite url='https://docs.docker.com/engine/api/v1.41/#tag/Service/operation/ServiceCreate' "/>
+                                    <input id="code4" name="containerjson" value="Em caso de dúvidas visite url='https://docs.docker.com/engine/api/v1.41/#tag/Container/operation/ContainerCreate' "/>
                                 </input>
 
                         </div>

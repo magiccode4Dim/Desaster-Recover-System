@@ -39,6 +39,18 @@ def builIm():
 def imRM(id):
     return jsonify(removeImage(getAuth(),id))
 
+#create container json
+@app.route('/containerjson/create/<name>', methods=['POST','GET'])
+def creatConJson(name):
+    cont = (request.get_json()['json'])[0]
+    #image =  dict(image)
+    cont = json.loads(cont)
+    container_params = {
+        "name" : name
+    }
+    res = createContainerJson(getAuth(),container_detais=cont,container_params=container_params)
+    return jsonify(res)
+
 
 @app.route('/container/create', methods=['POST','GET'])
 def creatCon():
@@ -130,7 +142,7 @@ def creatCon():
         }
     }
     
-    print(container_details)
+    #print(container_details)
     
     
     #print(container_details)

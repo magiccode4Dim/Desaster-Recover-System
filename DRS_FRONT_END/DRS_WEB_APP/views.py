@@ -176,6 +176,50 @@ def deleteImage(request):
     else:
          return redirect(WEB_PATH+f"/images/manager?error= Erro {str(respo)}")
 
+#create Container JSON
+@method_decorator(login_required, name='dispatch')
+class  newContainerJson(View):
+    
+    def get(self, request, *args, **kwargs):
+        error_message = request.GET.get('error')
+        #pegar as imagens disponiveis
+        #self.imagesAvailable = getAvailableImages()
+        return render(request,'userpages/createContainerJson.html',{"error":error_message})
+    def post(self, request, *args, **kwargs):
+        newContainer = request.POST['containerjson']
+        name = request.POST['name']
+        try:
+            if(len(newContainer)>0 and len(name)>0 ):
+                #cria o contaimer
+                try:
+                    s = json.loads(newContainer)
+                except Exception as e:
+                    return redirect(WEB_PATH+"/containerjson/create?error=Existe Algum erro no objecto Json")
+                serverImage = get_microservice_address_port(IMAGE_SERVICE["name"])
+                url = IMAGE_SERVICE["protocol"]+"://"+serverImage['address']+":"+str(serverImage['port'])+"/drs/api/image/containerjson/create/"+str(name)
+                respo = sendPostRequest(json = s,adress=url
+                                ,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
+                if(respo["response"]==204):
+                    return redirect(WEB_PATH+f"/container/manager?done= Container Criado com sucesso")
+                else:
+                    return redirect(WEB_PATH+f"/container/manager?error="+str(respo))
+                #return JsonResponse(respo)
+            else:
+                return redirect(WEB_PATH+"/containerjson/create?error=Introduza o Objecto Json")
+                #cria nova imagem
+        except Exception as e:
+            print(e)
+            return redirect(WEB_PATH+"/container/create?error=Algum Erro Aconteceu")
+        self.get(request)
+    def put(self, request, *args, **kwargs):
+        return render(request,'userpages/createContainer.html',{"error":"error_message"})
+
+    def delete(self, request, *args, **kwargs):
+        return render(request,'userpages/createContainer.html',{"error":"error_message"})  
+    
+
+
+
 
 #manage images
 @method_decorator(login_required, name='dispatch')
@@ -800,7 +844,7 @@ class  pushImage(View):
         respo = sendPostRequest(json = image,adress=url
                                 ,username=IMAGE_SERVICE["username"], password=IMAGE_SERVICE["password"])
         #deve retornar para o registry
-        return self.get(request)
+        return redirect(WEB_PATH+f"/service/create?done=Imagem {image['nome']} guardada no Registrador, Crie um Serviço para esta imagem")
     def put(self, request, *args, **kwargs):
         return self.get(request)
     def delete(self, request, *args, **kwargs):

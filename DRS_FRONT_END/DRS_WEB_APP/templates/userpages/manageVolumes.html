@@ -52,7 +52,7 @@
                                  <tbody>
                                     {% for s in volumes %}
                                         <tr>
-                                            <td>{{s.Name}}</td>
+                                            <td>{{ s.Name|slice:":12" }}</td>
                                             <td>{{s.CreatedAt}}</td>
                                             <td>{{s.Mountpoint}}</td>
                                             <td class="text-right table-actions">

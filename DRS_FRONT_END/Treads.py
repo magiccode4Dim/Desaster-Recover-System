@@ -4,7 +4,7 @@ import threading
 
 TIME_TO_RECOVER = 2
 TIME_TO_DELETE = 2
-DELETE_STATUS_INTERVAL =  1000
+DELETE_STATUS_INTERVAL =  60
 
 
 #cria os servicos dos servidores que estao offline

@@ -114,6 +114,17 @@ public class ImageService {
 
         return "Salvo Com Sucesso";
     }
+    //criar container directo com arquivo json
+    @Secured("USER")
+    @PostMapping("/containerjson/create/{name}")
+    @ResponseBody
+    public ResponseEntity<String> createContainerJson(@RequestBody Object cont,@PathVariable String name) {
+        // cria um container
+        String url = this.apiDockerUri + "/containerjson/create/"+name; // URL de destino
+        // Enviar a requisição POST
+        ResponseEntity<String> responseEntity = Request.sendPostRequest(cont, null, null, url);
+        return responseEntity;
+    }
 
     // salvar um container como uma imagem
     // criar container
