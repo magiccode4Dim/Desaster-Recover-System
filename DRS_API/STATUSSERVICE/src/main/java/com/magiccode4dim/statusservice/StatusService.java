@@ -6,6 +6,7 @@
 package com.magiccode4dim.statusservice;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -190,14 +191,14 @@ public class StatusService {
     public Object getIsDown(@PathVariable String id) {
         List<StatusDocument> sds = this.ss.findByServerID(id);
         if (sds.isEmpty()) {
-            return new StatusDocument();
+            return new Object() {
+                // TUDO BEM
+                public Boolean response = true;
+            };
         }
         Object u = sds.get(sds.size() - 1);
         // deve procurar saber se o time stamp da recuperacao enquadra-se com o ultimo
-        // time stamp
-        if (u == null) {
-            return null;
-        }
+     
         // se ter mais de 2 milissegundos de diferenca entao o servidor esta down
         Long now = new Date().getTime();
         StatusDocument sta = (StatusDocument) u;
@@ -223,17 +224,16 @@ public class StatusService {
     public List<ServerDocument> whoisdown() {
         List<ServerDocument> servs = this.sermongo.findAll();
         List<ServerDocument> downservrs = this.sermongo.findAll();
+        int i = 0;
         for (ServerDocument s : servs) {
             List<StatusDocument> sds = this.ss.findByServerID(s.getId());
             if (sds.isEmpty()) {
                 continue;
             }
+            
             Object u = sds.get(sds.size() - 1);
             // deve procurar saber se o time stamp da recuperacao enquadra-se com o ultimo
             // time stamp
-            if (u == null) {
-                return null;
-            }
             // se ter mais de 2 milissegundos de diferenca entao o servidor esta down
             Long now = new Date().getTime();
             StatusDocument sta = (StatusDocument) u;
@@ -241,7 +241,12 @@ public class StatusService {
             if (((now - initial) / 1000) > 3) {
                 continue;
             }else{
-                downservrs.remove(servs.indexOf(s));
+                for(ServerDocument aux : downservrs){
+                    if(aux.getId().equals(s.getId())){
+                        downservrs.remove(aux);
+                        break;
+                    }
+                }
             }
 
         }

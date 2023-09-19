@@ -2,8 +2,8 @@ from failover import *
 import time
 import threading
 
-TIME_TO_RECOVER = 1
-TIME_TO_DELETE = 1
+TIME_TO_RECOVER = 2
+TIME_TO_DELETE = 2
 DELETE_STATUS_INTERVAL =  60
 
 
