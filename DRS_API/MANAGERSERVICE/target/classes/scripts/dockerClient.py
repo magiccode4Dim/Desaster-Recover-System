@@ -1,23 +1,24 @@
 import requests
 import json
 import base64
+from json_Save import *
+
+CONFIG = getJSON("./config.json")
 
 #CLUSTER ADDRESS
-ADDRS = ["192.168.122.71","192.168.122.248","192.168.122.127"] 
+ADDRS = CONFIG["CLUSTERADDRESS"]
 
 #REGISTRADORES 
-REGISTRYS = ["192.168.122.10"]
+REGISTRYS = CONFIG["REGISTRYS"]
 
-auth_data = {
-    "username": "narciso",
-    "password": "2001"
-}
+auth_data = CONFIG["auth_data_json"]
+
 auth_data_encoded = base64.b64encode(json.dumps(auth_data).encode()).decode()
 
-ADRESS = 'https://192.168.122.71:7766'
-USERNAME = 'narciso'
-PASSWORD = '2001'
-TLS_VALUE =  False
+ADRESS = CONFIG["MASTERADRESS"]
+USERNAME = CONFIG["DOCKERAPI_USERNAME"]
+PASSWORD = CONFIG["DOCKERAPI_PASSWORD"]
+TLS_VALUE =  CONFIG["TLS_VALUE"]
 #URL
 CREATE_NET = "networks/create"
 GET_NETSWO = "networks"

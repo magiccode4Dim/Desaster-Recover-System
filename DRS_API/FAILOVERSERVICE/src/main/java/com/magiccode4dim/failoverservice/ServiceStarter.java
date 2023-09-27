@@ -30,7 +30,8 @@ public class ServiceStarter {
 
     @EnableWebSecurity
     public static class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+        String username = System.getenv("USERNAME");
+        String password = System.getenv("PASSWORD");
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
@@ -47,8 +48,8 @@ public class ServiceStarter {
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.inMemoryAuthentication()
-                    .withUser("nany")
-                    .password("{noop}2001")
+                    .withUser(username)
+                    .password("{noop}"+password)
                     .roles("USER");
         }
     }

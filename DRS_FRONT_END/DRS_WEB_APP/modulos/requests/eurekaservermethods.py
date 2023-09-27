@@ -27,7 +27,7 @@ def get_microservice_address_port( service_name):
         if 'application' in data and 'instance' in data['application']:
             # Extraindo informações de uma das instâncias disponíveis (neste exemplo, usamos a primeira)
             instance = data['application']['instance'][0]
-            service_address = instance['hostName']
+            service_address = instance['ipAddr']
             service_port = instance['port']['$']
 
             # Retornar o endereço e a porta do serviço encontrado
