@@ -1,30 +1,17 @@
 
 from DRS_WEB_APP.modulos.requests.eurekaservermethods import *
 from DRS_WEB_APP.modulos.requests.sendRequests import *
+from DRS_WEB_APP.configs.json_Save import *
 
+
+CONFIG = getJSON("./DRS_WEB_APP/configs/config.json")
+
+STATUS_SERVICE = (CONFIG["microservices"])[1]
+MANAGER_SERVICE = (CONFIG["microservices"])[3]
+FAILOVER_SERVICE = (CONFIG["microservices"])[4]
 
 WEB_PATH = '/web'
 
-
-STATUS_SERVICE = {
-    "name" : 'STATUS_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
-
-FAILOVER_SERVICE = {
-    "name" : 'FAILOVER_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
-MANAGER_SERVICE = {
-    "name" : 'MANAGER_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
 
 
 #apaga os status frequentemente para nao encher na base de dado

@@ -1,11 +1,11 @@
 import requests
 import base64
 import random
+from DRS_WEB_APP.configs.json_Save import *
 
-EUREKA_SERVERS = ['localhost:8761']
+CONFIG = getJSON("./DRS_WEB_APP/configs/config.json")
 
-
-
+EUREKA_SERVERS = CONFIG["EUREKASERVERS"]
 
 
 #retorna o endereço e a porta do microserviço

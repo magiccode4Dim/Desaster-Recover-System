@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'DRS_FRONT_END.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+"""
 DATABASES = {
       'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -88,6 +88,18 @@ DATABASES = {
         'PASSWORD': 'monografia2023',
         'HOST': 'localhost',
         'PORT': '3306',
+    }
+}
+"""
+
+DATABASES = {
+      'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.environ.get('DATABASE'), 
+        'USER': os.environ.get('DB_USERNAME'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'), 
+        'HOST': os.environ.get('DB_HOST'), 
+        'PORT': int(os.environ.get('DB_PORT')), 
     }
 }
 

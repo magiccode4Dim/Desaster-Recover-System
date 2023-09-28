@@ -1,0 +1,36 @@
+{
+    "microservices":[
+        {
+            "name" : "IMAGE_SERVICE",
+            "username" : "nany",
+            "password" :"2001",
+            "protocol" : "http"
+        },
+        {
+            "name" : "STATUS_SERVICE",
+            "username" : "nany",
+            "password" :"2001",
+            "protocol" : "http"
+        },
+        {
+            "name" : "BACKUP_SERVICE",
+            "username" : "nany",
+            "password" :"2001",
+            "protocol" : "http"
+        },
+        {
+            "name" : "MANAGER_SERVICE",
+            "username" : "nany",
+            "password" :"2001",
+            "protocol" : "http"
+        },
+        {
+            "name" : "FAILOVER_SERVICE",
+            "username" : "nany",
+            "password" :"2001",
+            "protocol" : "http"
+        }
+    ],
+    "CLUSTER_NODES" : ["MASTER","WORKER1","WORKER2","REGISTRY"],
+    "EUREKASERVERS":["192.168.122.1:8761"]
+}

@@ -9,16 +9,15 @@ from django.contrib.auth.decorators import login_required
 from django.templatetags.static import static
 import os
 from django.conf import settings
+from DRS_WEB_APP.configs.json_Save import *
 
 WEB_PATH = '/web'
 API_GATEWAY ="/DRS_GATEWAY_API"
 
-STATUS_SERVICE = {
-    "name" : 'STATUS_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
+
+CONFIG = getJSON("./DRS_WEB_APP/configs/config.json")
+
+STATUS_SERVICE = (CONFIG["microservices"])[1]
 
 #get last status
 def getStatusByID(id):

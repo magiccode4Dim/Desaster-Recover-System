@@ -1,10 +1,11 @@
 from failover import *
 import time
 import threading
+import os
 
-TIME_TO_RECOVER = 2
-TIME_TO_DELETE = 2
-DELETE_STATUS_INTERVAL =  60
+TIME_TO_RECOVER = int(os.environ.get('TIME_TO_RECOVER')) #2 #tempo necessario para criar um servico assim que um determinado servidor caar
+TIME_TO_DELETE =  int(os.environ.get('TIME_TO_DELETE')) #2 #tem necessario para eliminar o servico assim que o servidor levanta
+DELETE_STATUS_INTERVAL = int(os.environ.get('DELETE_STATUS_INTERVAL'))  #60 #tempo necessario para apagar o status de todos os servidor na base de dados
 
 
 #cria os servicos dos servidores que estao offline

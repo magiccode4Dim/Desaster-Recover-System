@@ -1,0 +1,122 @@
+version: '3'
+services:
+#EUreka server
+  eureka-server:
+    image: drs_eureka_server-wars
+    restart: always
+    ports:
+      - "8761:8761"
+    environment:
+      - PORT=8761
+  #user service
+  userservice:
+    image: userservice-wars
+    restart: always
+    ports:
+      - "8087:8087"
+    environment:
+      - PORT=8087
+      - EUREKA_SERVER=http://eureka-server:8761/eureka/
+      - MYSQL_URL=jdbc:mysql://192.168.122.1:3306/userwebdb
+      - MYSQL_USER=nany
+      - MYSQL_PASSWORD=monografia2023
+      - USERNAME=nany
+      - PASSWORD=2001
+    depends_on:
+      - eureka-server
+  imageservice:
+    image: imageservice-wars
+    restart: always
+    ports:
+      - "8088:8088"
+    environment:
+      - PORT=8088
+      - EUREKA_SERVER=http://eureka-server:8761/eureka/
+      - MONGO_URL=mongodb://nany:monografia2023@192.168.122.1:27017/drs_status
+      - USERNAME=nany
+      - PASSWORD=2001
+    depends_on:
+      - eureka-server
+#backup service
+  backupservice:
+    image: backupservice-wars
+    restart: always
+    ports:
+      - "8089:8089"
+    environment:
+      - PORT=8089
+      - EUREKA_SERVER=http://eureka-server:8761/eureka/
+      - USERNAME=nany
+      - PASSWORD=2001
+    depends_on:
+      - eureka-server
+#failover service
+  failoverservice:
+    image: failoverservice-wars
+    restart: always
+    ports:
+      - "8091:8091"
+    environment:
+      - PORT=8091
+      - EUREKA_SERVER=http://eureka-server:8761/eureka/
+      - MONGO_URL=mongodb://nany:monografia2023@192.168.122.1:27017/drs_status
+      - USERNAME=nany
+      - PASSWORD=2001
+    depends_on:
+      - eureka-server
+#manage service
+  managerservice:
+    image: managerservice-wars
+    restart: always
+    ports:
+      - "8090:8090"
+    environment:
+      - PORT=8090
+      - EUREKA_SERVER=http://eureka-server:8761/eureka/
+      - MONGO_URL=mongodb://nany:monografia2023@192.168.122.1:27017/drs_status
+      - USERNAME=nany
+      - PASSWORD=2001
+    depends_on:
+      - eureka-server
+#manage service
+  statusservice:
+    image: statusservice-wars
+    restart: always
+    ports:
+      - "8086:8086"
+    environment:
+      - PORT=8086
+      - EUREKA_SERVER=http://eureka-server:8761/eureka/
+      - MONGO_URL=mongodb://nany:monografia2023@192.168.122.1:27017/drs_status
+      - USERNAME=nany
+      - PASSWORD=2001
+    depends_on:
+      - eureka-server
+  #FRont end app
+  aaeewars-frontend:
+    image: aaeewarsfrontend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8761
+      - DATABASE=userwebdb
+      - DB_USERNAME=nany
+      - DB_PASSWORD=monografia2023
+      - DB_HOST=192.168.122.1
+      - DB_PORT=3306
+      - TIME_TO_RECOVER=2
+      - TIME_TO_DELETE=2
+      - DELETE_STATUS_INTERVAL=60
+    depends_on:
+      - statusservice
+      - managerservice
+      - failoverservice
+      - backupservice
+      - imageservice
+
+    
+
+
+
+

@@ -1,0 +1,23 @@
+version: '3'
+services:
+#FRont end app
+  aaeewars-frontend:
+    image: aaeewarsfrontend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8761
+      - DATABASE=userwebdb
+      - DB_USERNAME=nany
+      - DB_PASSWORD=monografia2023
+      - DB_HOST=192.168.122.1
+      - DB_PORT=3306
+      - TIME_TO_RECOVER=2
+      - TIME_TO_DELETE=2
+      - DELETE_STATUS_INTERVAL=60
+
+
+
+
+

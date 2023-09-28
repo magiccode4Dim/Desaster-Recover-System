@@ -10,44 +10,22 @@ from django.utils.decorators import method_decorator
 from .modulos.requests.eurekaservermethods import get_microservice_address_port,get_microservice_data
 from .modulos.requests.sendRequests import *
 import json
+from .configs.json_Save import *
 
 from DRS_GATEWAY_API.views import getStatusByID
 
 WEB_PATH = '/web'
 
-IMAGE_SERVICE = {
-    "name" : 'IMAGE_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
-STATUS_SERVICE = {
-    "name" : 'STATUS_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
-BACKUP_SERVICE = {
-    "name" : 'BACKUP_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
-MANAGER_SERVICE = {
-    "name" : 'MANAGER_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
-FAILOVER_SERVICE = {
-    "name" : 'FAILOVER_SERVICE',
-    "username" : "nany",
-    "password" :"2001",
-    "protocol" : "http"
-}
+CONFIG = getJSON("./DRS_WEB_APP/configs/config.json")
+
+IMAGE_SERVICE = (CONFIG["microservices"])[0]
+STATUS_SERVICE = (CONFIG["microservices"])[1]
+BACKUP_SERVICE = (CONFIG["microservices"])[2]
+MANAGER_SERVICE = (CONFIG["microservices"])[3]
+FAILOVER_SERVICE = (CONFIG["microservices"])[4]
 
 #Esses sao nos do cluster cujo servidores devem ter os mesmos nomes se quisermos fazer monitoramento
-CLUSTER_NODES=["MASTER","WORKER1","WORKER2","REGISTRY"]
+CLUSTER_NODES=CONFIG["CLUSTER_NODES"]
 
 
 def getNodesInfo():
