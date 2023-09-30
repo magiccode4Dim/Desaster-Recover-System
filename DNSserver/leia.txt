@@ -1,0 +1,2 @@
+Este dockerfile cria um servidor dns que aponta um dominio para dois endereços ips destintos
+ele pode ser usado para demonostração para apontar o ip da replica e o ip do site principal para um mesmo dominio

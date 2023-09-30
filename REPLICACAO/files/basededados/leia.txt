@@ -1,0 +1,1 @@
+este dockerfile cria um container replica usando replicacao logica unidirecional usando postgres 14

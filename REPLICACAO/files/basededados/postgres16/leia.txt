@@ -1,0 +1,4 @@
+masterdb cria uma imagem docker com uma base de dados e uma tabela postgres c
+configuradas com master
+
+replicadb cria um container que sera a replica do master

@@ -1,0 +1,1 @@
+Este dockerfile cria uma imagem do python com java. Ele é necessario para que alguns microserviços que possuem um servidor python integrado

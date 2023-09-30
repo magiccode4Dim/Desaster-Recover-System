@@ -1,0 +1,2 @@
+este dockerfile criar a replica desta aplicação que esta nesse directorio.
+para ser mais exato, cria uma imagem docker com a aplicação imbutido
