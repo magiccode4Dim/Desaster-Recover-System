@@ -1,5 +1,4 @@
-# DRS
-DRS - Desaster Recover System is a:
+# DRS - Desaster Recover System
 * web aplication replicator
 * DDoS defence System
 * high availability
