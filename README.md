@@ -1,2 +1,2 @@
 # DRS
-DRS - Dynamic Resilience System 
+DRS - Desaster Recover System 
