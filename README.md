@@ -50,7 +50,7 @@ maven install
 maven package
 ```
 3. Contrua as imagens presentes nos subdirectorios de /Docker/
-4. Construa as imagens dos microserviços executando:
+4. Construa as imagens dos microserviços executando o arquivo BuildDockerFiles.sh presente  no Directório /DRS_API/
 
 
 
