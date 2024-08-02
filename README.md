@@ -22,5 +22,5 @@ Empresas  que mantêm  as suas aplicações  web em infraestruturas  locais, tem
 
 O DRS mantêm  as cópias  das aplicações web em um cluster de servidores, para assegurar a alta disponibilidade e maior performance. Assim sendo,  o primeiro  passo é  configurar  o Cluster de forma adequada para o DRS.
 
-***Configuração do docker swarm,  docker registry e docker API***
-As configurações  da infraestrutura, estão  presentes no PDF **infrastrutura.pdf**
+**Configuração do docker swarm,  docker registry e docker API**:
+As configurações  da infraestrutura, estão  presentes no PDF ***infrastrutura.pdf***
