@@ -49,7 +49,7 @@ maven clean
 maven install
 maven package
 ```
-3. Contrua as imagens presentes nos subdirectorios de /Docker/
+3. Contrua as imagens presentes nos subdirectorios de /Docker/ (Compile de acordo com as orientações escritas em forma de comentário nos Dockerfile's)
 4. Construa as imagens dos microserviços executando o arquivo BuildDockerFiles.sh presente  no Directório /DRS_API/
 
 
