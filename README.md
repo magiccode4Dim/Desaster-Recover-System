@@ -18,9 +18,25 @@ Empresas  que mantêm  as suas aplicações  web em infraestruturas  locais, tem
 * O DRS monitora os servidores que hospedam as aplicações web, através  de uma aplicação  Agente que deve ser previamente  instalada no servidor  de Destino.
 * A Cópia  dos dados é  assegurada  por um sistema de replicação  de base de dados.
 
-## Instalação  e Configuração
+## Configuração da Infraestrutura
 
 O DRS mantêm  as cópias  das aplicações web em um cluster de servidores, para assegurar a alta disponibilidade e maior performance. Assim sendo,  o primeiro  passo é  configurar  o Cluster de forma adequada para o DRS.
 
 **Configuração do docker swarm,  docker registry e docker API**:
 As configurações  da infraestrutura, estão  presentes no PDF ***infrastrutura.pdf***
+
+## Instalação do DRS
+
+Requisitos mínimos de Sistema:
+* OS - Ubuntu >= 22.04 LTS;
+* CPU - 2.5 Ghz × 4 cores (ou mais);
+* RAM - 16 GB ou mais.
+
+Dependências:
+* Docker 24.0.2 ou superior;
+* Python >= 3.10;
+* Java >= 8.0
+* maven >= 3.6
+* mongo
+* mysql
+
