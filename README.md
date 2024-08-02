@@ -37,6 +37,20 @@ Dependências:
 * Python >= 3.10;
 * Java >= 8.0
 * maven >= 3.6
-* mongo
-* mysql
+* mongo >= 7.0
+* mysql >= 8.0
+
+**Instalação Manual**
+1. Clone o Projecto
+2. Compile a API e os seus microserviços:
+* Entre no directório DRS_API, e para cada subdirectio execute:
+```bash
+maven clean
+maven install
+maven package
+```
+3. Contrua as imagens presentes no directório /Docker/
+4. Construa as imagens dos microserviços
+
+
 
