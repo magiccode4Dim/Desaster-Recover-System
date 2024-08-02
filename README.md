@@ -43,14 +43,15 @@ Dependências:
 **Instalação Manual**
 1. Clone o Projecto
 2. Compile a API e os seus microserviços:
-* Entre no directório DRS_API, e para cada subdirectio execute:
+* Entre no directório DRS_API, e para cada subdirectorio execute:
 ```bash
 maven clean
 maven install
 maven package
 ```
-3. Contrua as imagens presentes no directório /Docker/
-4. Construa as imagens dos microserviços
+3. Contrua as imagens presentes nos subdirectorios de /Docker/
+4. Construa as imagens dos microserviços executando:
+
 
 
 
