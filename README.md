@@ -18,17 +18,13 @@ Empresas  que mantêm  as suas aplicações  web em infraestruturas  locais, tem
 * O DRS monitora os servidores que hospedam as aplicações web, através  de uma aplicação  Agente que deve ser previamente  instalada no servidor  de Destino.
 * A Cópia  dos dados é  assegurada  por um sistema de replicação  de base de dados.
 
-## Configuração da Infraestrutura
-
-O DRS mantêm  as cópias  das aplicações web em um cluster de servidores, para assegurar a alta disponibilidade e maior performance. Assim sendo,  o primeiro  passo é  configurar  o Cluster de forma adequada para o DRS.
-
-**Configuração do docker swarm,  docker registry e docker API**:
+## I. Configuração da Infraestrutura (OBRIGATÓRIO SEGUIR)
 As configurações  da infraestrutura, estão  presentes no PDF ***infrastrutura.pdf***
 
-## Instalação do DRS
+## II. Instalação do DRS
 
 Requisitos mínimos de Sistema:
-* OS - Ubuntu >= 22.04 LTS;
+* OS - Ubuntu >= 22.04 LTS ou Debian >= 11 (testado no debian 12);
 * CPU - 2.5 Ghz × 4 cores (ou mais);
 * RAM - 16 GB ou mais.
 
@@ -41,8 +37,15 @@ Dependências:
 * mysql >= 8.0
 
 **Instalação Manual**
-1. Clone o Projecto
-2. Compile a API e os seus microserviços:
+1. Configure a infraestrutura de acordo com o ficheiro ***infrastrutura.pdf***.
+2. Instale as dependências acima listadas.
+3. Inicialize os dois servidores de base de dados (mysql e mongo), crie uma base de dados em cada um dos servidores (guarde o nome delas), e certifique-se se possui um IP, PORTA e um utilizador válido para aceder a base de dados.
+4. Clone o Projecto
+5. Altere os Arquivos de configuração
+   * Mude as credências dos microserviços e base de dados presentes no arquivo docker-compose.yml, de acordo com os dados da sua infraestrutura.
+   * Mude os valores no ficheiro ./DRS_WEB_APP/configs/config.json de acordo com as credências dos microserviços inseridas no docker-compose.yml. No mesmo ficheiro, altere também,os valores de "CLUSTER_NODES" e "EUREKASERVERS". No "CLUSTER_NODES" insira os nomes dos nós do cluster swarm configurado no Passo 1. No "EUREKASERVERS" insira o IP(s) do seu(s) servidor(es) eureka, insirá o endereço e a porta que permita chegar ao serviço ***eureka-server*** presente no docker-compose.yml.
+   
+6. Compile a API e os seus microserviços:
 * Entre no directório DRS_API, e para cada subdirectorio execute:
 ```bash
 maven clean
@@ -50,7 +53,14 @@ maven install
 maven package
 ```
 3. Contrua as imagens presentes nos subdirectorios de /Docker/ (Compile de acordo com as orientações escritas em forma de comentário nos Dockerfile's)
-4. Construa as imagens dos microserviços executando o arquivo BuildDockerFiles.sh presente  no Directório /DRS_API/
+   * No directorio /Docker/Javacompython3 execute
+     ```bash
+      sudo docker build -t openjdk8-and-python3 .
+      ```
+5. Com internet ligada, no directorio raiz do projecto, execute:
+   ```bash
+      sudo docker compose up -d
+   ```
 
 
 
