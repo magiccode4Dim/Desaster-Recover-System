@@ -36,7 +36,7 @@ Dependências:
 * mongo >= 7.0
 * mysql >= 8.0
 
-**Instalação Manual**
+**Instalação**
 1. Configure a infraestrutura de acordo com o ficheiro ***infrastrutura.pdf***.
 2. Instale as dependências acima listadas.
 3. Inicialize os dois servidores de base de dados (mysql e mongo), crie uma base de dados em cada um dos servidores (guarde o nome delas), e certifique-se se possui um IP, PORTA e um utilizador válido para aceder a base de dados.
@@ -55,7 +55,7 @@ maven package
 3. Contrua as imagens presentes nos subdirectorios de /Docker/ (Compile de acordo com as orientações escritas em forma de comentário nos Dockerfile's)
    * No directorio /Docker/Javacompython3 execute
 ```bash
-      sudo docker build -t openjdk8-and-python3 .
+sudo docker build -t openjdk8-and-python3 .
 ```
 5. Com internet ligada, no directorio raiz do projecto, execute:
 ```bash
@@ -65,7 +65,7 @@ sudo docker compose up -d
 ```bash
 sudo docker exec -it desaster-recover-system-aaeewars-frontend-1 python manage.py createsuperuser
 ```
-
+![Screenshot from 2024-08-03 19-16-33](https://github.com/user-attachments/assets/f7367cfc-4f9e-498d-b4fe-a8da5d791d6c)
 
 
 
