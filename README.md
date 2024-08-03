@@ -61,6 +61,10 @@ maven package
 ```bash
 sudo docker compose up -d
 ```
+6. Crie um superuser
+```bash
+sudo docker exec -it desaster-recover-system-aaeewars-frontend-1 python manage.py createsuperuser
+```
 
 
 
