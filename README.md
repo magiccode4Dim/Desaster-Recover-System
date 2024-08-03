@@ -52,28 +52,29 @@ maven clean
 maven install
 maven package
 ```
-3. Contrua as imagens presentes nos subdirectorios de /Docker/ (Compile de acordo com as orientações escritas em forma de comentário nos Dockerfile's)
+7. Contrua as imagens presentes nos subdirectorios de /Docker/ (Compile de acordo com as orientações escritas em forma de comentário nos Dockerfile's)
    * No directorio /Docker/Javacompython3 execute
 ```bash
 sudo docker build -t openjdk8-and-python3 .
 ```
-5. Com internet ligada, no directorio raiz do projecto, execute:
+8. Com internet ligada, no directorio raiz do projecto, execute:
 ```bash
 sudo docker compose up -d
 ```
 ![Screenshot from 2024-08-03 21-17-11](https://github.com/user-attachments/assets/3a09a148-d77d-4b5a-9202-6faab1366e71)
 
-6. Crie um superuser
+9. Crie um superuser
 ```bash
 sudo docker exec -it desaster-recover-system-aaeewars-frontend-1 python manage.py createsuperuser
 ```
 ![Screenshot from 2024-08-03 19-16-33](https://github.com/user-attachments/assets/f7367cfc-4f9e-498d-b4fe-a8da5d791d6c)
 
-## UTILIZAÇÃO E SCREENSHOTS
+**NOTA**: O DRS AINDA NÃO ESTÁ PRONTO PARA SER UTILIZADO EM PRODUÇÃO, POR ENQUANTO É APENAS UMA PROVA DE CONCEITO QUE PODE SER INSTALADA E TESTADA EM AMBIENTE LOCAL.
+## SCREENSHOTS
 ![Screenshot from 2024-08-03 21-32-48](https://github.com/user-attachments/assets/861104e7-9d24-4be8-a013-7b0538c891a4)
 ![Screenshot from 2024-08-03 21-34-34](https://github.com/user-attachments/assets/ccbc4a73-fd5b-493a-821c-a0305b5a7034)
 ![Screenshot from 2024-08-03 21-35-14](https://github.com/user-attachments/assets/f9782a1f-8cbb-4478-a7ff-f9786febe794)
 ![Screenshot from 2024-08-03 21-35-26](https://github.com/user-attachments/assets/db8f32b4-9fb8-4b78-999f-7653897e3338)
 
-
+**BY narcisopascoal97@gmail.com**
 
