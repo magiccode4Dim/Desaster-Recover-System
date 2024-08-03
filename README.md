@@ -10,15 +10,6 @@
 O DRS foi criado para resolver o problema  da falta de Alta disponibilidade, em aplicações  web implantadas em infraestruturas On-premise. 
 Empresas  que mantêm  as suas aplicações  web em infraestruturas  locais, tem a dificuldade  de assegurar  a disponibilidade  das mesmas em situações adversas como corte de corrente eléctrica,  desastres naturais, ataques DDoS, falhar humanas etc.O DRS resolve  o problema porque permite que uma cópia  a nível  dos dados e a nível das aplicações web seja armazenada fora da infraestrutura  local, de tal modo que está, passa a ser ligada somente quando existe indisponibilidade da infraestrutura local (on -promise).
 
-## Sistemas Semelhantes 
-O DRS é  semelhante  aos seguintes sistemas:
-* Amazon Web Services (AWS) Disaster Recovery;
-* Microsoft Azure Site Recovery;
-* Google Cloud Platform (GCP) Site-to-Site Disaster Recovery;
-* VMware Site Recovery Manager.
-
-A diferença  mais marcante  entre o DRS e as plataformas  acima citadas,  é  que o DRS é  opensource e utiliza o Docker como base para armazenar a replica da aplicação  web, ao invés  de utilizar uma máquina  virtual. 
-
 ## Descrição do Sistema
 * O DRS é um sistema desenvolvido para assegurar a alta  disponibilidade. 
 * Permite configurar  uma cópia  de uma determinada aplicação  web em clusteres de servidores. 
@@ -26,6 +17,15 @@ A diferença  mais marcante  entre o DRS e as plataformas  acima citadas,  é  q
 * O DRS tem como base o Docker Engine. Neste sentido, a cópia é configurada em um container Docker através  de um Dockerfile.
 * O DRS monitora os servidores que hospedam as aplicações web, através  de uma aplicação  Agente que deve ser previamente  instalada no servidor  de Destino.
 * A Cópia  dos dados é  assegurada  por um sistema de replicação  de base de dados.
+
+## Sistemas Semelhantes 
+O DRS é  semelhante  aos seguintes sistemas:
+* Amazon Web Services (AWS) Disaster Recovery;
+* Microsoft Azure Site Recovery;
+* Google Cloud Platform (GCP) Site-to-Site Disaster Recovery;
+* VMware Site Recovery Manager.
+
+Quanto as diferenças  mais marcantes  entre o DRS e as plataformas  acima citadas,primeiro, DRS é  opensource, segundo, utiliza o Docker como base para armazenar a replica da aplicação  web, ao invés  de utilizar uma máquina  virtual.
 
 ## I. Configuração da Infraestrutura (OBRIGATÓRIO SEGUIR)
 As configurações  da infraestrutura, estão  presentes no PDF ***infrastrutura.pdf***
