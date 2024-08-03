@@ -54,13 +54,13 @@ maven package
 ```
 3. Contrua as imagens presentes nos subdirectorios de /Docker/ (Compile de acordo com as orientações escritas em forma de comentário nos Dockerfile's)
    * No directorio /Docker/Javacompython3 execute
-     ```bash
+```bash
       sudo docker build -t openjdk8-and-python3 .
-      ```
+```
 5. Com internet ligada, no directorio raiz do projecto, execute:
-   ```bash
-      sudo docker compose up -d
-   ```
+```bash
+sudo docker compose up -d
+```
 
 
 
