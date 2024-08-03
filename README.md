@@ -39,7 +39,7 @@ Dependências:
 **Instalação**
 1. Configure a infraestrutura de acordo com o ficheiro ***infrastrutura.pdf***.
 2. Instale as dependências acima listadas.
-3. Inicialize os dois servidores de base de dados (mysql e mongo), crie uma base de dados em cada um dos servidores (guarde o nome delas), e certifique-se se possui um IP, PORTA e um utilizador válido para aceder a base de dados.
+3. Inicialize os dois servidores de base de dados (mysql e mongo), crie uma base de dados em cada um dos servidores (guarde o nome delas), e certifique-se se possui um IP, PORTA e um utilizador válido para aceder a base de dados (se quiser pode utilizar rodar os docker-compose.yml presentes no directorio mongo_and_mysql).
 4. Clone o Projecto
 5. Altere os Arquivos de configuração
    * Mude as credências dos microserviços e base de dados presentes no arquivo docker-compose.yml, de acordo com os dados da sua infraestrutura.
@@ -61,11 +61,19 @@ sudo docker build -t openjdk8-and-python3 .
 ```bash
 sudo docker compose up -d
 ```
+![Screenshot from 2024-08-03 21-17-11](https://github.com/user-attachments/assets/3a09a148-d77d-4b5a-9202-6faab1366e71)
+
 6. Crie um superuser
 ```bash
 sudo docker exec -it desaster-recover-system-aaeewars-frontend-1 python manage.py createsuperuser
 ```
 ![Screenshot from 2024-08-03 19-16-33](https://github.com/user-attachments/assets/f7367cfc-4f9e-498d-b4fe-a8da5d791d6c)
+
+## UTILIZAÇÃO E SCREENSHOTS
+![Screenshot from 2024-08-03 21-32-48](https://github.com/user-attachments/assets/861104e7-9d24-4be8-a013-7b0538c891a4)
+![Screenshot from 2024-08-03 21-34-34](https://github.com/user-attachments/assets/ccbc4a73-fd5b-493a-821c-a0305b5a7034)
+![Screenshot from 2024-08-03 21-35-14](https://github.com/user-attachments/assets/f9782a1f-8cbb-4478-a7ff-f9786febe794)
+![Screenshot from 2024-08-03 21-35-26](https://github.com/user-attachments/assets/db8f32b4-9fb8-4b78-999f-7653897e3338)
 
 
 
