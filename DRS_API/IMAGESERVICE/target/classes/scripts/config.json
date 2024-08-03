@@ -1,0 +1,18 @@
+{
+    "CLUSTERADDRESS": [
+        "192.168.122.71",
+        "192.168.122.248",
+        "192.168.122.127"
+    ],
+    "MASTERADRESS": "https://192.168.122.71:7766",
+    "DOCKERAPI_USERNAME": "narciso",
+    "DOCKERAPI_PASSWORD": "2001",
+    "auth_data_json": {
+        "username": "narciso",
+        "password": "2001"
+    },
+    "REGISTRYS": [
+        "192.168.122.10"
+    ],
+    "TLS_VALUE": false
+}

@@ -14,7 +14,7 @@ COPY start.sh /app/start.sh
 
 RUN chmod +x /app/start.sh
 
-# Comando para executar o script personalizado (inicia Treads.py e o servidor Django)
-CMD ["/app/start.sh"]
+# Comando para executar o script personalizado 
+#CMD ["/app/start.sh"]
 
 #sudo docker build -t aaeewarsfrontend .

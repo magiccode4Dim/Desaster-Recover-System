@@ -1,8 +1,10 @@
-version: '3'
+version: '3.7'
 services:
 #EUreka server
   eureka-server:
-    image: drs_eureka_server-wars
+    build:
+      context: ./DRS_API/DRS_EUREKA_SERVER
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8761:8761"
@@ -10,36 +12,42 @@ services:
       - PORT=8761
   #user service
   userservice:
-    image: userservice-wars
+    build:
+      context: ./DRS_API/USERSERVICE
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8087:8087"
     environment:
       - PORT=8087
       - EUREKA_SERVER=http://eureka-server:8761/eureka/
-      - MYSQL_URL=jdbc:mysql://192.168.122.1:3306/userwebdb
-      - MYSQL_USER=nany
-      - MYSQL_PASSWORD=monografia2023
+      - MYSQL_URL=jdbc:mysql://192.168.122.1:3306/drsdb
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=2001
       - USERNAME=nany
       - PASSWORD=2001
     depends_on:
       - eureka-server
   imageservice:
-    image: imageservice-wars
+    build:
+      context: ./DRS_API/IMAGESERVICE
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8088:8088"
     environment:
       - PORT=8088
       - EUREKA_SERVER=http://eureka-server:8761/eureka/
-      - MONGO_URL=mongodb://nany:monografia2023@192.168.122.1:27017/drs_status
+      - MONGO_URL=mongodb://nany:2001@192.168.122.1:27017/drsdb?authSource=admin&ssl=false
       - USERNAME=nany
       - PASSWORD=2001
     depends_on:
       - eureka-server
 #backup service
   backupservice:
-    image: backupservice-wars
+    build:
+      context: ./DRS_API/BACKUPSERVICE
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8089:8089"
@@ -52,57 +60,65 @@ services:
       - eureka-server
 #failover service
   failoverservice:
-    image: failoverservice-wars
+    build:
+      context: ./DRS_API/FAILOVERSERVICE
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8091:8091"
     environment:
       - PORT=8091
       - EUREKA_SERVER=http://eureka-server:8761/eureka/
-      - MONGO_URL=mongodb://nany:monografia2023@192.168.122.1:27017/drs_status
+      - MONGO_URL=mongodb://nany:2001@192.168.122.1:27017/drsdb?authSource=admin&ssl=false
       - USERNAME=nany
       - PASSWORD=2001
     depends_on:
       - eureka-server
 #manage service
   managerservice:
-    image: managerservice-wars
+    build:
+      context: ./DRS_API/MANAGERSERVICE
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8090:8090"
     environment:
       - PORT=8090
       - EUREKA_SERVER=http://eureka-server:8761/eureka/
-      - MONGO_URL=mongodb://nany:monografia2023@192.168.122.1:27017/drs_status
+      - MONGO_URL=mongodb://nany:2001@192.168.122.1:27017/drsdb?authSource=admin&ssl=false
       - USERNAME=nany
       - PASSWORD=2001
     depends_on:
       - eureka-server
 #manage service
   statusservice:
-    image: statusservice-wars
+    build:
+      context: ./DRS_API/STATUSSERVICE
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8086:8086"
     environment:
       - PORT=8086
       - EUREKA_SERVER=http://eureka-server:8761/eureka/
-      - MONGO_URL=mongodb://nany:monografia2023@192.168.122.1:27017/drs_status
+      - MONGO_URL=mongodb://nany:2001@192.168.122.1:27017/drsdb?authSource=admin&ssl=false
       - USERNAME=nany
       - PASSWORD=2001
     depends_on:
       - eureka-server
   #FRont end app
   aaeewars-frontend:
-    image: aaeewarsfrontend
+    build:
+      context: ./DRS_FRONT_END
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "8000:8000"
     environment:
       - PORT=8761
-      - DATABASE=userwebdb
-      - DB_USERNAME=nany
-      - DB_PASSWORD=monografia2023
+      - DATABASE=drsdb
+      - DB_USERNAME=root
+      - DB_PASSWORD=2001
       - DB_HOST=192.168.122.1
       - DB_PORT=3306
       - TIME_TO_RECOVER=2
@@ -114,6 +130,11 @@ services:
       - failoverservice
       - backupservice
       - imageservice
+    command: >
+      sh -c ' 
+        ./start.sh &&
+        python manage.py runserver 0.0.0.0:8000
+      '
 
     
 

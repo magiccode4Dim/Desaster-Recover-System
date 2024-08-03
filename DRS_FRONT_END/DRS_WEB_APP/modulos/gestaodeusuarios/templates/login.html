@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title%}AAEE WARS - Login{% endblock %}
+{% block title%}DRS - Login{% endblock %}
 
 {% block content%}
    <a class="logo-img" href="/web">		
@@ -8,7 +8,7 @@
       <!--<img class="small-logo" src="{% static 'assets/images/Logo.png'%}" alt="">-->
       </a>
    <h4 class="card-title mt-3 text-center">Sing In</h4>
-   <p class="text-center">REPLICAÇÃO DE APLICAÇÕES WEB DA AAEE</p>
+   <p class="text-center">DESASTER RECOVERY SYSTEM</p>
 
    <form action="{% url 'login' %}" method="POST"> {% csrf_token %}
    <div class="form-group input-group">
