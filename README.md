@@ -87,6 +87,12 @@ sudo docker exec -it desaster-recover-system-aaeewars-frontend-1 python manage.p
 ```
 ![Screenshot from 2024-08-03 19-16-33](https://github.com/user-attachments/assets/f7367cfc-4f9e-498d-b4fe-a8da5d791d6c)
 
+10. Acesso o Sistema  em http://localhost:8000, entre com as credências  acima criadas; Desça até ao final da página  da dashboard, e siga as instruções  para instalar o DRS-agente nos servidores  da infraestrutura. 
+
+11. Registre os Nós  da infraestrutura no DRS.
+
+
+
 **NOTA**: O DRS AINDA NÃO ESTÁ PRONTO PARA SER UTILIZADO EM PRODUÇÃO, POR ENQUANTO É APENAS UMA PROVA DE CONCEITO QUE PODE SER INSTALADA E TESTADA EM AMBIENTE LOCAL.
 ## SCREENSHOTS
 ![Screenshot from 2024-08-03 21-32-48](https://github.com/user-attachments/assets/861104e7-9d24-4be8-a013-7b0538c891a4)
