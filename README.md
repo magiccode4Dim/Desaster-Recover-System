@@ -48,7 +48,7 @@ Dependências:
 **Instalação**
 1. Configure a infraestrutura de acordo com o ficheiro ***drs.pdf*** (os arquivos pdf, encontram-se na raiz do repositório).
 2. Instale as dependências acima listadas.
-3. Inicialize os dois servidores de base de dados (mysql e mongo), crie uma base de dados em cada um dos servidores (guarde o nome delas), e certifique-se se possui um IP, PORTA e um utilizador válido para aceder a base de dados (se quiser pode utilizar rodar os docker-compose.yml presentes no directorio mongo_and_mysql).
+3. Inicialize os dois servidores de base de dados (mysql e mongo), crie uma base de dados em cada um dos servidores (guarde o nome delas), e certifique-se se possui um IP, PORTA e um utilizador válido para aceder a base de dados (**Nota**: se quiser pode rodar os docker-compose.yml presentes no directorio /mongo_and_mysql/ que terá duas base de dados já prontas).
 4. Clone o Projecto
 5. Altere os Arquivos de configuração:
    * Mude as credências dos microserviços e base de dados presentes no arquivo ***docker-compose.yml***, de acordo com os dados da sua infraestrutura.
