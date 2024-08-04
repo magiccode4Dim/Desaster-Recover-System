@@ -89,9 +89,7 @@ sudo docker exec -it desaster-recover-system-aaeewars-frontend-1 python manage.p
 
 10. Acesso o Sistema  em http://localhost:8000, entre com as credências  acima criadas; Desça até ao final da página  da dashboard, e siga as instruções  para instalar o DRS-agente nos servidores  da infraestrutura. 
 
-11. Registre os Nós  da infraestrutura no DRS.
-
-
+11. Registre os Nós  da infraestrutura no DRS. Vá  até  **Monitoramento->Adicionar Servidor**,  e adiciona  os nós da infraestrutura com os mesmos nomes presentes no atributo ***"CLUSTER_NODES"*** do arquivo ***./DRS_WEB_APP/configs/config.json***.
 
 **NOTA**: O DRS AINDA NÃO ESTÁ PRONTO PARA SER UTILIZADO EM PRODUÇÃO, POR ENQUANTO É APENAS UMA PROVA DE CONCEITO QUE PODE SER INSTALADA E TESTADA EM AMBIENTE LOCAL.
 ## SCREENSHOTS
