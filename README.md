@@ -27,8 +27,8 @@ O DRS é  semelhante  aos seguintes sistemas:
 
 Quanto as diferenças  mais marcantes  entre o DRS e as plataformas  acima citadas,primeiro, DRS é  opensource, segundo, utiliza o Docker como base para armazenar a replica da aplicação  web, ao invés  de utilizar uma máquina  virtual.
 
-## I. Configuração da Infraestrutura (OBRIGATÓRIO SEGUIR)
-As configurações  da infraestrutura, estão  presentes no PDF ***infrastrutura.pdf***
+## I. Configuração da Infraestrutura
+As configurações  da infraestrutura, assim como toda base teórica  do projeto, estão  presentes no PDF ***drs.pdf***
 
 ## II. Instalação do DRS
 
@@ -46,7 +46,7 @@ Dependências:
 * mysql >= 8.0
 
 **Instalação**
-1. Configure a infraestrutura de acordo com o ficheiro ***infrastrutura.pdf***.
+1. Configure a infraestrutura de acordo com o ficheiro ***drs.pdf***.
 2. Instale as dependências acima listadas.
 3. Inicialize os dois servidores de base de dados (mysql e mongo), crie uma base de dados em cada um dos servidores (guarde o nome delas), e certifique-se se possui um IP, PORTA e um utilizador válido para aceder a base de dados (se quiser pode utilizar rodar os docker-compose.yml presentes no directorio mongo_and_mysql).
 4. Clone o Projecto
