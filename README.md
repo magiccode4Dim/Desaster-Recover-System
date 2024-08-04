@@ -50,9 +50,18 @@ Dependências:
 2. Instale as dependências acima listadas.
 3. Inicialize os dois servidores de base de dados (mysql e mongo), crie uma base de dados em cada um dos servidores (guarde o nome delas), e certifique-se se possui um IP, PORTA e um utilizador válido para aceder a base de dados (se quiser pode utilizar rodar os docker-compose.yml presentes no directorio mongo_and_mysql).
 4. Clone o Projecto
-5. Altere os Arquivos de configuração
-   * Mude as credências dos microserviços e base de dados presentes no arquivo docker-compose.yml, de acordo com os dados da sua infraestrutura.
-   * Mude os valores no ficheiro ./DRS_WEB_APP/configs/config.json de acordo com as credências dos microserviços inseridas no docker-compose.yml. No mesmo ficheiro, altere também,os valores de "CLUSTER_NODES" e "EUREKASERVERS". No "CLUSTER_NODES" insira os nomes dos nós do cluster swarm configurado no Passo 1. No "EUREKASERVERS" insira o IP(s) do seu(s) servidor(es) eureka, insirá o endereço e a porta que permita chegar ao serviço ***eureka-server*** presente no docker-compose.yml.
+5. Altere os Arquivos de configuração:
+   * Mude as credências dos microserviços e base de dados presentes no arquivo ***docker-compose.yml***, de acordo com os dados da sua infraestrutura.
+     
+   * Mude os valores no ficheiro ***./DRS_WEB_APP/configs/config.json*** de acordo com as credências dos microserviços inseridas no docker-compose.yml. No mesmo ficheiro, altere também,os valores de ***"CLUSTER_NODES"*** e ***"EUREKASERVERS"***. No "CLUSTER_NODES" insira os nomes dos nós do cluster swarm configurado no Passo 1. No "EUREKASERVERS" insira o IP(s) do seu(s) servidor(es) eureka, insirá o endereço e a porta que permita chegar ao serviço ***eureka-server*** presente no docker-compose.yml.
+     
+   * Mude os arquivos de configuração nos microserviços. Alguns Microserviços, nos directorios ***DRS_API/<microservice_name>/src/main/resources/scripts***, que contém o ficheiro ***config.json***. Esse ficheiro também precisa ser modificado de acordo com a infraestrutura.
+         * ***"CLUSTERADDRESS"*** representa os endereços dos nós do cluster;
+         * ***"MASTERADRESS"*** é o IP e porta do Nó MASTER;
+         * ***"DOCKERAPI_USERNAME"*** e ***DOCKERAPI_PASSWORD*** são as credências de acesso para a API docker configurada no nó MASTER;
+         * ***"auth_data_json"*** são as mesmas credências do DockerAPI em uma notação diferente;
+         * ***"REGISTRYS"*** é o endereço servidor onde consta o docker registry;
+         * ***"TLS_VALUE"*** false se o https não estiver habilitado no DockerAPI. 
    
 6. Compile a API e os seus microserviços:
 * Entre no directório DRS_API, e para cada subdirectorio execute:
