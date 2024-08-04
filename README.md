@@ -85,5 +85,8 @@ sudo docker exec -it desaster-recover-system-aaeewars-frontend-1 python manage.p
 ![Screenshot from 2024-08-03 21-35-14](https://github.com/user-attachments/assets/f9782a1f-8cbb-4478-a7ff-f9786febe794)
 ![Screenshot from 2024-08-03 21-35-26](https://github.com/user-attachments/assets/db8f32b4-9fb8-4b78-999f-7653897e3338)
 
+## Simulação do DRS
+De modo a fazer a prova de conceito, o DRS foi utilizado para replicar uma aplicação web que se encontrava em uma infraestrutura on-promise. A aplicação web é denominada crudphp e ela foi desenvolvida em pHp e utiliza Postgres como base de dados. Após a replicação e configuração dos demais componentes, foi simulada uma falha no servidor da aplicação web que o desligou, com o objetivo de ver o sistema de failover do DRS. O DRS por sua vez, através  dos mecanismos programados, detectou a falha e logo iniciou a aplicação web de failover.Todos os screenshots sobre as simulações, estão descritas no arquivo ***simulacao.pdf***.
+
 **BY narcisopascoal97@gmail.com**
 
