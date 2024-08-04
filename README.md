@@ -55,7 +55,7 @@ Dependências:
      
    * Mude os valores no ficheiro ***./DRS_WEB_APP/configs/config.json*** de acordo com as credências dos microserviços inseridas no docker-compose.yml. No mesmo ficheiro, altere também,os valores de ***"CLUSTER_NODES"*** e ***"EUREKASERVERS"***. No "CLUSTER_NODES" insira os nomes dos nós do cluster swarm configurado no Passo 1. No "EUREKASERVERS" insira o IP(s) do seu(s) servidor(es) eureka, insirá o endereço e a porta que permita chegar ao serviço ***eureka-server*** presente no docker-compose.yml.
      
-   * Mude os arquivos de configuração nos microserviços. Alguns Microserviços, nos directorios ***DRS_API/<microservice_name>/src/main/resources/scripts***, que contém o ficheiro ***config.json***. Esse ficheiro também precisa ser modificado de acordo com a infraestrutura.
+   * Mude os arquivos de configuração nos microserviços. Alguns Microserviços, nos directorios ***DRS_API/<microservice_name>/src/main/resources/scripts***, contém o ficheiro ***config.json***. Esse ficheiro também precisa ser modificado de acordo com a infraestrutura.
          * ***"CLUSTERADDRESS"*** representa os endereços dos nós do cluster;
          * ***"MASTERADRESS"*** é o IP e porta do Nó MASTER;
          * ***"DOCKERAPI_USERNAME"*** e ***DOCKERAPI_PASSWORD*** são as credências de acesso para a API docker configurada no nó MASTER;
